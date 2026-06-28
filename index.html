@@ -26,11 +26,12 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
 .hdr-logo span{color:var(--accent)}
 .phase-tag{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;transition:all .3s}
 .main{padding-top:calc(var(--stt) + 68px);padding-bottom:calc(var(--sbt) + 72px)}
-.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(14,15,20,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:var(--sbt)}
-.ni{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 0 8px;cursor:pointer;color:var(--dim);transition:color .2s;gap:3px;user-select:none}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(14,15,20,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(6,1fr);padding-bottom:var(--sbt)}
+.ni svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ni{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9px 0 7px;cursor:pointer;color:var(--dim);transition:color .2s;gap:3px;user-select:none}
 .ni.active{color:var(--accent)}
 .ni svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.ni-lbl{font-size:10px;font-weight:600;letter-spacing:.3px}
+.ni-lbl{font-size:9px;font-weight:600;letter-spacing:.2px}
 .tab{display:none}.tab.active{display:block}
 .dh{padding:24px 18px 12px}
 .dh-date{font-size:12px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px}
@@ -62,15 +63,19 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
 .ec-step{display:flex;gap:8px;margin-bottom:4px}
 .ec-step-num{min-width:18px;height:18px;border-radius:50%;background:var(--lifted);border:1px solid var(--border);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0;margin-top:1px}
 .sets-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
-.sb{flex:1;min-width:42px;max-width:72px;height:35px;border-radius:10px;border:1.5px solid var(--border);background:var(--lifted);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.sb{flex:1;min-width:80px;height:54px;border-radius:12px;border:1.5px solid var(--border);background:var(--lifted);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.sb .sb-top{font-size:12px;font-weight:700}
+.sb .sb-bot{font-size:10px;font-weight:500;opacity:.7}
 .sb.done{background:var(--accent);border-color:var(--accent);color:#fff}
+.sb.done .sb-bot{opacity:.8}
+.sets-hint{font-size:11px;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:5px}
 .sci-pill{display:flex;gap:8px;padding:8px 10px;background:var(--tdim);border:1px solid rgba(61,208,204,.2);border-radius:9px;font-size:12px;color:var(--teal);line-height:1.45}
 .vid-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:44px;border-radius:12px;background:rgba(255,30,30,.13);border:1.5px solid rgba(255,60,60,.35);color:#ff6060;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:11px;transition:background .2s;letter-spacing:-.2px}
 .vid-btn:active{background:rgba(255,30,30,.25)}
 .timer-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.tbtn{flex:1;height:42px;border-radius:12px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font-size:13px;font-weight:700;cursor:pointer;transition:background .2s,color .2s}
-.tbtn:active{background:var(--accent);color:#fff}
-.tdisp{font-size:22px;font-weight:900;color:var(--accent);min-width:58px;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
+.tbtn{flex:1;height:50px;border-radius:12px;border:1.5px solid var(--accent);background:rgba(232,113,90,.08);color:var(--accent);font-size:14px;font-weight:700;cursor:pointer;transition:background .2s,color .2s}
+.tbtn:active,.tbtn.running{background:var(--accent);color:#fff}
+.tdisp{font-size:28px;font-weight:900;color:var(--accent);min-width:70px;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:-.5px}
 .rest-card{margin:20px 18px;background:var(--card);border:1px solid var(--border);border-radius:22px;padding:32px 20px;text-align:center}
 .rest-emoji{font-size:52px;margin-bottom:14px;line-height:1}
 .rest-title{font-size:24px;font-weight:900;margin-bottom:8px;letter-spacing:-.5px}
@@ -127,6 +132,41 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
 .sc-body strong{color:var(--teal);font-weight:700}
 .warn-card{border-color:rgba(232,113,90,.25)}
 .today-badge{font-size:9px;color:var(--accent);background:var(--adim);padding:2px 7px;border-radius:10px;font-weight:700;margin-left:5px;vertical-align:middle}
+/* ── COMIDA ── */
+.kcal-ring-wrap{display:flex;align-items:center;gap:16px;padding:18px;background:var(--card);border:1px solid var(--border);border-radius:18px;margin:0 18px 14px}
+.kcal-big{font-size:34px;font-weight:900;letter-spacing:-1.5px;line-height:1}
+.kcal-sub{font-size:13px;color:var(--muted);margin-top:3px}
+.macro-row{display:flex;gap:8px;padding:0 18px 14px}
+.macro{flex:1;background:var(--card);border:1px solid var(--border);border-radius:13px;padding:11px 8px;text-align:center}
+.macro-val{font-size:17px;font-weight:800;line-height:1}
+.macro-lbl{font-size:10px;color:var(--muted);margin-top:3px;font-weight:600}
+.search-box{margin:0 18px 12px;position:relative}
+.search-box input{width:100%;height:46px;border-radius:13px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:15px;padding:0 14px;outline:none}
+.search-box input:focus{border-color:var(--accent)}
+.food-res{margin:0 18px;max-height:none}
+.food-item{display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:7px;cursor:pointer;transition:border-color .2s}
+.food-item:active{border-color:var(--accent)}
+.food-info{flex:1;min-width:0}
+.food-name{font-size:14px;font-weight:600}
+.food-meta{font-size:11px;color:var(--muted);margin-top:1px}
+.food-add{width:30px;height:30px;border-radius:9px;background:var(--adim);border:1px solid var(--accent);color:var(--accent);font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.meal-sec{padding:0 18px;margin-bottom:6px}
+.meal-head{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:var(--muted);margin:14px 0 8px;text-transform:uppercase;letter-spacing:.5px}
+.logged{display:flex;align-items:center;gap:10px;padding:10px 13px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:6px}
+.logged-del{color:var(--dim);font-size:18px;cursor:pointer;padding:0 4px}
+/* ── CUERPO ── */
+.body-form{margin:0 18px 14px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px}
+.bf-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.bf-field label{font-size:11px;color:var(--muted);display:block;margin-bottom:4px;font-weight:600}
+.bf-field input{width:100%;height:42px;border-radius:11px;border:1px solid var(--border);background:var(--lifted);color:var(--text);font-size:16px;padding:0 12px;outline:none;text-align:center;font-weight:700}
+.bf-field input:focus{border-color:var(--accent)}
+.bf-save{width:100%;height:46px;border-radius:13px;background:var(--accent);border:none;color:#fff;font-size:15px;font-weight:800;cursor:pointer}
+.body-card{margin:0 18px 10px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px}
+.bc-date{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:10px}
+.bc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.bc-stat{text-align:center}
+.bc-val{font-size:18px;font-weight:800;line-height:1}
+.bc-lbl{font-size:10px;color:var(--muted);margin-top:2px}
 @keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .ec{animation:slideUp .3s ease both}
 .ec:nth-child(1){animation-delay:.04s}.ec:nth-child(2){animation-delay:.09s}.ec:nth-child(3){animation-delay:.14s}.ec:nth-child(4){animation-delay:.19s}
@@ -144,6 +184,8 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
   <div class="tab" id="tab-semana"></div>
   <div class="tab" id="tab-progreso"></div>
   <div class="tab" id="tab-ciencia"></div>
+  <div class="tab" id="tab-comida"></div>
+  <div class="tab" id="tab-cuerpo"></div>
 </main>
 <nav class="nav">
   <div class="ni active" onclick="goTab('hoy',this)">
@@ -156,11 +198,19 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
   </div>
   <div class="ni" onclick="goTab('progreso',this)">
     <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-    <span class="ni-lbl">Progreso</span>
+    <span class="ni-lbl">Avance</span>
+  </div>
+  <div class="ni" onclick="goTab('comida',this)">
+    <svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h0a2 2 0 002-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 00-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>
+    <span class="ni-lbl">Comida</span>
+  </div>
+  <div class="ni" onclick="goTab('cuerpo',this)">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><path d="M12 7v6m0 0l-3 8m3-8l3 8M7 10h10"/></svg>
+    <span class="ni-lbl">Cuerpo</span>
   </div>
   <div class="ni" onclick="goTab('ciencia',this)">
     <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
-    <span class="ni-lbl">Ciencia</span>
+    <span class="ni-lbl">Plan</span>
   </div>
 </nav>
 <script>
@@ -828,7 +878,7 @@ const WEEK=[
 ];
 
 // ── ESTADO ────────────────────────────────
-let S={phase:1,startDate:null,sets:{},todayPain:{}};
+let S={phase:1,startDate:null,sets:{},todayPain:{},kcalGoal:1400,food:{},body:[]};
 let timers={};
 function loadS(){try{const d=JSON.parse(localStorage.getItem('rf3-state')||'{}');S={...S,...d};if(!S.startDate){S.startDate=today();saveS();}}catch(e){}}
 function saveS(){localStorage.setItem('rf3-state',JSON.stringify(S));}
@@ -840,7 +890,7 @@ function goTab(name,el){
   document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
   document.getElementById('tab-'+name).classList.add('active');
   el.classList.add('active');
-  ({hoy:renderHoy,semana:renderSemana,progreso:renderProgreso,ciencia:renderCiencia})[name]();
+  ({hoy:renderHoy,semana:renderSemana,progreso:renderProgreso,ciencia:renderCiencia,comida:renderComida,cuerpo:renderCuerpo})[name]();
 }
 
 function renderHoy(){
@@ -884,12 +934,35 @@ function renderExCard(ex,td){
   const durStr=dur?(dur>=60?`${Math.floor(dur/60)}:${String(dur%60).padStart(2,'0')}`:`${dur}s`):'';
   const svg=SVGS[ex.id]||'';
   const stepsHtml=(ex.steps||[]).map((s,i)=>`<div class="ec-step"><div class="ec-step-num">${i+1}</div><div>${s}</div></div>`).join('');
+
+  // Texto corto de lo que hay que hacer en cada serie
+  const repsShort=ex.reps.replace(' repeticiones','rep').replace(' segundos','s').replace(' minutos','min').replace(/cada pierna|cada dirección|cada posición/g,'').trim();
+
   let setsHtml='';
-  if(ex.type==='timed'&&dur){setsHtml+=`<div class="timer-row"><button class="tbtn" id="tbtn-${ex.id}" onclick="toggleTimer('${ex.id}',${dur})">▶ Iniciar ${durStr}</button><div class="tdisp" id="tdisp-${ex.id}">${durStr}</div></div>`;}
-  setsHtml+=`<div class="sets-row">${setKeys.map((k,i)=>`<button class="sb${S.sets[td]?.[k]?' done':''}" onclick="toggleSet('${k}','${td}','${ex.id}',${i})">${S.sets[td]?.[k]?'✓':`S${i+1}`}</button>`).join('')}</div>`;
+
+  if(ex.type==='timed'&&dur){
+    setsHtml+=`<div class="sets-hint">⏱ Pulsa el botón, espera los ${durStr} y marca la serie completada</div>
+    <div class="timer-row">
+      <button class="tbtn" id="tbtn-${ex.id}" onclick="toggleTimer('${ex.id}',${dur})">▶ Iniciar ${durStr}</button>
+      <div class="tdisp" id="tdisp-${ex.id}">${durStr}</div>
+    </div>`;
+  } else {
+    setsHtml+=`<div class="sets-hint">💪 Haz ${repsShort} y toca la serie para marcarla</div>`;
+  }
+
+  setsHtml+=`<div class="sets-row">
+    ${setKeys.map((k,i)=>{
+      const done=S.sets[td]?.[k];
+      return `<button class="sb${done?' done':''}" onclick="toggleSet('${k}','${td}','${ex.id}',${i})">
+        <span class="sb-top">${done?'✓ Lista':`Serie ${i+1}`}</span>
+        <span class="sb-bot">${done?'completada':repsShort}</span>
+      </button>`;
+    }).join('')}
+  </div>`;
+
   return `<div class="ec${allDone?' done-card':''}">
     <div class="ec-top"><div class="ec-icon" style="background:${ex.bg}">${ex.icon}</div>
-    <div class="ec-meta"><div class="ec-name">${ex.name}</div><div class="ec-spec">${ex.sets} × ${ex.reps}</div></div></div>
+    <div class="ec-meta"><div class="ec-name">${ex.name}</div><div class="ec-spec">${ex.sets} series × ${ex.reps}</div></div></div>
     ${svg?`<div class="ec-svg-wrap">${svg}</div>`:''}
     ${VIDEOS[ex.id]?`<a class="vid-btn" href="${VIDEOS[ex.id]}" target="_blank" rel="noopener">▶ &nbsp;Ver vídeo en YouTube</a>`:''}
     <div class="ec-steps">${stepsHtml}</div>
@@ -908,11 +981,21 @@ function setPain(n,td){S.todayPain[td]=n;saveS();renderHoy();}
 function toggleSet(key,td,exId,setIdx){
   if(!S.sets[td])S.sets[td]={};S.sets[td][key]=!S.sets[td][key];saveS();
   const btn=document.querySelector(`[onclick="toggleSet('${key}','${td}','${exId}',${setIdx})"]`);
-  if(btn){const v=S.sets[td][key];btn.classList.toggle('done',v);btn.textContent=v?'✓':`S${setIdx+1}`;
-  const day=WEEK[todayIdx()];const ec=btn.closest('.ec');const ex=day.exercises.find(e=>e.id===exId);
-  if(ec&&ex){const sk=Array.from({length:ex.sets},(_,i)=>`${ex.id}_${i}`);ec.classList.toggle('done-card',sk.every(k=>S.sets[td]?.[k]));}
-  const pct=getDayPct(day,td);const pf=document.getElementById('pf'),ppct=document.getElementById('ppct');
-  if(pf)pf.style.width=pct+'%';if(ppct)ppct.textContent=pct+'%';}
+  if(btn){
+    const v=S.sets[td][key];
+    btn.classList.toggle('done',v);
+    const top=btn.querySelector('.sb-top');
+    const bot=btn.querySelector('.sb-bot');
+    const day=WEEK[todayIdx()];
+    const ex=day.exercises.find(e=>e.id===exId);
+    const repsShort=ex?ex.reps.replace(' repeticiones','rep').replace(' segundos','s').replace(' minutos','min').replace(/cada pierna|cada dirección|cada posición/g,'').trim():'';
+    if(top)top.textContent=v?'✓ Lista':`Serie ${setIdx+1}`;
+    if(bot)bot.textContent=v?'completada':repsShort;
+    const ec=btn.closest('.ec');
+    if(ec&&ex){const sk=Array.from({length:ex.sets},(_,i)=>`${ex.id}_${i}`);ec.classList.toggle('done-card',sk.every(k=>S.sets[td]?.[k]));}
+    const pct=getDayPct(day,td);const pf=document.getElementById('pf'),ppct=document.getElementById('ppct');
+    if(pf)pf.style.width=pct+'%';if(ppct)ppct.textContent=pct+'%';
+  }
 }
 function motivText(pct){
   if(pct===0)return 'La constancia es el único secreto';if(pct<30)return '¡Buen comienzo! El VMO te lo agradece';
@@ -921,14 +1004,24 @@ function motivText(pct){
 function fmtTime(s){const m=Math.floor(s/60);return m>0?`${m}:${String(s%60).padStart(2,'0')}`:`${s}s`;}
 function toggleTimer(exId,dur){
   const btn=document.getElementById('tbtn-'+exId),disp=document.getElementById('tdisp-'+exId);
-  if(timers[exId]?.running){clearInterval(timers[exId].iv);timers[exId].running=false;if(btn)btn.textContent='▶ Continuar';return;}
-  const rem=timers[exId]?.rem??dur;timers[exId]={running:true,rem,iv:null,done:false};
-  if(btn)btn.textContent='⏸ Pausar';if(disp)disp.textContent=fmtTime(rem);
-  timers[exId].iv=setInterval(()=>{timers[exId].rem--;const r=timers[exId].rem;
-  const d=document.getElementById('tdisp-'+exId);if(d)d.textContent=fmtTime(Math.max(0,r));
-  if(r<=0){clearInterval(timers[exId].iv);timers[exId]={running:false,rem:0,done:true};
-  if(d)d.textContent='✓ Listo';const b=document.getElementById('tbtn-'+exId);if(b)b.textContent='↺ Repetir';
-  if(navigator.vibrate)navigator.vibrate([200,100,200]);}},1000);
+  // Si está corriendo → pausa
+  if(timers[exId]?.running){
+    clearInterval(timers[exId].iv);timers[exId].running=false;
+    if(btn)btn.textContent='▶ Continuar';return;
+  }
+  // Si terminó → reinicia desde cero
+  if(timers[exId]?.done) timers[exId]={rem:dur,running:false,done:false};
+  const rem=timers[exId]?.rem??dur;
+  timers[exId]={running:true,rem,iv:null,done:false};
+  if(btn)btn.textContent='⏸ Pausar';
+  if(disp)disp.textContent=fmtTime(rem);
+  timers[exId].iv=setInterval(()=>{
+    timers[exId].rem--;const r=timers[exId].rem;
+    const d=document.getElementById('tdisp-'+exId);if(d)d.textContent=fmtTime(Math.max(0,r));
+    if(r<=0){clearInterval(timers[exId].iv);timers[exId]={running:false,rem:0,done:true};
+    if(d)d.textContent='✓ Listo';const b=document.getElementById('tbtn-'+exId);
+    if(b)b.textContent='↺ Repetir';if(navigator.vibrate)navigator.vibrate([200,100,200]);}
+  },1000);
 }
 function restoreTimers(){
   Object.entries(timers).forEach(([exId,ts])=>{
@@ -989,21 +1082,345 @@ function renderProgreso(){
 }
 function advancePhase(){if(S.phase<3){S.phase++;saveS();renderProgreso();updatePhaseBadge();}}
 
+function tl(color,when,title,body){
+  return `<div style="display:flex;gap:12px">
+    <div style="display:flex;flex-direction:column;align-items:center;width:16px;flex-shrink:0">
+      <div style="width:14px;height:14px;border-radius:50%;background:${color};flex-shrink:0;margin-top:2px;border:2px solid ${color}40"></div>
+      <div style="width:2px;flex:1;background:var(--border);margin:4px 0;min-height:30px"></div>
+    </div>
+    <div style="padding-bottom:18px;flex:1">
+      <div style="font-size:10px;color:${color};font-weight:800;text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px">${when}</div>
+      <div style="font-size:14px;font-weight:800;margin-bottom:5px;letter-spacing:-.3px">${title}</div>
+      <div style="font-size:12.5px;color:var(--muted);line-height:1.6">${body}</div>
+    </div>
+  </div>`;
+}
+
+function tlEnd(color,when,title,body){
+  return `<div style="display:flex;gap:12px">
+    <div style="display:flex;flex-direction:column;align-items:center;width:16px;flex-shrink:0">
+      <div style="width:16px;height:16px;border-radius:50%;background:${color};flex-shrink:0;margin-top:2px;box-shadow:0 0 0 4px ${color}30"></div>
+    </div>
+    <div style="padding-bottom:4px;flex:1">
+      <div style="font-size:10px;color:${color};font-weight:800;text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px">${when}</div>
+      <div style="font-size:14px;font-weight:800;margin-bottom:5px;letter-spacing:-.3px">${title}</div>
+      <div style="font-size:12.5px;color:var(--muted);line-height:1.6">${body}</div>
+    </div>
+  </div>`;
+}
+
 function renderCiencia(){
-  const cards=[
-    {icon:'🦵',title:'¿Qué es la condropatía grado II?',body:`El cartílago detrás de tu rótula tiene daño <strong>moderado</strong>: no hay rotura, pero la superficie no es lisa y genera fricción.<br><br>El dolor viene de la inflamación, no del cartílago en sí. <strong>Grado II puede mejorar mucho</strong> con trabajo específico. La clave es reducir la fricción mejorando la mecánica de la rótula.`},
-    {icon:'⚡',title:'Por qué el VMO es la clave',body:`El <strong>Vasto Medial Oblicuo (VMO)</strong> es la porción interna del cuádriceps. Centra la rótula en su surco.<br><br>Si está débil, la rótula se desplaza y roza el cartílago. Fortalecer el VMO = centrar la rótula = menos fricción = menos dolor.`},
-    {icon:'🏗',title:'Los 3 ángulos que necesitas saber',body:`• <strong>0–30°:</strong> Presión mínima. La zona segura al inicio.<br>• <strong>30–60°:</strong> Presión moderada. Con cuidado.<br>• <strong>60–90°+:</strong> La presión se multiplica ×4. Evitar.<br><br>Por eso el wall sit va a 30-45° y la mini sentadilla empieza en 30°.`},
-    {icon:'🍑',title:'Por qué trabajamos la cadera',body:`El <strong>glúteo medio débil</strong> crea valgo de rodilla (hacia dentro), que desequilibra la rótula.<br><br>Añadir trabajo de cadera reduce el dolor rotuliano un <strong>40% más</strong> que trabajar solo el cuádriceps.`},
-    {icon:'📈',title:'Señales de que vas mejorando',body:`✅ Menos dolor al bajar escaleras<br>✅ Más tiempo en wall sit sin molestias<br>✅ Menos rigidez matutina<br>✅ La rodilla cruje menos<br>✅ Más distancia caminando<br><br><strong>Para un ejercicio</strong> si el dolor supera 3/5.`},
-    {icon:'⛳',title:'El golf y la rodilla ahora',body:`<strong>Puedes seguir jugando</strong> si el dolor es ≤2/5. Usa carrito. Evita lies en cuesta abajo que fuerzan la rodilla. El swing raramente agrava la condropatía.`},
-    {icon:'🏃',title:'La Behobia como objetivo',body:`Alcanzable con condropatía grado II si:<br>1. Reduces el dolor a 0-1 (8–12 semanas de programa)<br>2. Introduces carrera gradual en fase 3<br>3. El cuádriceps aguanta la rampa de Hernani (200m en 4km)<br><br>Ese cuádriceps fuerte es tu seguro de vida en las cuestas.`},
-    {icon:'⚠',title:'Lo que hay que evitar de momento',warn:true,body:`❌ Sentadillas profundas (>60°)<br>❌ Correr cuesta abajo<br>❌ Pedalear con mucha resistencia<br>❌ Arrodillarse mucho tiempo<br>❌ Running si duele más de 3/5<br><br>No es para siempre. En 8–12 semanas vas reintroduciendo todo.`},
+  const runPlan=[
+    ['1 Sep · Sem 1','3 días: 1min corriendo + 3min caminando × 5 rondas (20min)'],
+    ['8 Sep · Sem 2','3 días: 2min corriendo + 2min caminando × 6 rondas (24min)'],
+    ['15 Sep · Sem 3','3 días: 3min corriendo + 2min caminando × 5 rondas (25min)'],
+    ['22 Sep · Sem 4','3 días: 5min corriendo + 2min caminando × 4 rondas (28min)'],
+    ['29 Sep · Sem 5','3 días: 8min corriendo + 1min caminando × 3 rondas (27min)'],
+    ['6 Oct · Sem 6','3 días: 10min corriendo + 1min caminando × 3 rondas (33min)'],
+    ['13 Oct · Sem 7','1 salida 25min continuo + 2 salidas 20min'],
+    ['20 Oct · Sem 8','1 salida 40min con pausas + 2 salidas 20min'],
+    ['27 Oct · Sem 9','1 salida 50min + descanso 3 días antes del evento'],
   ];
-  let h=`<div class="sec"><div class="sec-title">Por qué funciona este programa</div></div><div style="padding:0 18px">`;
+
+  let h=`<div class="sec"><div class="sec-title">Hoja de ruta — Golf · Pádel · Behobia</div></div>
+  <div style="padding:0 18px;margin-bottom:6px">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px 16px">
+    ${tl('#e8715a','Ahora · Jun–Jul · Semanas 1–3','Fase 1 — Control motor',
+      '⛳ <b style="color:var(--text)">Golf:</b> sí puedes jugar — usa carrito, evita rough y bajadas. Máximo 9 hoyos si duele.<br>🎾 <b style="color:var(--text)">Pádel:</b> pausa de momento. Los frenos y cambios de dirección sobrecargan la rótula.<br>🏃 <b style="color:var(--text)">Correr:</b> no todavía. La bici estática es tu cardio ahora.')}
+    ${tl('#f4a261','~20 Jul – 10 Ago · Semanas 4–6','Fase 2 — Carga progresiva',
+      '⛳ <b style="color:var(--text)">Golf:</b> 18 hoyos si dolor ≤1/5. Liga sin restricciones. Sin carrito obligatorio.<br>🎾 <b style="color:var(--text)">Pádel:</b> 1 partido suave/semana si dolor ≤1/5. Pista lenta, sin smash, mueve los pies despacio.<br>🏃 <b style="color:var(--text)">Correr:</b> aún no. Empieza a caminar 30-45min a ritmo vivo.')}
+    ${tl('#a78bfa','~10 Ago – 1 Sep · Semanas 7–9','Fase 3 — Funcional',
+      '⛳ <b style="color:var(--text)">Golf:</b> sin restricciones especiales. El swing ya no debería dar problemas.<br>🎾 <b style="color:var(--text)">Pádel:</b> vuelta normal. 1-2 partidos/semana, calentamiento previo obligatorio.<br>🏃 <b style="color:var(--text)">Correr:</b> <b style="color:#a78bfa">¡empieza el plan de running!</b> Primera semana de septiembre.')}
+    ${tl('#3dd0cc','1 Sep – 3 Nov · Plan running','9 semanas hacia la Behobia',
+      runPlan.map(([s,d])=>`<div style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text);font-weight:700;min-width:100px;flex-shrink:0;font-size:11px">${s}</span><span style="font-size:11px">${d}</span></div>`).join('')+
+      '<div style="margin-top:8px;font-size:11px">⚠️ Si el dolor sube de 2/5 en alguna semana, repite esa semana antes de avanzar.</div>')}
+    ${tlEnd('#f5c542','8 Noviembre · META 🏁','Behobia-San Sebastián 20km',
+      'Estrategia: <b style="color:var(--text)">run/walk toda la prueba</b> — 5-8min corriendo + 1min caminando.<br><br>La rampa de Hernani (km 4, sube 200m): <b style="color:var(--text)">hazla caminando sin dudarlo</b>. No es rendirse, es proteger la rodilla para los últimos 6km.<br><br>🎯 Objetivo realista: <b style="color:#f5c542">terminar sin dolor</b>. El tiempo no importa esta primera vez.')}
+  </div></div>`;
+
+  const cards=[
+    {icon:'🦵',title:'¿Qué es la condropatía grado II?',body:`El cartílago detrás de tu rótula tiene daño <strong>moderado</strong>: no hay rotura, pero la superficie no es lisa y genera fricción.<br><br>El dolor viene de la inflamación. <strong>Grado II puede mejorar mucho</strong> con trabajo específico. La clave es reducir la fricción mejorando la mecánica de la rótula.`},
+    {icon:'⚡',title:'Por qué el VMO es la clave',body:`El <strong>Vasto Medial Oblicuo (VMO)</strong> es la porción interna del cuádriceps. Centra la rótula en su surco. Si está débil, la rótula se desplaza y roza el cartílago. Fortalecer el VMO = menos fricción = menos dolor.`},
+    {icon:'🍑',title:'Por qué trabajamos la cadera',body:`El <strong>glúteo medio débil</strong> crea valgo de rodilla que desequilibra la rótula. Añadir trabajo de cadera reduce el dolor rotuliano un <strong>40% más</strong> que trabajar solo el cuádriceps.`},
+    {icon:'📈',title:'Señales de que vas mejorando',body:`✅ Menos dolor al bajar escaleras<br>✅ Más tiempo en wall sit sin molestias<br>✅ Menos rigidez matutina<br>✅ La rodilla cruje menos<br>✅ Más distancia caminando sin molestias`},
+    {icon:'⚠',title:'Lo que hay que evitar de momento',warn:true,body:`❌ Sentadillas profundas (>60°)<br>❌ Correr cuesta abajo<br>❌ Pedalear con mucha resistencia<br>❌ Arrodillarse mucho tiempo<br>❌ Running si duele más de 3/5`},
+  ];
+  h+=`<div class="sec"><div class="sec-title">Por qué funciona este programa</div></div><div style="padding:0 18px">`;
   cards.forEach(c=>{h+=`<div class="sc-card${c.warn?' warn-card':''}"><div class="sc-title">${c.icon} ${c.title}</div><div class="sc-body">${c.body}</div></div>`;});
   h+=`</div><div style="height:12px"></div>`;
   document.getElementById('tab-ciencia').innerHTML=h;
+}
+
+// ── BASE DE DATOS ALIMENTOS (por 100g salvo indicado) ──
+// [nombre, kcal, proteína, grasa, carbos, porción-sugerida-g, unidad]
+const FOODS=[
+  // Lácteos y huevos
+  ['Leche semidesnatada',46,3.1,1.6,4.8,250,'vaso'],
+  ['Yogur natural',61,3.5,3.3,4.7,125,'unidad'],
+  ['Yogur desnatado',45,4.5,0.2,6,125,'unidad'],
+  ['Yogur griego',97,9,5,4,125,'unidad'],
+  ['Huevo',155,13,11,1.1,60,'unidad'],
+  ['Clara de huevo',52,11,0.2,0.7,33,'unidad'],
+  ['Queso fresco batido',72,8,4,3.5,100,'g'],
+  ['Queso manchego',392,32,28,0.5,30,'porción'],
+  ['Requesón',98,11,4,3,100,'g'],
+  // Carnes
+  ['Pechuga de pollo',110,23,2,0,150,'filete'],
+  ['Muslo de pollo',177,18,11,0,150,'g'],
+  ['Pavo pechuga',104,22,1.5,0,150,'filete'],
+  ['Ternera magra',158,22,7,0,150,'g'],
+  ['Lomo de cerdo',143,21,6,0,150,'g'],
+  ['Jamón serrano',241,31,13,0.5,30,'loncha'],
+  ['Jamón cocido',107,18,4,1,30,'loncha'],
+  ['Solomillo',158,21,8,0,150,'g'],
+  // Pescados
+  ['Merluza',72,17,0.5,0,150,'g'],
+  ['Salmón',208,20,13,0,150,'g'],
+  ['Atún natural lata',116,26,1,0,80,'lata'],
+  ['Atún en aceite',200,24,11,0,80,'lata'],
+  ['Boquerones',131,20,5,0,150,'g'],
+  ['Gambas',85,18,1,0,100,'g'],
+  ['Bacalao',82,18,0.7,0,150,'g'],
+  ['Sardinas',208,25,11,0,100,'g'],
+  // Legumbres
+  ['Lentejas cocidas',116,9,0.4,20,200,'plato'],
+  ['Garbanzos cocidos',164,9,2.6,27,200,'plato'],
+  ['Alubias cocidas',127,9,0.5,23,200,'plato'],
+  ['Guisantes',81,5,0.4,14,150,'g'],
+  // Cereales y pan
+  ['Pan blanco',265,9,3,49,40,'rebanada'],
+  ['Pan integral',247,10,3,41,40,'rebanada'],
+  ['Arroz blanco cocido',130,2.7,0.3,28,150,'plato'],
+  ['Arroz integral cocido',112,2.6,0.9,23,150,'plato'],
+  ['Pasta cocida',158,6,1,31,150,'plato'],
+  ['Pasta integral cocida',124,5,0.8,25,150,'plato'],
+  ['Avena',389,17,7,66,40,'g'],
+  ['Quinoa cocida',120,4.4,1.9,21,150,'g'],
+  ['Tostada integral',75,3,1,13,20,'unidad'],
+  // Verduras
+  ['Tomate',18,0.9,0.2,3.9,150,'unidad'],
+  ['Lechuga',15,1.4,0.2,2.9,80,'g'],
+  ['Espinacas',23,2.9,0.4,3.6,150,'g'],
+  ['Brócoli',34,2.8,0.4,7,200,'g'],
+  ['Calabacín',17,1.2,0.3,3.1,200,'g'],
+  ['Pimiento',31,1,0.3,6,150,'g'],
+  ['Zanahoria',41,0.9,0.2,10,100,'g'],
+  ['Champiñones',22,3.1,0.3,3.3,150,'g'],
+  ['Judías verdes',31,1.8,0.2,7,200,'g'],
+  ['Berenjena',25,1,0.2,6,200,'g'],
+  ['Cebolla',40,1.1,0.1,9,80,'g'],
+  ['Patata cocida',87,1.9,0.1,20,150,'g'],
+  // Frutas
+  ['Manzana',52,0.3,0.2,14,150,'unidad'],
+  ['Plátano',89,1.1,0.3,23,120,'unidad'],
+  ['Naranja',47,0.9,0.1,12,180,'unidad'],
+  ['Fresas',32,0.7,0.3,7.7,150,'g'],
+  ['Sandía',30,0.6,0.2,8,200,'g'],
+  ['Melón',34,0.8,0.2,8,200,'g'],
+  ['Uvas',69,0.7,0.2,18,100,'g'],
+  ['Pera',57,0.4,0.1,15,150,'unidad'],
+  ['Kiwi',61,1.1,0.5,15,75,'unidad'],
+  ['Arándanos',57,0.7,0.3,14,100,'g'],
+  ['Aguacate',160,2,15,9,100,'medio'],
+  // Frutos secos y grasas
+  ['Almendras',579,21,50,22,25,'puñado'],
+  ['Nueces',654,15,65,14,25,'puñado'],
+  ['Aceite de oliva',884,0,100,0,10,'cucharada'],
+  ['Mantequilla',717,0.9,81,0.1,10,'g'],
+  // Otros
+  ['Chocolate negro 85%',598,10,46,30,20,'onza'],
+  ['Miel',304,0.3,0,82,15,'cucharada'],
+  ['Hummus',166,8,10,14,50,'g'],
+  ['Tofu',76,8,4.8,1.9,100,'g'],
+  ['Café solo',2,0.1,0,0,50,'taza'],
+  ['Cerveza',43,0.5,0,3.6,330,'caña'],
+  ['Vino tinto',85,0.1,0,2.6,150,'copa'],
+];
+
+let foodQuery='';
+
+function renderComida(){
+  const td=today();
+  if(!S.food[td])S.food[td]={items:[]};
+  const items=S.food[td].items;
+  const totals=items.reduce((a,it)=>{a.kcal+=it.kcal;a.p+=it.p;a.g+=it.g;a.c+=it.c;return a;},{kcal:0,p:0,g:0,c:0});
+  const goal=S.kcalGoal||1400;
+  const rem=goal-Math.round(totals.kcal);
+  const pct=Math.min(100,Math.round(totals.kcal/goal*100));
+  const ringColor=totals.kcal>goal?'#e8715a':'#3dd0cc';
+
+  let h=`<div class="sec"><div class="sec-title">Comida de hoy</div></div>`;
+
+  // Anillo de calorías
+  const circ=2*Math.PI*32;
+  const off=circ-(pct/100)*circ;
+  h+=`<div class="kcal-ring-wrap">
+    <svg width="84" height="84" viewBox="0 0 84 84" style="flex-shrink:0">
+      <circle cx="42" cy="42" r="32" fill="none" stroke="var(--lifted)" stroke-width="8"/>
+      <circle cx="42" cy="42" r="32" fill="none" stroke="${ringColor}" stroke-width="8" stroke-linecap="round"
+        stroke-dasharray="${circ}" stroke-dashoffset="${off}" transform="rotate(-90 42 42)"/>
+      <text x="42" y="40" text-anchor="middle" fill="var(--text)" font-size="17" font-weight="800">${Math.round(totals.kcal)}</text>
+      <text x="42" y="54" text-anchor="middle" fill="var(--muted)" font-size="10">de ${goal}</text>
+    </svg>
+    <div style="flex:1">
+      <div class="kcal-big" style="color:${rem<0?'#e8715a':'var(--text)'}">${rem<0?'+'+Math.abs(rem):rem}</div>
+      <div class="kcal-sub">${rem<0?'kcal por encima del objetivo':'kcal restantes hoy'}</div>
+    </div>
+  </div>`;
+
+  // Macros
+  h+=`<div class="macro-row">
+    <div class="macro"><div class="macro-val" style="color:#3dd0cc">${Math.round(totals.p)}g</div><div class="macro-lbl">PROTEÍNA</div></div>
+    <div class="macro"><div class="macro-val" style="color:#f4a261">${Math.round(totals.g)}g</div><div class="macro-lbl">GRASA</div></div>
+    <div class="macro"><div class="macro-val" style="color:#a78bfa">${Math.round(totals.c)}g</div><div class="macro-lbl">CARBOS</div></div>
+  </div>`;
+
+  // Buscador
+  h+=`<div class="search-box"><input type="text" id="foodSearch" placeholder="🔍 Buscar alimento..." value="${foodQuery}" oninput="onFoodSearch(this.value)"></div>`;
+
+  // Resultados de búsqueda
+  if(foodQuery.length>0){
+    const q=foodQuery.toLowerCase();
+    const matches=FOODS.filter(f=>f[0].toLowerCase().includes(q)).slice(0,12);
+    h+=`<div class="food-res">`;
+    if(matches.length===0)h+=`<div style="color:var(--muted);font-size:13px;text-align:center;padding:14px">Sin resultados. Prueba otra palabra.</div>`;
+    matches.forEach(f=>{
+      const[name,kcal,p,g,c,port,unit]=f;
+      const portionKcal=Math.round(kcal*port/100);
+      h+=`<div class="food-item" onclick="addFood('${name.replace(/'/g,"\\'")}',${kcal},${p},${g},${c},${port},'${unit}')">
+        <div class="food-info"><div class="food-name">${name}</div><div class="food-meta">${portionKcal} kcal · ${port}g (1 ${unit}) · ${kcal} kcal/100g</div></div>
+        <div class="food-add">+</div>
+      </div>`;
+    });
+    h+=`</div>`;
+  } else {
+    // Lista de lo comido hoy
+    if(items.length===0){
+      h+=`<div style="padding:24px 18px;text-align:center;color:var(--muted);font-size:14px">Aún no has añadido nada hoy.<br>Busca un alimento arriba para empezar 🍎</div>`;
+    } else {
+      h+=`<div class="meal-sec"><div class="meal-head"><span>Lo que llevas hoy</span><span>${items.length} alimentos</span></div>`;
+      items.forEach((it,i)=>{
+        h+=`<div class="logged">
+          <div class="food-info"><div class="food-name">${it.name}</div><div class="food-meta">${it.qty}g · ${Math.round(it.kcal)} kcal · P:${Math.round(it.p)} G:${Math.round(it.g)} C:${Math.round(it.c)}</div></div>
+          <div class="logged-del" onclick="delFood(${i})">✕</div>
+        </div>`;
+      });
+      h+=`</div>`;
+    }
+  }
+
+  h+=`<div style="height:12px"></div>`;
+  document.getElementById('tab-comida').innerHTML=h;
+}
+
+function onFoodSearch(v){foodQuery=v;renderComida();const inp=document.getElementById('foodSearch');if(inp){inp.focus();inp.setSelectionRange(v.length,v.length);}}
+
+function addFood(name,kcal,p,g,c,port,unit){
+  const td=today();
+  if(!S.food[td])S.food[td]={items:[]};
+  S.food[td].items.push({
+    name,qty:port,
+    kcal:kcal*port/100,p:p*port/100,g:g*port/100,c:c*port/100
+  });
+  saveS();foodQuery='';renderComida();
+}
+function delFood(i){const td=today();S.food[td].items.splice(i,1);saveS();renderComida();}
+
+function renderCuerpo(){
+  let h=`<div class="sec"><div class="sec-title">Registro corporal · Healthkeep</div></div>`;
+
+  // Formulario
+  h+=`<div class="body-form">
+    <div style="font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:14px">📲 Pésate con la app Feelfit y copia aquí los datos. Puedes cambiar la fecha para meter pesajes antiguos.</div>
+    <div class="bf-field" style="margin-bottom:10px"><label>Fecha del pesaje</label><input type="date" id="b_fecha" value="${today()}" style="text-align:left"></div>
+    <div class="bf-grid">
+      <div class="bf-field"><label>Peso (kg)</label><input type="number" step="0.1" id="b_peso" inputmode="decimal" placeholder="0.0"></div>
+      <div class="bf-field"><label>Grasa (%)</label><input type="number" step="0.1" id="b_grasa" inputmode="decimal" placeholder="0.0"></div>
+      <div class="bf-field"><label>Músculo (%)</label><input type="number" step="0.1" id="b_musculo" inputmode="decimal" placeholder="0.0"></div>
+      <div class="bf-field"><label>Agua (%)</label><input type="number" step="0.1" id="b_agua" inputmode="decimal" placeholder="0.0"></div>
+    </div>
+    <button class="bf-save" onclick="saveBody()">Guardar pesaje</button>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+      <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:8px;font-weight:600">📥 IMPORTAR CSV (fecha,peso,grasa,musculo,agua)</label>
+      <input type="file" id="csvFile" accept=".csv" onchange="importCSV(this)" style="font-size:12px;color:var(--muted);width:100%">
+    </div>
+  </div>`;
+
+  // Evolución
+  const arr=[...(S.body||[])].sort((a,b)=>b.date.localeCompare(a.date));
+  if(arr.length>=2){
+    const last=arr[0],prev=arr[1];
+    const dPeso=(last.peso-prev.peso).toFixed(1);
+    const dGrasa=(last.grasa-prev.grasa).toFixed(1);
+    h+=`<div class="sec"><div class="sec-title">Cambio desde el último pesaje</div></div>
+    <div class="macro-row">
+      <div class="macro"><div class="macro-val" style="color:${dPeso<=0?'#3dd0cc':'#f4a261'}">${dPeso>0?'+':''}${dPeso}</div><div class="macro-lbl">KG PESO</div></div>
+      <div class="macro"><div class="macro-val" style="color:${dGrasa<=0?'#3dd0cc':'#e8715a'}">${dGrasa>0?'+':''}${dGrasa}</div><div class="macro-lbl">% GRASA</div></div>
+    </div>`;
+  }
+
+  // Histórico
+  if(arr.length>0){
+    h+=`<div class="sec"><div class="sec-title">Historial</div></div>`;
+    arr.forEach(b=>{
+      h+=`<div class="body-card">
+        <div class="bc-date">${new Date(b.date+'T12:00').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'})}</div>
+        <div class="bc-grid">
+          <div class="bc-stat"><div class="bc-val" style="color:var(--text)">${b.peso}</div><div class="bc-lbl">kg</div></div>
+          <div class="bc-stat"><div class="bc-val" style="color:#e8715a">${b.grasa||'—'}</div><div class="bc-lbl">% grasa</div></div>
+          <div class="bc-stat"><div class="bc-val" style="color:#3dd0cc">${b.musculo||'—'}</div><div class="bc-lbl">% músculo</div></div>
+        </div>
+        ${b.agua?`<div style="text-align:center;margin-top:8px;font-size:12px;color:var(--muted)">💧 ${b.agua}% agua</div>`:''}
+      </div>`;
+    });
+  } else {
+    h+=`<div style="padding:8px 18px;text-align:center;color:var(--muted);font-size:14px">Aún no hay pesajes registrados.</div>`;
+  }
+  h+=`<div style="height:12px"></div>`;
+  document.getElementById('tab-cuerpo').innerHTML=h;
+}
+
+function saveBody(){
+  const peso=parseFloat(document.getElementById('b_peso').value);
+  if(!peso){alert('Pon al menos el peso');return;}
+  const fecha=document.getElementById('b_fecha').value||today();
+  const grasa=parseFloat(document.getElementById('b_grasa').value)||null;
+  const musculo=parseFloat(document.getElementById('b_musculo').value)||null;
+  const agua=parseFloat(document.getElementById('b_agua').value)||null;
+  if(!S.body)S.body=[];
+  S.body=S.body.filter(b=>b.date!==fecha);
+  S.body.push({date:fecha,peso,grasa,musculo,agua});
+  saveS();renderCuerpo();
+}
+
+function importCSV(input){
+  const file=input.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const text=e.target.result;
+      const lines=text.split(/\r?\n/).filter(l=>l.trim());
+      if(!S.body)S.body=[];
+      let added=0;
+      lines.forEach((line,i)=>{
+        const parts=line.split(/[,;]/).map(p=>p.trim());
+        // saltar cabecera si la primera celda no parece fecha
+        if(i===0 && !/\d{4}-\d{2}-\d{2}|\d{1,2}\/\d{1,2}\/\d{2,4}/.test(parts[0]))return;
+        let[fecha,peso,grasa,musculo,agua]=parts;
+        // normalizar fecha DD/MM/YYYY → YYYY-MM-DD
+        if(fecha.includes('/')){const[d,m,y]=fecha.split('/');fecha=`${y.length===2?'20'+y:y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`;}
+        const p=parseFloat(peso);
+        if(!fecha||!p)return;
+        S.body=S.body.filter(b=>b.date!==fecha);
+        S.body.push({date:fecha,peso:p,grasa:parseFloat(grasa)||null,musculo:parseFloat(musculo)||null,agua:parseFloat(agua)||null});
+        added++;
+      });
+      saveS();renderCuerpo();
+      alert(`✓ Importados ${added} pesajes`);
+    }catch(err){alert('Error leyendo el CSV. Revisa el formato: fecha,peso,grasa,musculo,agua');}
+  };
+  reader.readAsText(file);
 }
 
 function updatePhaseBadge(){
