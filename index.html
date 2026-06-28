@@ -167,6 +167,23 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
 .bc-stat{text-align:center}
 .bc-val{font-size:18px;font-weight:800;line-height:1}
 .bc-lbl{font-size:10px;color:var(--muted);margin-top:2px}
+/* ── MODAL CANTIDAD ── */
+.qty-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+.qty-sheet{background:var(--card);border-top-left-radius:24px;border-top-right-radius:24px;width:100%;max-width:520px;padding:24px 20px calc(24px + var(--sbt));border-top:1px solid var(--border);animation:sheetUp .25s ease}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.qty-name{font-size:18px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px}
+.qty-base{font-size:12px;color:var(--muted);margin-bottom:18px}
+.qty-input-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.qty-input-row input{flex:1;height:56px;border-radius:14px;border:1.5px solid var(--accent);background:var(--lifted);color:var(--text);font-size:24px;font-weight:800;padding:0 16px;outline:none;text-align:center}
+.qty-unit{font-size:15px;color:var(--muted);font-weight:600;min-width:44px}
+.qty-chips{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0 18px}
+.qty-chip{padding:8px 14px;border-radius:11px;border:1px solid var(--border);background:var(--lifted);color:var(--muted);font-size:13px;font-weight:700;cursor:pointer}
+.qty-chip:active{background:var(--adim);border-color:var(--accent);color:var(--accent)}
+.qty-preview{text-align:center;font-size:14px;color:var(--muted);margin-bottom:18px}
+.qty-preview b{color:var(--accent);font-size:22px;font-weight:900}
+.qty-actions{display:flex;gap:10px}
+.qty-cancel{flex:1;height:50px;border-radius:14px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:15px;font-weight:700;cursor:pointer}
+.qty-ok{flex:2;height:50px;border-radius:14px;border:none;background:var(--accent);color:#fff;font-size:15px;font-weight:800;cursor:pointer}
 @keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .ec{animation:slideUp .3s ease both}
 .ec:nth-child(1){animation-delay:.04s}.ec:nth-child(2){animation-delay:.09s}.ec:nth-child(3){animation-delay:.14s}.ec:nth-child(4){animation-delay:.19s}
@@ -1111,15 +1128,16 @@ function tlEnd(color,when,title,body){
 
 function renderCiencia(){
   const runPlan=[
-    ['1 Sep · Sem 1','3 días: 1min corriendo + 3min caminando × 5 rondas (20min)'],
-    ['8 Sep · Sem 2','3 días: 2min corriendo + 2min caminando × 6 rondas (24min)'],
-    ['15 Sep · Sem 3','3 días: 3min corriendo + 2min caminando × 5 rondas (25min)'],
-    ['22 Sep · Sem 4','3 días: 5min corriendo + 2min caminando × 4 rondas (28min)'],
-    ['29 Sep · Sem 5','3 días: 8min corriendo + 1min caminando × 3 rondas (27min)'],
-    ['6 Oct · Sem 6','3 días: 10min corriendo + 1min caminando × 3 rondas (33min)'],
-    ['13 Oct · Sem 7','1 salida 25min continuo + 2 salidas 20min'],
-    ['20 Oct · Sem 8','1 salida 40min con pausas + 2 salidas 20min'],
-    ['27 Oct · Sem 9','1 salida 50min + descanso 3 días antes del evento'],
+    ['1 Sep · Sem 1','Rodaje suave 25min · 2 días. Sin cuestas. Solo ver cómo responde la rodilla.'],
+    ['8 Sep · Sem 2','Rodaje 30min × 2 días + 1 tirada de 35min suave. Ritmo cómodo.'],
+    ['15 Sep · Sem 3','Rodaje 35min + cuestas suaves 4×1min + tirada 45min.'],
+    ['22 Sep · Sem 4','Rodaje 40min + cuestas 5×1min + tirada 50min. (semana exigente)'],
+    ['29 Sep · Sem 5','Bajada: rodaje 30min + tirada 40min. Recupera la rodilla.'],
+    ['6 Oct · Sem 6','Rodaje 40min + cuestas 6×1min30 + tirada 60min.'],
+    ['13 Oct · Sem 7','Rodaje 45min + series 5×3min a ritmo + tirada 70min (~12km).'],
+    ['20 Oct · Sem 8','Rodaje 45min + cuestas 6×2min + tirada larga 90min (~15-16km).'],
+    ['27 Oct · Sem 9','Pico: tirada 100min (~17-18km) simulando perfil. Última semana fuerte.'],
+    ['3 Nov · Sem 10','BAJADA TOTAL: 2 rodajes suaves 25min. Piernas frescas para el domingo.'],
   ];
 
   let h=`<div class="sec"><div class="sec-title">Hoja de ruta — Golf · Pádel · Behobia</div></div>
@@ -1128,22 +1146,23 @@ function renderCiencia(){
     ${tl('#e8715a','Ahora · Jun–Jul · Semanas 1–3','Fase 1 — Control motor',
       '⛳ <b style="color:var(--text)">Golf:</b> sí puedes jugar — usa carrito, evita rough y bajadas. Máximo 9 hoyos si duele.<br>🎾 <b style="color:var(--text)">Pádel:</b> pausa de momento. Los frenos y cambios de dirección sobrecargan la rótula.<br>🏃 <b style="color:var(--text)">Correr:</b> no todavía. La bici estática es tu cardio ahora.')}
     ${tl('#f4a261','~20 Jul – 10 Ago · Semanas 4–6','Fase 2 — Carga progresiva',
-      '⛳ <b style="color:var(--text)">Golf:</b> 18 hoyos si dolor ≤1/5. Liga sin restricciones. Sin carrito obligatorio.<br>🎾 <b style="color:var(--text)">Pádel:</b> 1 partido suave/semana si dolor ≤1/5. Pista lenta, sin smash, mueve los pies despacio.<br>🏃 <b style="color:var(--text)">Correr:</b> aún no. Empieza a caminar 30-45min a ritmo vivo.')}
+      '⛳ <b style="color:var(--text)">Golf:</b> 18 hoyos si dolor ≤1/5. Liga sin restricciones.<br>🎾 <b style="color:var(--text)">Pádel:</b> vuelve 1 partido suave/semana si dolor ≤1/5. Pista lenta, sin smash.<br>🏃 <b style="color:var(--text)">Correr:</b> aún no. Camina rápido 30-45min para ir preparando.')}
     ${tl('#a78bfa','~10 Ago – 1 Sep · Semanas 7–9','Fase 3 — Funcional',
-      '⛳ <b style="color:var(--text)">Golf:</b> sin restricciones especiales. El swing ya no debería dar problemas.<br>🎾 <b style="color:var(--text)">Pádel:</b> vuelta normal. 1-2 partidos/semana, calentamiento previo obligatorio.<br>🏃 <b style="color:var(--text)">Correr:</b> <b style="color:#a78bfa">¡empieza el plan de running!</b> Primera semana de septiembre.')}
-    ${tl('#3dd0cc','1 Sep – 3 Nov · Plan running','9 semanas hacia la Behobia',
-      runPlan.map(([s,d])=>`<div style="display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text);font-weight:700;min-width:100px;flex-shrink:0;font-size:11px">${s}</span><span style="font-size:11px">${d}</span></div>`).join('')+
-      '<div style="margin-top:8px;font-size:11px">⚠️ Si el dolor sube de 2/5 en alguna semana, repite esa semana antes de avanzar.</div>')}
+      '⛳ <b style="color:var(--text)">Golf:</b> sin restricciones.<br>🎾 <b style="color:var(--text)">Pádel:</b> normal, 1-2 partidos/semana con calentamiento.<br>🏃 <b style="color:var(--text)">Correr:</b> <b style="color:#a78bfa">test clave:</b> ¿aguantas 30min continuos sin dolor? Si sí → empiezas el plan. Si no → una semana más de fuerza.')}
+    ${tl('#3dd0cc','1 Sep – 3 Nov · Plan Behobia','10 semanas · correr los 20km enteros',
+      '<div style="margin-bottom:8px">Tu 3ª Behobia, sin run/walk. Plan de <b style="color:var(--text)">rodaje continuo</b> con un día de cuestas (para Capuchinos y Gaintxurizketa) y la tirada larga del finde. <b style="color:var(--text)">3 días de correr/semana</b> + los días de fuerza de rodilla que ya haces.</div>'+
+      runPlan.map(([s,d])=>`<div style="display:flex;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text);font-weight:700;min-width:92px;flex-shrink:0;font-size:11px">${s}</span><span style="font-size:11px">${d}</span></div>`).join('')+
+      '<div style="margin-top:10px;font-size:11px;line-height:1.5">⚠️ <b style="color:var(--text)">La rodilla manda:</b> si en una tirada el dolor pasa de 2/5, párate y camina. Repite esa semana antes de subir. Mejor llegar entera que forzar.</div>')}
     ${tlEnd('#f5c542','8 Noviembre · META 🏁','Behobia-San Sebastián 20km',
-      'Estrategia: <b style="color:var(--text)">run/walk toda la prueba</b> — 5-8min corriendo + 1min caminando.<br><br>La rampa de Hernani (km 4, sube 200m): <b style="color:var(--text)">hazla caminando sin dudarlo</b>. No es rendirse, es proteger la rodilla para los últimos 6km.<br><br>🎯 Objetivo realista: <b style="color:#f5c542">terminar sin dolor</b>. El tiempo no importa esta primera vez.')}
+      'Tu objetivo: <b style="color:var(--text)">correrla entera</b>. Estrategia para proteger la rodilla:<br><br>• Sal <b style="color:var(--text)">conservadora</b> los primeros 5km — hay euforia y se peca de rápido.<br>• <b style="color:var(--text)">Gaintxurizketa</b> (km 2-4, subida larga): acorta zancada, no fuerces.<br>• <b style="color:var(--text)">Capuchinos</b> (km 13, el muro): es corta y dura. Ritmo constante, no aceleres.<br>• <b style="color:var(--text)">Bajadas:</b> aquí sufre la rótula. No te dejes ir, frena con el glúteo no con la rodilla.<br><br>🎯 Vienes de lesión: <b style="color:#f5c542">terminar sin dolor es ganar</b>. El tiempo, el año que viene.')}
   </div></div>`;
 
   const cards=[
     {icon:'🦵',title:'¿Qué es la condropatía grado II?',body:`El cartílago detrás de tu rótula tiene daño <strong>moderado</strong>: no hay rotura, pero la superficie no es lisa y genera fricción.<br><br>El dolor viene de la inflamación. <strong>Grado II puede mejorar mucho</strong> con trabajo específico. La clave es reducir la fricción mejorando la mecánica de la rótula.`},
     {icon:'⚡',title:'Por qué el VMO es la clave',body:`El <strong>Vasto Medial Oblicuo (VMO)</strong> es la porción interna del cuádriceps. Centra la rótula en su surco. Si está débil, la rótula se desplaza y roza el cartílago. Fortalecer el VMO = menos fricción = menos dolor.`},
-    {icon:'🍑',title:'Por qué trabajamos la cadera',body:`El <strong>glúteo medio débil</strong> crea valgo de rodilla que desequilibra la rótula. Añadir trabajo de cadera reduce el dolor rotuliano un <strong>40% más</strong> que trabajar solo el cuádriceps.`},
-    {icon:'📈',title:'Señales de que vas mejorando',body:`✅ Menos dolor al bajar escaleras<br>✅ Más tiempo en wall sit sin molestias<br>✅ Menos rigidez matutina<br>✅ La rodilla cruje menos<br>✅ Más distancia caminando sin molestias`},
-    {icon:'⚠',title:'Lo que hay que evitar de momento',warn:true,body:`❌ Sentadillas profundas (>60°)<br>❌ Correr cuesta abajo<br>❌ Pedalear con mucha resistencia<br>❌ Arrodillarse mucho tiempo<br>❌ Running si duele más de 3/5`},
+    {icon:'⛰',title:'Por qué las bajadas son tu enemigo',body:`En las cuestas abajo de la Behobia la rótula recibe <strong>hasta 7 veces tu peso</strong> en cada zancada. Por eso el cuádriceps fuerte importa tanto: frena el cuerpo y descarga la rodilla. Entrena las bajadas con cabeza, no te dejes caer.`},
+    {icon:'🍑',title:'Por qué trabajamos la cadera',body:`El <strong>glúteo medio débil</strong> crea valgo de rodilla que desequilibra la rótula. Añadir trabajo de cadera reduce el dolor rotuliano un <strong>40% más</strong> que trabajar solo el cuádriceps. Y en carrera, el glúteo es quien frena las bajadas.`},
+    {icon:'⚠',title:'Señales para parar una tirada',warn:true,body:`🛑 Dolor rotuliano que sube de 2/5<br>🛑 La rodilla se hincha después de correr<br>🛑 Dolor que empeora al bajar cuestas<br>🛑 Cojeas o cambias la pisada<br><br>Parar a tiempo una tirada salva semanas de entrenamiento.`},
   ];
   h+=`<div class="sec"><div class="sec-title">Por qué funciona este programa</div></div><div style="padding:0 18px">`;
   cards.forEach(c=>{h+=`<div class="sc-card${c.warn?' warn-card':''}"><div class="sc-title">${c.icon} ${c.title}</div><div class="sc-body">${c.body}</div></div>`;});
@@ -1287,8 +1306,8 @@ function renderComida(){
     matches.forEach(f=>{
       const[name,kcal,p,g,c,port,unit]=f;
       const portionKcal=Math.round(kcal*port/100);
-      h+=`<div class="food-item" onclick="addFood('${name.replace(/'/g,"\\'")}',${kcal},${p},${g},${c},${port},'${unit}')">
-        <div class="food-info"><div class="food-name">${name}</div><div class="food-meta">${portionKcal} kcal · ${port}g (1 ${unit}) · ${kcal} kcal/100g</div></div>
+      h+=`<div class="food-item" onclick="openQty('${name.replace(/'/g,"\\'")}',${kcal},${p},${g},${c},${port},'${unit}')">
+        <div class="food-info"><div class="food-name">${name}</div><div class="food-meta">${kcal} kcal/100g · porción ${port}g = ${portionKcal} kcal</div></div>
         <div class="food-add">+</div>
       </div>`;
     });
@@ -1315,15 +1334,71 @@ function renderComida(){
 
 function onFoodSearch(v){foodQuery=v;renderComida();const inp=document.getElementById('foodSearch');if(inp){inp.focus();inp.setSelectionRange(v.length,v.length);}}
 
-function addFood(name,kcal,p,g,c,port,unit){
+let qtyData=null;
+
+function openQty(name,kcal,p,g,c,port,unit){
+  qtyData={name,kcal,p,g,c,port,unit};
+  const isUnit=unit!=='g';
+  const startVal=port;
+  let overlay=document.getElementById('qtyOverlay');
+  if(!overlay){
+    overlay=document.createElement('div');
+    overlay.id='qtyOverlay';
+    document.body.appendChild(overlay);
+  }
+  // chips de cantidades rápidas
+  const chips=isUnit
+    ? [[`½ ${unit}`,port*0.5],[`1 ${unit}`,port],[`2 ${unit}`,port*2],[`3 ${unit}`,port*3]]
+    : [['50g',50],['100g',100],['150g',150],['200g',200]];
+  overlay.className='qty-overlay';
+  overlay.innerHTML=`<div class="qty-sheet" onclick="event.stopPropagation()">
+    <div class="qty-name">${name}</div>
+    <div class="qty-base">${kcal} kcal por 100g${isUnit?` · 1 ${unit} ≈ ${port}g`:''}</div>
+    <div class="qty-input-row">
+      <input type="number" id="qtyInput" inputmode="numeric" value="${startVal}" oninput="updateQtyPreview()">
+      <span class="qty-unit">gramos</span>
+    </div>
+    <div class="qty-chips">
+      ${chips.map(([lbl,val])=>`<div class="qty-chip" onclick="setQty(${Math.round(val)})">${lbl}</div>`).join('')}
+    </div>
+    <div class="qty-preview" id="qtyPreview"></div>
+    <div class="qty-actions">
+      <button class="qty-cancel" onclick="closeQty()">Cancelar</button>
+      <button class="qty-ok" onclick="confirmQty()">Añadir</button>
+    </div>
+  </div>`;
+  overlay.onclick=closeQty;
+  updateQtyPreview();
+}
+
+function setQty(g){const inp=document.getElementById('qtyInput');if(inp){inp.value=g;updateQtyPreview();}}
+
+function updateQtyPreview(){
+  if(!qtyData)return;
+  const g=parseFloat(document.getElementById('qtyInput').value)||0;
+  const kcal=Math.round(qtyData.kcal*g/100);
+  const p=Math.round(qtyData.p*g/100);
+  const gr=Math.round(qtyData.g*g/100);
+  const c=Math.round(qtyData.c*g/100);
+  const prev=document.getElementById('qtyPreview');
+  if(prev)prev.innerHTML=`<b>${kcal}</b> kcal &nbsp;·&nbsp; P:${p}g  G:${gr}g  C:${c}g`;
+}
+
+function confirmQty(){
+  if(!qtyData)return;
+  const g=parseFloat(document.getElementById('qtyInput').value)||0;
+  if(g<=0){closeQty();return;}
   const td=today();
   if(!S.food[td])S.food[td]={items:[]};
   S.food[td].items.push({
-    name,qty:port,
-    kcal:kcal*port/100,p:p*port/100,g:g*port/100,c:c*port/100
+    name:qtyData.name,qty:Math.round(g),
+    kcal:qtyData.kcal*g/100,p:qtyData.p*g/100,g:qtyData.g*g/100,c:qtyData.c*g/100
   });
-  saveS();foodQuery='';renderComida();
+  saveS();closeQty();foodQuery='';renderComida();
 }
+
+function closeQty(){const o=document.getElementById('qtyOverlay');if(o)o.remove();qtyData=null;}
+
 function delFood(i){const td=today();S.food[td].items.splice(i,1);saveS();renderComida();}
 
 function renderCuerpo(){
@@ -1364,7 +1439,7 @@ function renderCuerpo(){
     h+=`<div class="sec"><div class="sec-title">Historial</div></div>`;
     arr.forEach(b=>{
       h+=`<div class="body-card">
-        <div class="bc-date">${new Date(b.date+'T12:00').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'})}</div>
+        <div class="bc-date">${new Date(b.date+'T12:00').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
         <div class="bc-grid">
           <div class="bc-stat"><div class="bc-val" style="color:var(--text)">${b.peso}</div><div class="bc-lbl">kg</div></div>
           <div class="bc-stat"><div class="bc-val" style="color:#e8715a">${b.grasa||'—'}</div><div class="bc-lbl">% grasa</div></div>
