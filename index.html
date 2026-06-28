@@ -55,10 +55,10 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
 .ec-meta{flex:1;min-width:0}
 .ec-name{font-size:15px;font-weight:800;margin-bottom:3px;letter-spacing:-.3px}
 .ec-spec{font-size:12px;color:var(--muted);font-weight:500}
-.ec-svg-wrap{border-radius:12px;overflow:hidden;background:rgba(255,255,255,.025);border:1px solid var(--border);margin-bottom:11px;line-height:0}
-.ec-svg-wrap svg{width:100%;height:auto;display:block}
+/* SVG más pequeño y bonito */
+.ec-svg-wrap{border-radius:12px;overflow:hidden;background:rgba(255,255,255,.02);border:1px solid var(--border);margin-bottom:11px;display:flex;align-items:center;justify-content:center;height:72px}
+.ec-svg-wrap svg{width:100%;height:72px}
 .ec-steps{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:11px}
-.ec-steps strong{color:var(--text);font-weight:600}
 .ec-step{display:flex;gap:8px;margin-bottom:4px}
 .ec-step-num{min-width:18px;height:18px;border-radius:50%;background:var(--lifted);border:1px solid var(--border);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0;margin-top:1px}
 .sets-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
@@ -162,492 +162,647 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
   </div>
 </nav>
 <script>
-// ─────────────────────────────────────────
-// ILUSTRACIONES SVG — una por ejercicio
-// ─────────────────────────────────────────
+// ── COLORES BASE ──────────────────────────
+const W='rgba(230,226,218,.9)';  // cuerpo pasivo
+const A='#e8715a';               // zona activa (coral)
+const T='#3dd0cc';               // flechas movimiento (teal)
+const WD='rgba(230,226,218,.45)';// cuerpo pasivo secundario
+
+// ── SVG ILUSTRACIONES ─────────────────────
+// Figuras limpias, sin texto, zona activa en coral, flechas en teal
 const SVGS={
-qset:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="8" y1="76" x2="172" y2="76" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <circle cx="158" cy="52" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="150" y1="55" x2="76" y2="59" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="110" y1="59" x2="98" y2="47" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="98" y1="47" x2="78" y2="54" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="76" y1="59" x2="24" y2="64" stroke="#e8715a" stroke-width="6" stroke-linecap="round"/>
-  <line x1="24" y1="64" x2="15" y2="61" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <path d="M50 54 L45 59 L50 64" stroke="#3dd0cc" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <path d="M38 54 L43 59 L38 64" stroke="#3dd0cc" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <text x="10" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">aprieta el muslo contra el suelo</text>
+
+// QUAD SET — tumbada, pierna recta contraída
+qset:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <!-- suelo -->
+  <line x1="10" y1="62" x2="210" y2="62" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <!-- cabeza -->
+  <circle cx="196" cy="44" r="10" fill="${W}"/>
+  <!-- torso horizontal -->
+  <line x1="186" y1="47" x2="100" y2="51" stroke="${W}" stroke-width="8" stroke-linecap="round"/>
+  <!-- pierna doblada (rodilla protección) -->
+  <line x1="130" y1="51" x2="118" y2="38" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="118" y1="38" x2="100" y2="44" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <!-- pierna activa recta — coral -->
+  <line x1="100" y1="51" x2="28" y2="56" stroke="${A}" stroke-width="8" stroke-linecap="round"/>
+  <line x1="28" y1="56" x2="16" y2="52" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- flechas aprieta -->
+  <path d="M64 44 L58 50 L64 56" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M50 44 L56 50 L50 56" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
 </svg>`,
 
-slr:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="8" y1="76" x2="172" y2="76" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <circle cx="158" cy="54" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="150" y1="56" x2="75" y2="60" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="110" y1="60" x2="96" y2="48" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="96" y1="48" x2="77" y2="55" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="75" y1="60" x2="44" y2="34" stroke="#e8715a" stroke-width="6" stroke-linecap="round"/>
-  <line x1="44" y1="34" x2="35" y2="30" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <path d="M28 52 L35 38 L42 52" stroke="#3dd0cc" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <text x="10" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">eleva hasta 45° — baja en 3 segundos</text>
+// SLR — pierna recta elevada 45°
+slr:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <line x1="10" y1="62" x2="210" y2="62" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <circle cx="196" cy="46" r="10" fill="${W}"/>
+  <line x1="186" y1="49" x2="100" y2="53" stroke="${W}" stroke-width="8" stroke-linecap="round"/>
+  <!-- rodilla doblada -->
+  <line x1="132" y1="53" x2="118" y2="40" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="118" y1="40" x2="100" y2="47" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <!-- pierna elevada activa — coral -->
+  <line x1="100" y1="53" x2="62" y2="24" stroke="${A}" stroke-width="8" stroke-linecap="round"/>
+  <line x1="62" y1="24" x2="50" y2="18" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- flecha arriba -->
+  <path d="M34 44 L42 28 L50 44" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
 </svg>`,
 
-wallsit:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="148" y="10" width="8" height="74" rx="2" fill="rgba(240,238,232,.18)"/>
-  <line x1="20" y1="84" x2="156" y2="84" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <circle cx="140" cy="24" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="140" y1="32" x2="140" y2="58" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="136" y1="38" x2="126" y2="52" stroke="rgba(240,238,232,.65)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="144" y1="38" x2="148" y2="52" stroke="rgba(240,238,232,.65)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="136" y1="58" x2="100" y2="63" stroke="#e8715a" stroke-width="6" stroke-linecap="round"/>
-  <line x1="100" y1="63" x2="96" y2="84" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="88" y1="84" x2="104" y2="84" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <path d="M118 63 A16 16 0 0 0 104 76" stroke="#3dd0cc" stroke-width="1.5" fill="none"/>
-  <text x="108" y="80" fill="#3dd0cc" font-size="9.5" font-family="sans-serif">30°</text>
-  <text x="26" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">espalda en pared — no bajes más</text>
+// WALL SIT — espalda en pared, rodillas 30°
+wallsit:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <!-- pared -->
+  <rect x="190" y="8" width="10" height="64" rx="3" fill="rgba(255,255,255,.15)"/>
+  <!-- suelo -->
+  <line x1="10" y1="67" x2="200" y2="67" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <!-- cabeza -->
+  <circle cx="178" cy="20" r="10" fill="${W}"/>
+  <!-- torso vertical -->
+  <line x1="178" y1="30" x2="178" y2="52" stroke="${W}" stroke-width="9" stroke-linecap="round"/>
+  <!-- muslos horizontales — activos coral -->
+  <line x1="174" y1="52" x2="120" y2="56" stroke="${A}" stroke-width="8" stroke-linecap="round"/>
+  <!-- espinillas verticales -->
+  <line x1="120" y1="56" x2="116" y2="67" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="108" y1="67" x2="124" y2="67" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- brazos apoyados -->
+  <line x1="172" y1="40" x2="158" y2="52" stroke="${WD}" stroke-width="5" stroke-linecap="round"/>
+  <!-- ángulo -->
+  <path d="M148 56 A18 18 0 0 0 134 68" stroke="${T}" stroke-width="2" fill="none"/>
+  <text x="126" y="68" fill="${T}" font-size="11" font-family="-apple-system,sans-serif" font-weight="700">30°</text>
 </svg>`,
 
-strquad:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="50" y1="84" x2="130" y2="84" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <circle cx="90" cy="18" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="90" y1="26" x2="90" y2="52" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="87" y1="52" x2="82" y2="68" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="82" y1="68" x2="80" y2="84" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="73" y1="84" x2="88" y2="84" stroke="rgba(240,238,232,.82)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="93" y1="52" x2="97" y2="64" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="97" y1="64" x2="100" y2="46" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="90" y1="36" x2="100" y2="47" stroke="rgba(240,238,232,.65)" stroke-width="3.5" stroke-linecap="round"/>
-  <circle cx="100" cy="46" r="4.5" fill="rgba(240,238,232,.45)"/>
-  <path d="M112 54 L116 62 L112 70" stroke="#3dd0cc" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-  <text x="28" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">sujeta el tobillo — sin dolor en rodilla</text>
+// ESTIRAMIENTO CUÁDRICEPS — de pie, pie al glúteo
+strquad:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <line x1="60" y1="68" x2="160" y2="68" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <!-- cabeza -->
+  <circle cx="110" cy="10" r="10" fill="${W}"/>
+  <!-- torso -->
+  <line x1="110" y1="20" x2="110" y2="44" stroke="${W}" stroke-width="8" stroke-linecap="round"/>
+  <!-- pierna de apoyo -->
+  <line x1="107" y1="44" x2="102" y2="58" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="102" y1="58" x2="100" y2="68" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="92" y1="68" x2="108" y2="68" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <!-- pierna activa doblada — coral -->
+  <line x1="113" y1="44" x2="118" y2="56" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="118" y1="56" x2="122" y2="42" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <!-- mano sujetando -->
+  <line x1="110" y1="32" x2="122" y2="43" stroke="${WD}" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="122" cy="42" r="5" fill="${WD}"/>
+  <!-- flecha estiramiento -->
+  <path d="M136 52 L142 58 L136 64" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
 </svg>`,
 
-clam:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="8" y1="84" x2="172" y2="84" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <circle cx="156" cy="52" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="148" y1="54" x2="78" y2="58" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="78" y1="58" x2="58" y2="68" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="58" y1="68" x2="38" y2="72" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="82" y1="55" x2="64" y2="40" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="64" y1="40" x2="44" y2="52" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <path d="M60 56 Q54 42 64 36" stroke="#3dd0cc" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-  <path d="M64 36 L68 42 L60 41" stroke="#3dd0cc" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-  <text x="10" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">sube rodilla sin mover la pelvis</text>
+// CLAMSHELL — tumbada de lado, rodilla arriba
+clam:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <line x1="10" y1="64" x2="210" y2="64" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <!-- cabeza -->
+  <circle cx="196" cy="42" r="10" fill="${W}"/>
+  <!-- torso lateral -->
+  <line x1="186" y1="45" x2="100" y2="50" stroke="${W}" stroke-width="9" stroke-linecap="round"/>
+  <!-- pierna inferior pasiva -->
+  <line x1="100" y1="50" x2="70" y2="60" stroke="${W}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="70" y1="60" x2="44" y2="63" stroke="${W}" stroke-width="7" stroke-linecap="round"/>
+  <!-- pierna superior activa — coral, subida -->
+  <line x1="104" y1="46" x2="76" y2="30" stroke="${A}" stroke-width="8" stroke-linecap="round"/>
+  <line x1="76" y1="30" x2="50" y2="42" stroke="${A}" stroke-width="8" stroke-linecap="round"/>
+  <!-- flecha rotación -->
+  <path d="M74 48 Q66 32 78 24" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M78 24 L84 32 L74 30" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
 </svg>`,
 
-bridge:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="8" y1="82" x2="172" y2="82" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <circle cx="156" cy="64" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="148" y1="66" x2="118" y2="68" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="118" y1="68" x2="93" y2="48" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <circle cx="91" cy="47" r="6" fill="rgba(232,113,90,.3)" stroke="#e8715a" stroke-width="1.5"/>
-  <line x1="88" y1="50" x2="74" y2="68" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="74" y1="68" x2="70" y2="82" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="62" y1="82" x2="78" y2="82" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="94" y1="50" x2="108" y2="66" stroke="rgba(240,238,232,.8)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="108" y1="66" x2="112" y2="82" stroke="rgba(240,238,232,.8)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="105" y1="82" x2="120" y2="82" stroke="rgba(240,238,232,.8)" stroke-width="4" stroke-linecap="round"/>
-  <path d="M48 66 L43 52 L38 66" stroke="#3dd0cc" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <text x="16" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">aprieta glúteos — mantén 2s arriba</text>
+// PUENTE GLÚTEO — cadera arriba
+bridge:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <line x1="10" y1="65" x2="210" y2="65" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <!-- cabeza en suelo -->
+  <circle cx="196" cy="52" r="10" fill="${W}"/>
+  <!-- espalda alta en suelo -->
+  <line x1="186" y1="55" x2="152" y2="57" stroke="${W}" stroke-width="8" stroke-linecap="round"/>
+  <!-- torso subido diagonal -->
+  <line x1="152" y1="57" x2="118" y2="36" stroke="${W}" stroke-width="8" stroke-linecap="round"/>
+  <!-- cadera — activa coral -->
+  <circle cx="116" cy="34" r="9" fill="rgba(232,113,90,.3)" stroke="${A}" stroke-width="2"/>
+  <!-- muslos bajando -->
+  <line x1="112" y1="38" x2="94" y2="56" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="120" y1="38" x2="138" y2="54" stroke="${W}" stroke-width="7" stroke-linecap="round"/>
+  <!-- pies en suelo -->
+  <line x1="94" y1="56" x2="90" y2="65" stroke="${A}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="138" y1="54" x2="142" y2="65" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="82" y1="65" x2="98" y2="65" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- flecha arriba -->
+  <path d="M62 58 L56 42 L50 58" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
 </svg>`,
 
-hipabd:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="8" y1="84" x2="172" y2="84" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <circle cx="156" cy="52" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="148" y1="55" x2="78" y2="60" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="78" y1="60" x2="28" y2="67" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="20" y1="67" x2="36" y2="67" stroke="rgba(240,238,232,.82)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="82" y1="56" x2="32" y2="40" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="24" y1="40" x2="40" y2="40" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <path d="M56 62 L52 46 L48 62" stroke="#3dd0cc" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-  <text x="18" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">pierna estirada — eleva 45°</text>
+// ABDUCCIÓN CADERA — tumbada lateral, pierna arriba
+hipabd:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <line x1="10" y1="64" x2="210" y2="64" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <circle cx="196" cy="44" r="10" fill="${W}"/>
+  <line x1="186" y1="47" x2="100" y2="52" stroke="${W}" stroke-width="9" stroke-linecap="round"/>
+  <!-- pierna inferior -->
+  <line x1="100" y1="52" x2="34" y2="58" stroke="${W}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="26" y1="58" x2="42" y2="58" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <!-- pierna activa elevada -->
+  <line x1="104" y1="48" x2="38" y2="30" stroke="${A}" stroke-width="8" stroke-linecap="round"/>
+  <line x1="30" y1="30" x2="46" y2="30" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- flecha arriba -->
+  <path d="M70 52 L64 36 L58 52" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
 </svg>`,
 
-strham:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="8" y1="78" x2="172" y2="78" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <circle cx="156" cy="56" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="148" y1="58" x2="88" y2="62" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="120" y1="62" x2="108" y2="50" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="108" y1="50" x2="90" y2="57" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="88" y1="62" x2="58" y2="30" stroke="#e8715a" stroke-width="6" stroke-linecap="round"/>
-  <line x1="58" y1="30" x2="50" y2="26" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="118" y1="52" x2="70" y2="36" stroke="rgba(240,238,232,.6)" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="70" cy="36" r="4" fill="rgba(240,238,232,.5)"/>
-  <path d="M42 44 L38 56 L42 66" stroke="#3dd0cc" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-  <text x="12" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">tensión sin dolor — rodilla extendida</text>
+// ESTIRAMIENTO ISQUIOS — tumbada, pierna al techo
+strham:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <line x1="10" y1="66" x2="210" y2="66" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <circle cx="196" cy="48" r="10" fill="${W}"/>
+  <line x1="186" y1="51" x2="110" y2="55" stroke="${W}" stroke-width="8" stroke-linecap="round"/>
+  <!-- rodilla protección -->
+  <line x1="144" y1="55" x2="130" y2="42" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="130" y1="42" x2="112" y2="49" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <!-- pierna activa hacia techo -->
+  <line x1="110" y1="55" x2="72" y2="18" stroke="${A}" stroke-width="8" stroke-linecap="round"/>
+  <line x1="72" y1="18" x2="60" y2="13" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- manos sujetan muslo -->
+  <line x1="150" y1="44" x2="88" y2="28" stroke="${WD}" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="88" cy="28" r="5" fill="${WD}"/>
+  <!-- flecha -->
+  <path d="M44 36 L38 22 L32 36" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
 </svg>`,
 
-bike:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="52" cy="68" r="20" stroke="rgba(240,238,232,.45)" stroke-width="2.5"/>
-  <circle cx="128" cy="68" r="20" stroke="rgba(240,238,232,.45)" stroke-width="2.5"/>
-  <circle cx="52" cy="68" r="3" fill="rgba(240,238,232,.4)"/>
-  <circle cx="128" cy="68" r="3" fill="rgba(240,238,232,.4)"/>
-  <line x1="52" y1="68" x2="90" y2="40" stroke="rgba(240,238,232,.55)" stroke-width="2.5"/>
-  <line x1="90" y1="40" x2="128" y2="68" stroke="rgba(240,238,232,.55)" stroke-width="2.5"/>
-  <line x1="90" y1="40" x2="108" y2="28" stroke="rgba(240,238,232,.55)" stroke-width="2.5"/>
-  <line x1="90" y1="40" x2="84" y2="26" stroke="rgba(240,238,232,.55)" stroke-width="2.5"/>
-  <line x1="108" y1="28" x2="118" y2="30" stroke="rgba(240,238,232,.7)" stroke-width="3" stroke-linecap="round"/>
-  <line x1="108" y1="28" x2="112" y2="22" stroke="rgba(240,238,232,.7)" stroke-width="3" stroke-linecap="round"/>
-  <line x1="80" y1="22" x2="90" y2="22" stroke="rgba(240,238,232,.7)" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="116" cy="18" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="116" y1="26" x2="104" y2="34" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="90" y1="40" x2="78" y2="56" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="78" y1="56" x2="62" y2="60" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <text x="26" y="14" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">sillín alto — resistencia baja</text>
+// BICICLETA
+bike:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <!-- ruedas -->
+  <circle cx="60" cy="52" r="18" stroke="${WD}" stroke-width="2.5"/>
+  <circle cx="150" cy="52" r="18" stroke="${WD}" stroke-width="2.5"/>
+  <circle cx="60" cy="52" r="4" fill="${WD}"/>
+  <circle cx="150" cy="52" r="4" fill="${WD}"/>
+  <!-- cuadro -->
+  <line x1="60" y1="52" x2="108" y2="28" stroke="${WD}" stroke-width="2.5"/>
+  <line x1="108" y1="28" x2="150" y2="52" stroke="${WD}" stroke-width="2.5"/>
+  <line x1="108" y1="28" x2="126" y2="18" stroke="${WD}" stroke-width="2.5"/>
+  <line x1="108" y1="28" x2="102" y2="14" stroke="${WD}" stroke-width="2.5"/>
+  <!-- manillar -->
+  <line x1="126" y1="18" x2="136" y2="20" stroke="${W}" stroke-width="3" stroke-linecap="round"/>
+  <!-- sillín -->
+  <line x1="98" y1="13" x2="108" y2="13" stroke="${W}" stroke-width="3" stroke-linecap="round"/>
+  <!-- rider -->
+  <circle cx="140" cy="10" r="9" fill="${W}"/>
+  <line x1="140" y1="19" x2="126" y2="26" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <!-- pierna pedaleando -->
+  <line x1="108" y1="28" x2="96" y2="42" stroke="${A}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="96" y1="42" x2="78" y2="46" stroke="${A}" stroke-width="6" stroke-linecap="round"/>
+  <!-- etiqueta resistencia -->
+  <text x="162" y="16" fill="${T}" font-size="10" font-family="-apple-system,sans-serif" font-weight="600">baja</text>
+  <text x="155" y="27" fill="${T}" font-size="10" font-family="-apple-system,sans-serif" font-weight="600">resistencia</text>
 </svg>`,
 
-knemob:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="70" y="18" width="6" height="44" rx="3" fill="rgba(240,238,232,.18)"/>
-  <rect x="60" y="54" width="52" height="6" rx="2" fill="rgba(240,238,232,.18)"/>
-  <line x1="64" y1="60" x2="60" y2="80" stroke="rgba(240,238,232,.18)" stroke-width="2"/>
-  <line x1="108" y1="60" x2="112" y2="80" stroke="rgba(240,238,232,.18)" stroke-width="2"/>
-  <circle cx="90" cy="28" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="90" y1="36" x2="90" y2="56" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="88" y1="56" x2="70" y2="58" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="92" y1="56" x2="108" y2="58" stroke="rgba(240,238,232,.65)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="70" y1="58" x2="64" y2="78" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <path d="M52 72 A13 11 0 1 1 52 74" stroke="#3dd0cc" stroke-width="2" fill="none"/>
-  <path d="M52 72 L47 70 L50 76" stroke="#3dd0cc" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <text x="20" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">círculos lentos — sin forzar el rango</text>
+// MOVILIDAD RODILLA — sentada, círculos pie
+knemob:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <!-- silla -->
+  <rect x="80" y="38" width="60" height="5" rx="2" fill="rgba(255,255,255,.18)"/>
+  <rect x="85" y="14" width="5" height="30" rx="2" fill="rgba(255,255,255,.12)"/>
+  <!-- persona sentada -->
+  <circle cx="110" cy="16" r="10" fill="${W}"/>
+  <line x1="110" y1="26" x2="110" y2="42" stroke="${W}" stroke-width="8" stroke-linecap="round"/>
+  <!-- muslos -->
+  <line x1="106" y1="42" x2="82" y2="44" stroke="${W}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="114" y1="42" x2="136" y2="44" stroke="${WD}" stroke-width="7" stroke-linecap="round"/>
+  <!-- espinilla colgando activa -->
+  <line x1="82" y1="44" x2="74" y2="62" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <!-- círculo movimiento pie -->
+  <circle cx="68" cy="62" r="10" stroke="${T}" stroke-width="2.5" fill="none" stroke-dasharray="5,3"/>
+  <path d="M58 62 L54 58 L58 56" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
 </svg>`,
 
-strfull:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="28" cy="18" r="6" fill="rgba(240,238,232,.75)"/>
-  <line x1="28" y1="24" x2="28" y2="40" stroke="rgba(240,238,232,.75)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="26" y1="40" x2="22" y2="54" stroke="rgba(240,238,232,.75)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="22" y1="54" x2="20" y2="66" stroke="rgba(240,238,232,.75)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="30" y1="40" x2="34" y2="52" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="34" y1="52" x2="34" y2="40" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="26" y1="30" x2="34" y2="41" stroke="rgba(240,238,232,.6)" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="80" cy="50" r="6" fill="rgba(240,238,232,.75)"/>
-  <line x1="80" y1="56" x2="80" y2="66" stroke="rgba(240,238,232,.75)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="78" y1="66" x2="64" y2="65" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="64" y1="65" x2="54" y2="64" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="82" y1="66" x2="96" y2="72" stroke="rgba(240,238,232,.75)" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="140" cy="20" r="6" fill="rgba(240,238,232,.75)"/>
-  <line x1="140" y1="26" x2="140" y2="44" stroke="rgba(240,238,232,.75)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="138" y1="44" x2="130" y2="60" stroke="rgba(240,238,232,.75)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="130" y1="60" x2="126" y2="76" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="118" y1="76" x2="134" y2="76" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="142" y1="44" x2="150" y2="58" stroke="rgba(240,238,232,.75)" stroke-width="4" stroke-linecap="round"/>
-  <path d="M44 44 L54 46" stroke="rgba(61,208,204,.4)" stroke-width="1.5" stroke-linecap="round"/>
-  <path d="M96 60 L104 56" stroke="rgba(61,208,204,.4)" stroke-width="1.5" stroke-linecap="round"/>
-  <text x="14" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">cuád · isquios · gemelos — 30s por posición</text>
+// ESTIRAMIENTOS GLOBALES — 3 posiciones mini
+strfull:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <!-- pos1: cuád de pie -->
+  <circle cx="36" cy="14" r="8" fill="${W}"/>
+  <line x1="36" y1="22" x2="36" y2="40" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="34" y1="40" x2="30" y2="54" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="30" y1="54" x2="28" y2="66" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="38" y1="40" x2="44" y2="54" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="44" y1="54" x2="44" y2="42" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="34" y1="30" x2="44" y2="42" stroke="${WD}" stroke-width="3" stroke-linecap="round"/>
+  <!-- separador -->
+  <line x1="76" y1="14" x2="76" y2="66" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+  <!-- pos2: isquios tumbada -->
+  <circle cx="196" cy="50" r="8" fill="${W}"/>
+  <line x1="188" y1="53" x2="136" y2="57" stroke="${W}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="168" y1="57" x2="156" y2="44" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="156" y1="44" x2="138" y2="50" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="136" y1="57" x2="100" y2="24" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="100" y1="24" x2="90" y2="18" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="168" y1="46" x2="110" y2="30" stroke="${WD}" stroke-width="3" stroke-linecap="round"/>
+  <!-- separador -->
+  <line x1="144" y1="14" x2="144" y2="66" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+  <!-- pos3: gemelo pared -->
+  <circle cx="110" cy="14" r="8" fill="${W}"/>
+  <line x1="110" y1="22" x2="110" y2="42" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="108" y1="42" x2="102" y2="56" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="112" y1="42" x2="120" y2="56" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="120" y1="56" x2="122" y2="66" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="114" y1="66" x2="128" y2="66" stroke="${A}" stroke-width="4" stroke-linecap="round"/>
 </svg>`,
 
-tke:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="30" y1="84" x2="160" y2="84" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <rect x="6" y="54" width="6" height="22" rx="2" fill="rgba(240,238,232,.28)"/>
-  <path d="M12 62 Q34 70 56 66 Q66 64 72 60" stroke="#e8715a" stroke-width="2" stroke-dasharray="5,2" fill="none"/>
-  <circle cx="110" cy="18" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="110" y1="26" x2="108" y2="50" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="106" y1="50" x2="100" y2="66" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="100" y1="66" x2="98" y2="84" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="90" y1="84" x2="106" y2="84" stroke="rgba(240,238,232,.82)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="110" y1="50" x2="74" y2="58" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="74" y1="58" x2="63" y2="76" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="55" y1="84" x2="72" y2="84" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <path d="M55 68 L49 76 L55 84" stroke="#3dd0cc" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-  <text x="14" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">extiende los últimos 30° — aprieta al final</text>
+// TKE — de pie con banda, extensión terminal
+tke:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <line x1="30" y1="67" x2="190" y2="67" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <!-- ancla banda -->
+  <rect x="8" y="40" width="8" height="24" rx="3" fill="rgba(255,255,255,.25)"/>
+  <!-- banda elástica -->
+  <path d="M16 52 Q40 60 64 56 Q76 53 82 48" stroke="${A}" stroke-width="2.5" stroke-dasharray="6,2.5" fill="none"/>
+  <!-- cabeza -->
+  <circle cx="162" cy="12" r="10" fill="${W}"/>
+  <!-- torso -->
+  <line x1="162" y1="22" x2="160" y2="44" stroke="${W}" stroke-width="8" stroke-linecap="round"/>
+  <!-- pierna de apoyo -->
+  <line x1="158" y1="44" x2="152" y2="58" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="152" y1="58" x2="150" y2="67" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="142" y1="67" x2="158" y2="67" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <!-- pierna activa extendiéndose -->
+  <line x1="162" y1="44" x2="118" y2="52" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="118" y1="52" x2="96" y2="62" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="88" y1="67" x2="104" y2="67" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- flecha extensión -->
+  <path d="M82 54 L74 62 L82 67" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
 </svg>`,
 
-stepup:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="28" y="60" width="88" height="24" rx="3" fill="rgba(240,238,232,.14)" stroke="rgba(240,238,232,.28)" stroke-width="1"/>
-  <line x1="8" y1="84" x2="26" y2="84" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <line x1="118" y1="84" x2="172" y2="84" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <circle cx="90" cy="16" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="90" y1="24" x2="88" y2="50" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="86" y1="50" x2="80" y2="62" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="80" y1="62" x2="74" y2="60" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="66" y1="60" x2="82" y2="60" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="90" y1="50" x2="100" y2="66" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="100" y1="66" x2="104" y2="84" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="96" y1="84" x2="112" y2="84" stroke="rgba(240,238,232,.82)" stroke-width="4" stroke-linecap="round"/>
-  <path d="M130 56 L125 42 L120 56" stroke="#3dd0cc" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <text x="14" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">peso en el talón — baja despacio (3s)</text>
+// STEP UP — subida a escalón
+stepup:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <!-- escalón -->
+  <rect x="44" y="50" width="100" height="22" rx="4" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+  <!-- suelo -->
+  <line x1="10" y1="72" x2="44" y2="72" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <line x1="144" y1="72" x2="210" y2="72" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <!-- cabeza -->
+  <circle cx="116" cy="10" r="10" fill="${W}"/>
+  <!-- torso ligeramente inclinado -->
+  <line x1="116" y1="20" x2="114" y2="42" stroke="${W}" stroke-width="8" stroke-linecap="round"/>
+  <!-- pierna activa en escalón -->
+  <line x1="112" y1="42" x2="104" y2="52" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="104" y1="52" x2="98" y2="50" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="88" y1="50" x2="106" y2="50" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- pierna trasera -->
+  <line x1="116" y1="42" x2="126" y2="58" stroke="${W}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="126" y1="58" x2="130" y2="72" stroke="${W}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="122" y1="72" x2="138" y2="72" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <!-- flecha arriba -->
+  <path d="M162" y1="52" L156 36 L150 52" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M162 52 L156 36 L150 52" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
 </svg>`,
 
-minisq:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="28" y1="84" x2="152" y2="84" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <circle cx="90" cy="18" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="90" y1="26" x2="88" y2="50" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="82" y1="50" x2="98" y2="50" stroke="rgba(240,238,232,.65)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="82" y1="50" x2="76" y2="66" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="76" y1="66" x2="74" y2="84" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="66" y1="84" x2="82" y2="84" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="98" y1="50" x2="104" y2="66" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="104" y1="66" x2="106" y2="84" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="98" y1="84" x2="114" y2="84" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <path d="M76 66 A14 14 0 0 0 64 74" stroke="#3dd0cc" stroke-width="1.5" fill="none"/>
-  <text x="34" y="76" fill="#3dd0cc" font-size="9" font-family="sans-serif">30°</text>
-  <line x1="86" y1="36" x2="66" y2="46" stroke="rgba(240,238,232,.6)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="90" y1="36" x2="110" y2="46" stroke="rgba(240,238,232,.6)" stroke-width="4" stroke-linecap="round"/>
-  <text x="20" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">solo 30° — no hay prisa en profundizar</text>
+// MINI SENTADILLA 30°
+minisq:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <line x1="40" y1="68" x2="180" y2="68" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <!-- cabeza -->
+  <circle cx="110" cy="10" r="10" fill="${W}"/>
+  <!-- torso ligeramente inclinado -->
+  <line x1="110" y1="20" x2="108" y2="42" stroke="${W}" stroke-width="8" stroke-linecap="round"/>
+  <!-- brazos equilibrio -->
+  <line x1="106" y1="30" x2="84" y2="42" stroke="${WD}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="110" y1="30" x2="132" y2="42" stroke="${WD}" stroke-width="5" stroke-linecap="round"/>
+  <!-- muslos — activos coral (poco flexión) -->
+  <line x1="104" y1="42" x2="96" y2="56" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="112" y1="42" x2="120" y2="56" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <!-- espinillas -->
+  <line x1="96" y1="56" x2="94" y2="68" stroke="${A}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="120" y1="56" x2="122" y2="68" stroke="${A}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="86" y1="68" x2="102" y2="68" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="114" y1="68" x2="130" y2="68" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- ángulo -->
+  <path d="M96 56 A16 16 0 0 0 82 64" stroke="${T}" stroke-width="2" fill="none"/>
+  <text x="62" y="66" fill="${T}" font-size="11" font-family="-apple-system,sans-serif" font-weight="700">30°</text>
 </svg>`,
 
-foamq:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="8" y1="84" x2="172" y2="84" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <ellipse cx="90" cy="72" rx="82" ry="9" fill="rgba(232,113,90,.18)" stroke="#e8715a" stroke-width="1.5"/>
-  <circle cx="155" cy="50" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="147" y1="52" x2="72" y2="57" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="72" y1="57" x2="42" y2="62" stroke="#e8715a" stroke-width="6" stroke-linecap="round"/>
-  <line x1="42" y1="62" x2="28" y2="50" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="28" y1="50" x2="24" y2="43" stroke="rgba(240,238,232,.82)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="130" y1="50" x2="115" y2="38" stroke="rgba(240,238,232,.65)" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="115" cy="38" r="4" fill="rgba(240,238,232,.45)"/>
-  <text x="12" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">rueda despacio — detente en puntos tensos</text>
+// FOAM ROLLER CUÁDRICEPS — boca abajo
+foamq:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <!-- rodillo foam -->
+  <ellipse cx="110" cy="58" rx="100" ry="11" fill="rgba(232,113,90,.15)" stroke="${A}" stroke-width="1.5"/>
+  <!-- persona boca abajo -->
+  <circle cx="192" cy="38" r="10" fill="${W}"/>
+  <line x1="182" y1="41" x2="96" y2="46" stroke="${W}" stroke-width="9" stroke-linecap="round"/>
+  <!-- muslos sobre rodillo — coral -->
+  <line x1="96" y1="46" x2="52" y2="50" stroke="${A}" stroke-width="9" stroke-linecap="round"/>
+  <!-- espinillas levantadas -->
+  <line x1="52" y1="50" x2="34" y2="36" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <!-- brazos apoyo -->
+  <line x1="162" y1="40" x2="148" y2="28" stroke="${WD}" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="148" cy="28" r="5" fill="${WD}"/>
 </svg>`,
 
-singbr:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="8" y1="82" x2="172" y2="82" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <circle cx="156" cy="64" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="148" y1="66" x2="118" y2="68" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="118" y1="68" x2="93" y2="48" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <circle cx="91" cy="47" r="6" fill="rgba(232,113,90,.28)" stroke="#e8715a" stroke-width="1.5"/>
-  <line x1="88" y1="50" x2="74" y2="68" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="74" y1="68" x2="70" y2="82" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="62" y1="82" x2="78" y2="82" stroke="rgba(240,238,232,.82)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="94" y1="50" x2="55" y2="48" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="47" y1="48" x2="63" y2="48" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <path d="M36 66 L31 52 L26 66" stroke="#3dd0cc" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <text x="14" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">pelvis horizontal — pierna extendida</text>
+// PUENTE UNIPODAL
+singbr:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <line x1="10" y1="65" x2="210" y2="65" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <circle cx="196" cy="54" r="10" fill="${W}"/>
+  <line x1="186" y1="57" x2="152" y2="59" stroke="${W}" stroke-width="8" stroke-linecap="round"/>
+  <line x1="152" y1="59" x2="120" y2="36" stroke="${W}" stroke-width="8" stroke-linecap="round"/>
+  <!-- cadera activa -->
+  <circle cx="118" cy="34" r="9" fill="rgba(232,113,90,.3)" stroke="${A}" stroke-width="2"/>
+  <!-- pierna doblada apoyo -->
+  <line x1="114" y1="38" x2="98" y2="56" stroke="${W}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="98" y1="56" x2="94" y2="65" stroke="${W}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="86" y1="65" x2="102" y2="65" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <!-- pierna extendida activa -->
+  <line x1="122" y1="38" x2="72" y2="34" stroke="${A}" stroke-width="8" stroke-linecap="round"/>
+  <line x1="64" y1="34" x2="80" y2="34" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <path d="M48 52 L42 36 L36 52" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
 </svg>`,
 
-deadbug:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="8" y1="82" x2="172" y2="82" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <circle cx="156" cy="56" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="148" y1="58" x2="80" y2="62" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="130" y1="56" x2="118" y2="34" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="118" y1="34" x2="108" y2="20" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="120" y1="57" x2="112" y2="42" stroke="rgba(240,238,232,.45)" stroke-width="3" stroke-linecap="round"/>
-  <line x1="97" y1="62" x2="84" y2="46" stroke="rgba(240,238,232,.7)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="84" y1="46" x2="68" y2="52" stroke="rgba(240,238,232,.7)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="84" y1="62" x2="54" y2="70" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="46" y1="70" x2="62" y2="70" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="115" y1="34" x2="57" y2="66" stroke="rgba(61,208,204,.18)" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="12" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">brazo dcho + pierna izq — lumbar pegada</text>
+// DEAD BUG — tumbada, brazo y pierna opuestos
+deadbug:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <line x1="10" y1="67" x2="210" y2="67" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <circle cx="192" cy="46" r="10" fill="${W}"/>
+  <line x1="182" y1="49" x2="102" y2="54" stroke="${W}" stroke-width="9" stroke-linecap="round"/>
+  <!-- brazo derecho activo al suelo -->
+  <line x1="160" y1="47" x2="142" y2="22" stroke="${A}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="142" y1="22" x2="128" y2="10" stroke="${A}" stroke-width="6" stroke-linecap="round"/>
+  <!-- brazo izq pasivo al techo -->
+  <line x1="148" y1="48" x2="136" y2="30" stroke="${WD}" stroke-width="4" stroke-linecap="round"/>
+  <!-- pierna derecha pasiva 90° -->
+  <line x1="122" y1="54" x2="106" y2="38" stroke="${WD}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="106" y1="38" x2="88" y2="46" stroke="${WD}" stroke-width="6" stroke-linecap="round"/>
+  <!-- pierna izq activa extendida -->
+  <line x1="110" y1="54" x2="66" y2="62" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="58" y1="62" x2="74" y2="62" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- línea diagonal cruzada -->
+  <line x1="138" y1="20" x2="68" y2="58" stroke="rgba(61,208,204,.2)" stroke-width="1.5" stroke-dasharray="5,4"/>
 </svg>`,
 
-plank:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="8" y1="78" x2="172" y2="78" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <circle cx="148" cy="46" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="140" y1="49" x2="130" y2="54" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="130" y1="54" x2="50" y2="62" stroke="rgba(240,238,232,.82)" stroke-width="8" stroke-linecap="round"/>
-  <line x1="50" y1="62" x2="28" y2="70" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="20" y1="67" x2="36" y2="70" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="118" y1="55" x2="106" y2="70" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="100" y1="58" x2="88" y2="72" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="106" y1="70" x2="88" y2="72" stroke="rgba(240,238,232,.65)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="148" y1="46" x2="28" y2="70" stroke="rgba(61,208,204,.2)" stroke-width="1" stroke-dasharray="5,3"/>
-  <text x="28" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">cuerpo recto — glúteos apretados</text>
+// PLANCHA — cuerpo recto en codos
+plank:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <line x1="10" y1="66" x2="210" y2="66" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <!-- cabeza -->
+  <circle cx="186" cy="36" r="10" fill="${W}"/>
+  <!-- cuerpo recto -->
+  <line x1="176" y1="39" x2="164" y2="44" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="164" y1="44" x2="60" y2="54" stroke="${W}" stroke-width="10" stroke-linecap="round"/>
+  <!-- pies/tobillos -->
+  <line x1="60" y1="54" x2="34" y2="60" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="26" y1="57" x2="42" y2="60" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- codos en suelo -->
+  <line x1="152" y1="46" x2="138" y2="60" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="126" y1="50" x2="112" y2="64" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="138" y1="60" x2="112" y2="64" stroke="${WD}" stroke-width="5" stroke-linecap="round"/>
+  <!-- línea recta cuerpo -->
+  <line x1="186" y1="36" x2="34" y2="60" stroke="rgba(61,208,204,.2)" stroke-width="1.5" stroke-dasharray="6,4"/>
 </svg>`,
 
-strcalf:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="20" y1="84" x2="160" y2="84" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <rect x="150" y="16" width="6" height="68" rx="2" fill="rgba(240,238,232,.14)"/>
-  <circle cx="52" cy="16" r="7" fill="rgba(240,238,232,.8)"/>
-  <line x1="52" y1="23" x2="52" y2="44" stroke="rgba(240,238,232,.8)" stroke-width="6" stroke-linecap="round"/>
-  <line x1="50" y1="44" x2="44" y2="58" stroke="rgba(240,238,232,.75)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="44" y1="58" x2="40" y2="72" stroke="rgba(240,238,232,.75)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="54" y1="44" x2="64" y2="60" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="64" y1="60" x2="68" y2="84" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="60" y1="84" x2="76" y2="84" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="52" y1="30" x2="62" y2="38" stroke="rgba(240,238,232,.55)" stroke-width="3" stroke-linecap="round"/>
-  <text x="22" y="88" fill="rgba(240,238,232,.35)" font-size="8" font-family="sans-serif">gemelo</text>
-  <circle cx="112" cy="16" r="7" fill="rgba(240,238,232,.8)"/>
-  <line x1="112" y1="23" x2="112" y2="44" stroke="rgba(240,238,232,.8)" stroke-width="6" stroke-linecap="round"/>
-  <line x1="110" y1="44" x2="104" y2="58" stroke="rgba(240,238,232,.75)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="104" y1="58" x2="100" y2="72" stroke="rgba(240,238,232,.75)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="114" y1="44" x2="122" y2="58" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="122" y1="58" x2="124" y2="76" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="116" y1="84" x2="132" y2="84" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="112" y1="30" x2="122" y2="38" stroke="rgba(240,238,232,.55)" stroke-width="3" stroke-linecap="round"/>
-  <text x="86" y="88" fill="rgba(240,238,232,.35)" font-size="8" font-family="sans-serif">sóleo</text>
+// ESTIRAMIENTO GEMELOS — dos posiciones
+strcalf:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <line x1="14" y1="68" x2="206" y2="68" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <!-- pared -->
+  <rect x="198" y="10" width="8" height="58" rx="2" fill="rgba(255,255,255,.14)"/>
+  <!-- GEMELO — pierna trasera recta -->
+  <circle cx="68" cy="12" r="9" fill="${W}"/>
+  <line x1="68" y1="21" x2="68" y2="40" stroke="${W}" stroke-width="7" stroke-linecap="round"/>
+  <!-- pierna delantera doblada -->
+  <line x1="66" y1="40" x2="58" y2="54" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="58" y1="54" x2="54" y2="68" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <!-- pierna trasera RECTA activa -->
+  <line x1="70" y1="40" x2="82" y2="56" stroke="${A}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="82" y1="56" x2="86" y2="68" stroke="${A}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="78" y1="68" x2="94" y2="68" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="66" y1="28" x2="78" y2="36" stroke="${WD}" stroke-width="3.5" stroke-linecap="round"/>
+  <text x="36" y="68" fill="rgba(255,255,255,.35)" font-size="9" font-family="-apple-system,sans-serif">gemelo</text>
+  <!-- separador -->
+  <line x1="112" y1="12" x2="112" y2="68" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+  <!-- SÓLEO — rodilla trasera ligeramente doblada -->
+  <circle cx="148" cy="12" r="9" fill="${W}"/>
+  <line x1="148" y1="21" x2="148" y2="40" stroke="${W}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="146" y1="40" x2="138" y2="54" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="138" y1="54" x2="134" y2="68" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <!-- pierna trasera ligeramente doblada -->
+  <line x1="150" y1="40" x2="162" y2="54" stroke="${A}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="162" y1="54" x2="164" y2="68" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="156" y1="68" x2="172" y2="68" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="146" y1="28" x2="158" y2="36" stroke="${WD}" stroke-width="3.5" stroke-linecap="round"/>
+  <text x="120" y="68" fill="rgba(255,255,255,.35)" font-size="9" font-family="-apple-system,sans-serif">sóleo</text>
 </svg>`,
 
-balance:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="40" y1="84" x2="140" y2="84" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <circle cx="90" cy="16" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="90" y1="24" x2="90" y2="50" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="90" y1="32" x2="68" y2="44" stroke="rgba(240,238,232,.65)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="90" y1="32" x2="112" y2="44" stroke="rgba(240,238,232,.65)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="88" y1="50" x2="82" y2="66" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="82" y1="66" x2="80" y2="84" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="72" y1="84" x2="88" y2="84" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="82" cy="66" r="3.5" fill="rgba(232,113,90,.3)" stroke="#e8715a" stroke-width="1.2"/>
-  <line x1="92" y1="50" x2="100" y2="62" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <line x1="100" y1="62" x2="110" y2="56" stroke="rgba(240,238,232,.82)" stroke-width="5" stroke-linecap="round"/>
-  <path d="M66 74 Q68 70 70 74 Q72 78 74 74" stroke="rgba(61,208,204,.4)" stroke-width="1.5" fill="none"/>
-  <text x="20" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">rodilla de apoyo ligeramente flexionada</text>
+// EQUILIBRIO MONOPODAL
+balance:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <line x1="60" y1="68" x2="160" y2="68" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <!-- cabeza -->
+  <circle cx="110" cy="10" r="10" fill="${W}"/>
+  <!-- torso -->
+  <line x1="110" y1="20" x2="110" y2="42" stroke="${W}" stroke-width="8" stroke-linecap="round"/>
+  <!-- brazos equilibrio -->
+  <line x1="110" y1="30" x2="82" y2="44" stroke="${WD}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="110" y1="30" x2="138" y2="44" stroke="${WD}" stroke-width="5" stroke-linecap="round"/>
+  <!-- pierna apoyo activa — rodilla ligeramente doblada -->
+  <line x1="107" y1="42" x2="100" y2="56" stroke="${A}" stroke-width="8" stroke-linecap="round"/>
+  <line x1="100" y1="56" x2="98" y2="68" stroke="${A}" stroke-width="8" stroke-linecap="round"/>
+  <line x1="89" y1="68" x2="107" y2="68" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- rodilla ligeramente flexionada indicador -->
+  <circle cx="100" cy="56" r="5" fill="rgba(232,113,90,.3)" stroke="${A}" stroke-width="1.5"/>
+  <!-- pierna levantada -->
+  <line x1="113" y1="42" x2="124" y2="56" stroke="${W}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="124" y1="56" x2="136" y2="50" stroke="${W}" stroke-width="7" stroke-linecap="round"/>
+  <!-- ondas equilibrio -->
+  <path d="M78 62 Q82 58 86 62 Q90 66 94 62" stroke="rgba(61,208,204,.4)" stroke-width="2" fill="none"/>
 </svg>`,
 
-latwalk:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="8" y1="84" x2="172" y2="84" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <path d="M62 67 Q90 73 118 67" stroke="#e8715a" stroke-width="2.5" fill="none"/>
-  <circle cx="90" cy="16" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="90" y1="24" x2="90" y2="50" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <line x1="72" y1="52" x2="108" y2="52" stroke="rgba(240,238,232,.65)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="72" y1="52" x2="64" y2="67" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="64" y1="67" x2="62" y2="84" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="54" y1="84" x2="70" y2="84" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="108" y1="52" x2="116" y2="67" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="116" y1="67" x2="118" y2="84" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="110" y1="84" x2="126" y2="84" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="86" y1="34" x2="70" y2="50" stroke="rgba(240,238,232,.6)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="94" y1="34" x2="110" y2="50" stroke="rgba(240,238,232,.6)" stroke-width="4" stroke-linecap="round"/>
-  <path d="M140 62 L152 54 L156 63" stroke="#3dd0cc" stroke-width="2" fill="none" stroke-linecap="round"/>
-  <text x="18" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">rodillas al frente — pasos laterales lentos</text>
+// MARCHA LATERAL CON BANDA
+latwalk:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <line x1="10" y1="68" x2="210" y2="68" stroke="rgba(255,255,255,.08)" stroke-width="1.5"/>
+  <!-- banda entre rodillas -->
+  <path d="M74 56 Q110 64 146 56" stroke="${A}" stroke-width="3" fill="none"/>
+  <!-- cabeza -->
+  <circle cx="110" cy="10" r="10" fill="${W}"/>
+  <!-- torso semi-agachado -->
+  <line x1="110" y1="20" x2="110" y2="42" stroke="${W}" stroke-width="8" stroke-linecap="round"/>
+  <!-- caderas separadas -->
+  <line x1="88" y1="44" x2="132" y2="44" stroke="${WD}" stroke-width="5" stroke-linecap="round"/>
+  <!-- pierna izq -->
+  <line x1="88" y1="44" x2="80" y2="56" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="80" y1="56" x2="78" y2="68" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="70" y1="68" x2="86" y2="68" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- pierna der -->
+  <line x1="132" y1="44" x2="140" y2="56" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="140" y1="56" x2="142" y2="68" stroke="${A}" stroke-width="7" stroke-linecap="round"/>
+  <line x1="134" y1="68" x2="150" y2="68" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- brazos -->
+  <line x1="106" y1="32" x2="86" y2="44" stroke="${WD}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="114" y1="32" x2="134" y2="44" stroke="${WD}" stroke-width="5" stroke-linecap="round"/>
+  <!-- flecha lateral -->
+  <path d="M166 52 L180 44 L184 54" stroke="${T}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
 </svg>`,
 
-foamit:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <line x1="8" y1="84" x2="172" y2="84" stroke="rgba(240,238,232,.1)" stroke-width="1.5"/>
-  <ellipse cx="82" cy="70" rx="72" ry="9" fill="rgba(232,113,90,.18)" stroke="#e8715a" stroke-width="1.5"/>
-  <circle cx="156" cy="42" r="8" fill="rgba(240,238,232,.82)"/>
-  <line x1="148" y1="45" x2="80" y2="52" stroke="rgba(240,238,232,.82)" stroke-width="7" stroke-linecap="round"/>
-  <circle cx="80" cy="60" r="7" fill="rgba(232,113,90,.22)" stroke="#e8715a" stroke-width="1.5"/>
-  <line x1="80" y1="60" x2="36" y2="66" stroke="#e8715a" stroke-width="5" stroke-linecap="round"/>
-  <line x1="28" y1="66" x2="44" y2="66" stroke="#e8715a" stroke-width="4" stroke-linecap="round"/>
-  <line x1="84" y1="54" x2="75" y2="38" stroke="rgba(240,238,232,.82)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="75" y1="38" x2="60" y2="44" stroke="rgba(240,238,232,.82)" stroke-width="4" stroke-linecap="round"/>
-  <line x1="130" y1="48" x2="118" y2="38" stroke="rgba(240,238,232,.65)" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="118" cy="38" r="4" fill="rgba(240,238,232,.45)"/>
-  <text x="12" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">cara externa del muslo — banda iliotibial</text>
+// FOAM ROLLER IT BAND — lateral
+foamit:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <!-- rodillo lateral -->
+  <ellipse cx="100" cy="58" rx="88" ry="11" fill="rgba(232,113,90,.15)" stroke="${A}" stroke-width="1.5"/>
+  <!-- persona de lado -->
+  <circle cx="192" cy="32" r="10" fill="${W}"/>
+  <line x1="182" y1="36" x2="100" y2="44" stroke="${W}" stroke-width="9" stroke-linecap="round"/>
+  <!-- cadera/IT sobre rodillo — zona activa -->
+  <circle cx="100" cy="50" r="10" fill="rgba(232,113,90,.25)" stroke="${A}" stroke-width="2"/>
+  <!-- pierna inferior sobre rodillo -->
+  <line x1="100" y1="50" x2="40" y2="56" stroke="${A}" stroke-width="8" stroke-linecap="round"/>
+  <line x1="32" y1="56" x2="48" y2="56" stroke="${A}" stroke-width="5" stroke-linecap="round"/>
+  <!-- pierna superior doblada apoyo -->
+  <line x1="104" y1="44" x2="94" y2="28" stroke="${WD}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="94" y1="28" x2="78" y2="36" stroke="${WD}" stroke-width="5" stroke-linecap="round"/>
+  <!-- brazo apoyo -->
+  <line x1="160" y1="38" x2="146" y2="26" stroke="${WD}" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="146" cy="26" r="5" fill="${WD}"/>
 </svg>`,
 
-strchain:`<svg viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="24" cy="16" r="5.5" fill="rgba(240,238,232,.72)"/>
-  <line x1="24" y1="21" x2="24" y2="36" stroke="rgba(240,238,232,.72)" stroke-width="4.5" stroke-linecap="round"/>
-  <line x1="22" y1="36" x2="18" y2="50" stroke="rgba(240,238,232,.72)" stroke-width="3.5" stroke-linecap="round"/>
-  <line x1="18" y1="50" x2="16" y2="62" stroke="rgba(240,238,232,.72)" stroke-width="3.5" stroke-linecap="round"/>
-  <line x1="26" y1="36" x2="30" y2="48" stroke="#e8715a" stroke-width="3.5" stroke-linecap="round"/>
-  <line x1="30" y1="48" x2="30" y2="37" stroke="#e8715a" stroke-width="3.5" stroke-linecap="round"/>
-  <line x1="22" y1="27" x2="30" y2="37" stroke="rgba(240,238,232,.55)" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="68" cy="24" r="5.5" fill="rgba(240,238,232,.72)"/>
-  <line x1="68" y1="29" x2="68" y2="44" stroke="rgba(240,238,232,.72)" stroke-width="4.5" stroke-linecap="round"/>
-  <line x1="66" y1="44" x2="58" y2="57" stroke="rgba(240,238,232,.72)" stroke-width="3.5" stroke-linecap="round"/>
-  <line x1="58" y1="57" x2="52" y2="70" stroke="rgba(240,238,232,.72)" stroke-width="3.5" stroke-linecap="round"/>
-  <line x1="70" y1="44" x2="78" y2="56" stroke="#e8715a" stroke-width="3.5" stroke-linecap="round"/>
-  <line x1="78" y1="56" x2="80" y2="70" stroke="#e8715a" stroke-width="3.5" stroke-linecap="round"/>
-  <line x1="74" y1="70" x2="86" y2="70" stroke="#e8715a" stroke-width="3.5" stroke-linecap="round"/>
-  <circle cx="112" cy="50" r="5.5" fill="rgba(240,238,232,.72)"/>
-  <line x1="112" y1="55" x2="112" y2="66" stroke="rgba(240,238,232,.72)" stroke-width="4.5" stroke-linecap="round"/>
-  <line x1="108" y1="66" x2="92" y2="65" stroke="rgba(240,238,232,.72)" stroke-width="3.5" stroke-linecap="round"/>
-  <line x1="116" y1="66" x2="130" y2="70" stroke="#e8715a" stroke-width="3.5" stroke-linecap="round"/>
-  <line x1="130" y1="70" x2="138" y2="72" stroke="#e8715a" stroke-width="3.5" stroke-linecap="round"/>
-  <circle cx="157" cy="30" r="5.5" fill="rgba(240,238,232,.72)"/>
-  <line x1="157" y1="35" x2="157" y2="48" stroke="rgba(240,238,232,.72)" stroke-width="4.5" stroke-linecap="round"/>
-  <line x1="155" y1="48" x2="147" y2="60" stroke="rgba(240,238,232,.72)" stroke-width="3.5" stroke-linecap="round"/>
-  <line x1="147" y1="60" x2="145" y2="70" stroke="rgba(240,238,232,.72)" stroke-width="3.5" stroke-linecap="round"/>
-  <line x1="159" y1="48" x2="165" y2="60" stroke="#e8715a" stroke-width="3.5" stroke-linecap="round"/>
-  <line x1="165" y1="60" x2="167" y2="68" stroke="#e8715a" stroke-width="3.5" stroke-linecap="round"/>
-  <path d="M38 40 L48 43" stroke="rgba(61,208,204,.4)" stroke-width="1.5" stroke-linecap="round"/>
-  <path d="M90 58 L100 56" stroke="rgba(61,208,204,.4)" stroke-width="1.5" stroke-linecap="round"/>
-  <path d="M140 54 L150 48" stroke="rgba(61,208,204,.4)" stroke-width="1.5" stroke-linecap="round"/>
-  <text x="12" y="88" fill="rgba(61,208,204,.75)" font-size="9" font-family="-apple-system,sans-serif">cuád · isquios · gemelo · cadera · piriforme</text>
+// CADENA MUSCULAR — 4 posiciones mini
+strchain:`<svg viewBox="0 0 220 72" fill="none">
+  <rect width="220" height="72" rx="11" fill="rgba(255,255,255,.02)"/>
+  <!-- pos1: cuád de pie -->
+  <circle cx="28" cy="12" r="7" fill="${W}"/>
+  <line x1="28" y1="19" x2="28" y2="34" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="26" y1="34" x2="22" y2="48" stroke="${W}" stroke-width="4" stroke-linecap="round"/>
+  <line x1="30" y1="34" x2="36" y2="48" stroke="${A}" stroke-width="4" stroke-linecap="round"/>
+  <line x1="36" y1="48" x2="36" y2="36" stroke="${A}" stroke-width="4" stroke-linecap="round"/>
+  <line x1="26" y1="25" x2="36" y2="36" stroke="${WD}" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- separador -->
+  <line x1="56" y1="10" x2="56" y2="66" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+  <!-- pos2: caballero cadera -->
+  <circle cx="82" cy="18" r="7" fill="${W}"/>
+  <line x1="82" y1="25" x2="82" y2="38" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="80" y1="38" x2="72" y2="52" stroke="${W}" stroke-width="4" stroke-linecap="round"/>
+  <line x1="72" y1="52" x2="68" y2="64" stroke="${W}" stroke-width="4" stroke-linecap="round"/>
+  <line x1="84" y1="38" x2="94" y2="50" stroke="${A}" stroke-width="4" stroke-linecap="round"/>
+  <line x1="94" y1="50" x2="96" y2="64" stroke="${A}" stroke-width="4" stroke-linecap="round"/>
+  <line x1="88" y1="64" x2="102" y2="64" stroke="${A}" stroke-width="4" stroke-linecap="round"/>
+  <!-- separador -->
+  <line x1="112" y1="10" x2="112" y2="66" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+  <!-- pos3: isquios tumbada -->
+  <circle cx="202" cy="42" r="7" fill="${W}"/>
+  <line x1="195" y1="45" x2="150" y2="49" stroke="${W}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="174" y1="49" x2="162" y2="38" stroke="${W}" stroke-width="4" stroke-linecap="round"/>
+  <line x1="162" y1="38" x2="148" y2="43" stroke="${W}" stroke-width="4" stroke-linecap="round"/>
+  <line x1="148" y1="49" x2="124" y2="20" stroke="${A}" stroke-width="6" stroke-linecap="round"/>
+  <line x1="124" y1="20" x2="116" y2="15" stroke="${A}" stroke-width="4" stroke-linecap="round"/>
+  <!-- separador -->
+  <line x1="168" y1="10" x2="168" y2="66" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+  <!-- pos4: piriforme -->
+  <circle cx="138" cy="28" r="7" fill="${W}"/>
+  <line x1="138" y1="35" x2="138" y2="48" stroke="${W}" stroke-width="5" stroke-linecap="round"/>
+  <line x1="136" y1="48" x2="126" y2="58" stroke="${W}" stroke-width="4" stroke-linecap="round"/>
+  <line x1="140" y1="48" x2="150" y2="56" stroke="${A}" stroke-width="4" stroke-linecap="round"/>
+  <line x1="150" y1="56" x2="152" y2="64" stroke="${A}" stroke-width="4" stroke-linecap="round"/>
+  <!-- flechas entre posiciones -->
+  <path d="M44 38 L52 40" stroke="${T}" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M100 52 L108 50" stroke="${T}" stroke-width="1.8" stroke-linecap="round"/>
 </svg>`
 };
 
-// ─────────────────────────────────────────
-// PROGRAMA
-// ─────────────────────────────────────────
+// ── PROGRAMA ──────────────────────────────
 const PHASES=[
   {num:1,name:'Control motor',weeks:'1–3',color:'#3dd0cc'},
   {num:2,name:'Carga progresiva',weeks:'4–6',color:'#f4a261'},
   {num:3,name:'Funcional',weeks:'7–8+',color:'#a78bfa'},
 ];
-
 const WEEK=[
   {idx:0,name:'Lunes',short:'L',focus:'Cuádriceps VMO',emoji:'⚡',color:'#e8715a',exercises:[
     {id:'qset',name:'Isometría de Cuádriceps',icon:'⚡',bg:'rgba(232,113,90,.15)',sets:3,reps:'10 rep × 10s',type:'reps',
-     steps:['Túmbate boca arriba con una pierna doblada (para proteger la lumbar)','Mantén la otra pierna completamente estirada en el suelo','Aprieta el muslo contra el suelo como si quisieras "aplastar" algo debajo','Mantén la contracción 10 segundos — el muslo debe notarse duro al tacto','Suelta despacio. Repite sin dolor'],
+     steps:['Túmbate boca arriba con una rodilla doblada','Mantén la otra pierna completamente estirada','Aprieta el muslo contra el suelo — como "aplastar" algo debajo','Mantén 10 segundos. El muslo debe notarse duro al tacto','Suelta despacio. Repite sin dolor'],
      sci:'Activa el VMO sin comprimir la rótula. Rompe el ciclo dolor→inhibición muscular que mantiene el cuádriceps débil.'},
     {id:'slr',name:'Elevación Pierna Recta',icon:'⬆',bg:'rgba(232,113,90,.15)',sets:3,reps:'15 repeticiones',type:'reps',
-     steps:['Túmbate boca arriba, una rodilla doblada con el pie en el suelo','Mantén la otra pierna completamente estirada. Pie en flexión (punta hacia ti)','Eleva la pierna hasta 45°, mantén 1 segundo arriba','Baja despacio en 3 segundos — el control al bajar es la clave','Repite sin balancear la cadera'],
+     steps:['Túmbate boca arriba, una rodilla doblada con el pie en el suelo','Pie de la pierna activa en flexión (punta hacia ti)','Eleva la pierna hasta 45°, mantén 1 segundo arriba','Baja despacio en 3 segundos — el control al bajar es la clave'],
      sci:'Fortalece cuádriceps en cadena abierta, sin flexión ni compresión rotuliana. El ejercicio más seguro en fase inicial.'},
     {id:'wallsit',name:'Wall Sit 30–45°',icon:'🧱',bg:'rgba(232,113,90,.15)',sets:3,reps:'30 segundos',type:'timed',duration:30,
-     steps:['Pon la espalda completamente apoyada en la pared','Desliza hacia abajo hasta que las rodillas formen 30-45°. No más','Comprueba que las rodillas no sobresalen más que los pies','Aprieta el cuádriceps. Respira normalmente durante los 30 segundos','Si notas dolor, sube un poco el ángulo hasta que desaparezca'],
+     steps:['Espalda completamente apoyada en la pared','Desliza hacia abajo solo hasta 30-45°. No más','Rodillas sobre los pies, aprieta el cuádriceps','Respira normalmente durante los 30 segundos','Si hay dolor, sube un poco el ángulo'],
      sci:'30-45° es el ángulo de mínima presión patelo-femoral. Máxima activación de VMO con el mínimo estrés en el cartílago.'},
     {id:'strquad',name:'Estiramiento Cuádriceps',icon:'🤸',bg:'rgba(61,208,204,.1)',sets:2,reps:'30s cada pierna',type:'timed',duration:30,
-     steps:['De pie cerca de la pared para apoyo. Flexiona la rodilla y sujeta el tobillo','Mantén las rodillas juntas y erguidas. No te inclines hacia adelante','Siente el estiramiento en la parte anterior del muslo. Sin dolor en la rodilla','Mantén 30 segundos respirando. Cambia de pierna'],
+     steps:['De pie cerca de la pared. Flexiona la rodilla y sujeta el tobillo','Rodillas juntas, cuerpo erguido. Sin inclinarte hacia adelante','Sientes el estiramiento en la parte anterior del muslo','Mantén 30s respirando. Cambia de pierna'],
      sci:'El cuádriceps tenso aumenta la compresión rotuliana. Estirar mejora el rango libre de dolor y la mecánica de la rótula.'},
   ]},
   {idx:1,name:'Martes',short:'M',focus:'Cadera y estabilidad',emoji:'🍑',color:'#f4a261',exercises:[
     {id:'clam',name:'Clamshell (Almeja)',icon:'🦋',bg:'rgba(244,162,97,.15)',sets:3,reps:'15 repeticiones',type:'reps',
-     steps:['Túmbate de lado, caderas y rodillas dobladas a 45°, pies juntos','Pon la mano debajo de la cabeza o una almohada para comodidad','Sube la rodilla superior girando la cadera — como una almeja abriéndose','Crucial: la pelvis NO se mueve ni rota durante todo el movimiento','Aguanta 1s arriba, baja despacio. Nota el glúteo trabajar'],
-     sci:'Activa el glúteo medio. Su debilidad crea valgo de rodilla (hacia dentro) que desequilibra la rótula y agrava la condropatía.'},
+     steps:['Tumbada de lado, rodillas dobladas a 45°, pies juntos','Sube la rodilla superior girando la cadera — como una almeja','Crucial: la pelvis NO se mueve ni rota en ningún momento','Aguanta 1s arriba, baja despacio. Nota el glúteo trabajar'],
+     sci:'Activa el glúteo medio. Su debilidad crea valgo de rodilla que desequilibra la rótula y agrava la condropatía.'},
     {id:'bridge',name:'Puente de Glúteo',icon:'🌉',bg:'rgba(244,162,97,.15)',sets:3,reps:'15 repeticiones',type:'reps',
-     steps:['Túmbate boca arriba, rodillas dobladas, pies a anchura de caderas en el suelo','Brazos relajados a los lados. Aprieta glúteos y abdomen','Eleva la pelvis hasta que hombros-caderas-rodillas formen una línea recta','Mantén 2 segundos arriba apretando bien los glúteos','Baja despacio vértebra a vértebra. 3 segundos en el descenso'],
-     sci:'Fortalece la cadena posterior (glúteo, isquios). Una cadena posterior fuerte descarga directamente las rodillas al andar y correr.'},
+     steps:['Tumbada boca arriba, rodillas dobladas, pies a anchura de caderas','Aprieta glúteos y abdomen. Eleva la pelvis','Hombros-caderas-rodillas en línea recta','Mantén 2s arriba apretando. Baja vértebra a vértebra en 3s'],
+     sci:'Fortalece la cadena posterior. Una cadena posterior fuerte descarga directamente las rodillas al andar y correr.'},
     {id:'hipabd',name:'Abducción de Cadera',icon:'↔',bg:'rgba(244,162,97,.15)',sets:3,reps:'15 repeticiones',type:'reps',
-     steps:['Túmbate de lado, cuerpo en línea recta. Pierna de arriba extendida','El pie de la pierna activa en posición neutra (no girada hacia ningún lado)','Eleva la pierna hasta 45°, sin rotar la cadera ni la espalda','Mantén 1 segundo arriba. Baja despacio en 2-3 segundos controlando'],
+     steps:['Tumbada de lado, cuerpo en línea recta','Pierna de arriba extendida, pie en posición neutra','Eleva hasta 45° sin rotar la cadera ni la espalda','Mantén 1s. Baja despacio en 2-3 segundos'],
      sci:'Complementa el clamshell trabajando el glúteo medio en otro rango. Hip stability = knee stability.'},
     {id:'strham',name:'Estiramiento Isquiotibiales',icon:'🦵',bg:'rgba(61,208,204,.1)',sets:2,reps:'30s cada pierna',type:'timed',duration:30,
-     steps:['Túmbate boca arriba. Flexiona la rodilla del lado a estirar','Sujeta el muslo con las dos manos y extiende la rodilla todo lo que puedas','La rodilla nunca más doblada que el punto donde sientes tensión suave','Mantén 30 segundos respirando profundo. Alterna piernas'],
-     sci:'Los isquios tensos alteran la mecánica de la rodilla, aumentando la compresión rotuliana especialmente al bajar escaleras.'},
+     steps:['Tumbada boca arriba. Flexiona la rodilla del lado a estirar','Sujeta el muslo con las dos manos y extiende la rodilla','Tensión suave, sin dolor. Nunca fuerzas','Mantén 30s respirando profundo. Alterna piernas'],
+     sci:'Los isquios tensos alteran la mecánica de la rodilla, aumentando la compresión rotuliana al bajar escaleras.'},
   ]},
   {idx:2,name:'Miércoles',short:'X',focus:'Descanso activo',emoji:'🚴',color:'#3dd0cc',isRest:true,restType:'active',exercises:[
     {id:'bike',name:'Bicicleta Estática',icon:'🚴',bg:'rgba(61,208,204,.1)',sets:1,reps:'15–20 minutos',type:'timed',duration:900,
-     steps:['Ajusta el sillín: cuando el pedal está abajo, la rodilla debe estar casi recta (10-15° de flexión)','Resistencia baja o nula. No es entrenamiento cardiovascular intenso — es movilización','Pedala despacio y con cadencia cómoda. Sin dolor en ningún momento','Si notas molestia, para y sube el sillín un poco más'],
-     sci:'Cardio sin impacto. Moviliza la articulación y lleva nutrientes al cartílago, que no tiene riego sanguíneo propio y depende del movimiento.'},
+     steps:['Sillín alto: al pedalear abajo, rodilla casi recta (10-15° flexión)','Resistencia baja o nula — no es cardio intenso, es movilización','Pedala despacio. Sin dolor en ningún momento','Si notas molestia, sube el sillín un poco más'],
+     sci:'Cardio sin impacto. Moviliza la articulación y lleva nutrientes al cartílago, que no tiene riego sanguíneo propio.'},
     {id:'knemob',name:'Movilidad Articular Rodilla',icon:'⭕',bg:'rgba(61,208,204,.1)',sets:2,reps:'10 círculos × 2 sentidos',type:'reps',
-     steps:['Siéntate en el borde de una silla, pierna colgando libremente','Dibuja círculos lentos con el pie: 10 en sentido horario, 10 en antihorario','El movimiento es suave y sin forzar el rango. Como si lubricaras la articulación','Haz los círculos lo más grandes que puedas sin dolor'],
-     sci:'El movimiento suave distribuye el líquido sinovial, lubricando el cartílago y reduciendo la rigidez matutina o tras mucho tiempo sentada.'},
+     steps:['Siéntate en el borde de una silla, pierna colgando libremente','Dibuja círculos lentos con el pie: 10 en cada sentido','Suave, sin forzar el rango. Como lubricando la articulación','Hazlos lo más grandes que puedas sin dolor'],
+     sci:'El movimiento suave distribuye el líquido sinovial, lubricando el cartílago y reduciendo la rigidez.'},
     {id:'strfull',name:'Estiramientos Globales',icon:'🤸',bg:'rgba(61,208,204,.1)',sets:1,reps:'10 minutos',type:'timed',duration:600,
-     steps:['Cuádriceps (30s): de pie, pie al glúteo','Isquiotibiales (30s): tumbada, pierna estirada al techo','Gemelos (30s): pie adelante, talón atrás en el suelo','Cadera flexora (30s): posición de caballero','Piriforme (30s): tumbada, rodilla al pecho diagonal'],
-     sci:'La flexibilidad global mejora la biomecánica y reduce las fuerzas compensatorias sobre la rodilla. El miércoles es recuperación, no castigo.'},
+     steps:['Cuádriceps (30s): de pie, pie al glúteo','Isquiotibiales (30s): tumbada, pierna al techo','Gemelos (30s): pie adelante, talón atrás','Cadera flexora (30s): posición de caballero'],
+     sci:'La flexibilidad global mejora la biomecánica. El miércoles es recuperación activa, no castigo.'},
   ]},
   {idx:3,name:'Jueves',short:'J',focus:'VMO terminal + progresión',emoji:'🎯',color:'#e8715a',exercises:[
     {id:'tke',name:'Extensión Terminal de Rodilla',icon:'🎯',bg:'rgba(232,113,90,.15)',sets:3,reps:'15 repeticiones',type:'reps',
-     steps:['Ancla una banda elástica a algo fijo a la altura de la rodilla (puerta, poste)','Pon la banda por detrás de la rodilla. De pie, ligeramente doblada','Extiende la rodilla completamente y aprieta fuerte el cuádriceps al final','Ese apretón final (los últimos 30°) es lo que activa el VMO específicamente','Vuelve despacio a la posición inicial en 2-3 segundos. Sin dolor'],
-     sci:'El VMO es más activo en los últimos 30° de extensión. Este es el ejercicio más específico del programa para centrar la rótula.'},
+     steps:['Banda elástica anclada a algo fijo a altura de rodilla','Pon la banda por detrás de la rodilla. De pie, rodilla ligeramente doblada','Extiende completamente y aprieta fuerte el cuádriceps al final','Esos últimos 30° con el apretón activan el VMO específicamente','Vuelve despacio a la posición inicial. Sin dolor'],
+     sci:'El VMO es más activo en los últimos 30° de extensión. El ejercicio más específico del programa para centrar la rótula.'},
     {id:'stepup',name:'Step-Up Bajo (10–15 cm)',icon:'⬆',bg:'rgba(232,113,90,.15)',sets:3,reps:'12 repeticiones',type:'reps',
-     steps:['Usa un escalón bajo, libro grueso o tabla de 10-15cm. No más alto','Sube poniendo el pie completo bien apoyado. El peso en el talón','Empuja hacia arriba sin impulso — trabaja solo la pierna de arriba','Baja despacio en 3 segundos con control total. La rodilla no tiembla','Alterna piernas o trabaja la pierna derecha en series completas'],
-     sci:'Funcional y seguro. El talón dominante reduce el estrés rotuliano. Progresión natural del wall sit al movimiento real.'},
+     steps:['Escalón bajo de 10-15cm (libro, tabla). No más alto','Sube con el pie completo bien apoyado. Peso en el talón','Empuja hacia arriba sin impulso — solo trabaja la pierna de arriba','Baja despacio en 3 segundos con control total'],
+     sci:'Funcional y seguro. El talón dominante reduce el estrés rotuliano. Progresión natural del wall sit.'},
     {id:'minisq',name:'Mini Sentadilla 0–30°',icon:'🏋',bg:'rgba(232,113,90,.15)',sets:3,reps:'15 repeticiones',type:'reps',
-     steps:['Pies a anchura de caderas, paralelos. Brazos extendidos para equilibrio','Baja SOLO hasta 30° de flexión de rodilla — muy poca profundidad al inicio','Despacio al bajar (3s). Rápido al subir (1s)','Los talones siempre en el suelo. Las rodillas apuntan hacia los 2º dedo del pie','Si hay dolor, reduce el rango. No hay prisa en profundizar'],
-     sci:'0-30° es la zona de presión mínima patelo-femoral. Más allá de 60° la presión se multiplica ×4. No hay prisa en profundizar.'},
+     steps:['Pies a anchura de caderas, paralelos. Brazos extendidos para equilibrio','Baja SOLO hasta 30° de flexión — muy poca profundidad','Despacio al bajar (3s). Rápido al subir (1s)','Talones siempre en el suelo. Si hay dolor, reduce el rango'],
+     sci:'0-30° es la zona de presión mínima. Más allá de 60° la presión se multiplica ×4. No hay prisa en profundizar.'},
     {id:'foamq',name:'Foam Roller Cuádriceps',icon:'🔵',bg:'rgba(61,208,204,.1)',sets:2,reps:'90s cada pierna',type:'timed',duration:90,
-     steps:['Boca abajo, apoyada en los codos. Coloca el rodillo bajo el muslo (entre cadera y rodilla)','Rueda despacio hacia la rodilla y de vuelta a la cadera','Cuando encuentres un punto tenso o doloroso, detente ahí 10-15 segundos','No ruedes directamente sobre la rótula ni la rodilla. Desde cadera hasta 5cm sobre ella','Puedes rotar ligeramente el pie para llegar a zonas diferentes'],
-     sci:'La liberación miofascial mejora la calidad del tejido y la flexibilidad del cuádriceps, reduciendo la tensión que tira de la rótula.'},
+     steps:['Boca abajo, rodillo bajo el muslo (entre cadera y rodilla)','Rueda despacio hacia la rodilla y de vuelta','En puntos tensos, detente 10-15 segundos','No ruedes directamente sobre la rótula'],
+     sci:'La liberación miofascial mejora la calidad del tejido, reduciendo la tensión que tira de la rótula.'},
   ]},
   {idx:4,name:'Viernes',short:'V',focus:'Core y cadena posterior',emoji:'💪',color:'#a78bfa',exercises:[
     {id:'singbr',name:'Puente de Glúteo Unipodal',icon:'🌉',bg:'rgba(167,139,250,.15)',sets:3,reps:'10 rep por pierna',type:'reps',
-     steps:['Posición de puente normal. Una pierna doblada apoyada, la otra estirada','Aprieta glúteos y eleva la pelvis manteniendo la pelvis HORIZONTAL','La pierna extendida no debe bajar — debe ir en línea con el tronco','Aguanta 1-2 segundos arriba. Baja despacio en 3 segundos','Empieza por la pierna sana para aprender el patrón'],
-     sci:'Versión avanzada que añade demanda de estabilidad pélvica. Fundamental para la biomecánica al correr, caminar y en el swing de golf.'},
+     steps:['Posición de puente normal. Una pierna doblada apoyada, la otra estirada','Aprieta glúteos y eleva la pelvis manteniéndola HORIZONTAL','La pierna extendida en línea con el tronco','Aguanta 1-2s. Baja despacio. Empieza por la pierna sana'],
+     sci:'Añade estabilidad pélvica. Fundamental para la biomecánica al correr, caminar y en el swing de golf.'},
     {id:'deadbug',name:'Dead Bug',icon:'🐛',bg:'rgba(167,139,250,.15)',sets:3,reps:'8 rep alternadas',type:'reps',
-     steps:['Tumbada boca arriba, brazos al techo, caderas y rodillas a 90°','Presiona la zona lumbar contra el suelo — esto no debe cambiar en toda la serie','Baja simultáneamente: brazo derecho atrás + pierna izquierda al suelo','Sin llegar a tocar el suelo. Vuelve al centro. Alterna lados','Si la lumbar se despega, el rango es demasiado amplio. Reduce la extensión'],
-     sci:'Core profundo (transverso abdominal). La estabilidad lumbopélvica reduce las compensaciones posturales que sobrecargan la rodilla.'},
+     steps:['Tumbada boca arriba, brazos al techo, caderas y rodillas a 90°','Presiona la zona lumbar contra el suelo — no debe despegarse','Baja simultáneamente: brazo derecho atrás + pierna izquierda','Sin tocar el suelo. Vuelve al centro. Alterna lados'],
+     sci:'Core profundo (transverso abdominal). La estabilidad lumbopélvica reduce compensaciones que sobrecargan la rodilla.'},
     {id:'plank',name:'Plancha Frontal',icon:'▬',bg:'rgba(167,139,250,.15)',sets:3,reps:'20 segundos',type:'timed',duration:20,
-     steps:['Apoyada en los codos (90°) y las puntas de los pies','El cuerpo forma una línea recta: hombros-caderas-talones. Sin curvar la espalda','Activa el abdomen como si fueras a recibir un golpe. Glúteos apretados','No subas el trasero ni hundas la cadera. Respira normalmente','Si el tiempo es mucho, baja a rodillas — la forma correcta siempre primero'],
-     sci:'El core fuerte mejora la postura global y reduce las fuerzas de reacción en las rodillas al caminar, subir escaleras y en el swing de golf.'},
+     steps:['Apoyada en codos y puntas de los pies','Cuerpo recto: hombros-caderas-talones en línea','Activa el abdomen. Glúteos apretados. Respira','No subas el trasero ni hundas la cadera'],
+     sci:'El core fuerte mejora la postura global y reduce las fuerzas de reacción en las rodillas.'},
     {id:'strcalf',name:'Estiramiento Gemelos y Sóleo',icon:'🦶',bg:'rgba(61,208,204,.1)',sets:2,reps:'30s cada posición',type:'timed',duration:30,
-     steps:['GEMELO: de pie, una pierna bien atrás con la rodilla completamente estirada. Talón en el suelo. Sientes el estiramiento alto en la pantorrilla','SÓLEO: misma posición pero dobla ligeramente la rodilla trasera. Sientes el estiramiento más bajo, cerca del tobillo','Mantén 30 segundos en cada posición. Haz las dos por cada pierna','Apóyate en la pared para equilibrio'],
-     sci:'El gastrocnemio cruza la rodilla. Si está tenso, aumenta la compresión rotuliana especialmente al bajar escaleras y en las cuestas de la Behobia.'},
+     steps:['GEMELO: pierna atrás con rodilla recta. Talón en el suelo. Sientes tensión alta en pantorrilla','SÓLEO: misma posición pero dobla ligeramente la rodilla trasera. Tensión más baja','30s cada posición. Haz las dos por cada pierna'],
+     sci:'El gastrocnemio cruza la rodilla. Tenso, aumenta la compresión rotuliana especialmente en cuestas.'},
   ]},
   {idx:5,name:'Sábado',short:'S',focus:'Propiocepción y movilidad',emoji:'⚖',color:'#f5c542',exercises:[
     {id:'balance',name:'Equilibrio Monopodal',icon:'⚖',bg:'rgba(245,197,66,.12)',sets:3,reps:'25 segundos',type:'timed',duration:25,
-     steps:['De pie cerca de la pared (seguridad). Levanta una pierna','Rodilla de apoyo ligeramente doblada (nunca bloqueada). Mira un punto fijo','Aguanta 25 segundos. Cuando domines esto: cierra los ojos 10 segundos','Progresión: superficie inestable (cojín, colchoneta doblada)','Si pierdes el equilibrio, vuelve a empezar sin frustración — es normal'],
-     sci:'La propiocepción entrenada reduce el riesgo de recaídas. Protege el cartílago de impactos inesperados y es clave para el golf y la carrera.'},
+     steps:['De pie cerca de la pared (seguridad). Levanta una pierna','Rodilla de apoyo ligeramente doblada. Mira un punto fijo','Cuando domines: cierra los ojos 10 segundos','Progresión: superficie inestable (cojín doblado)'],
+     sci:'La propiocepción entrenada reduce el riesgo de recaídas. Protege el cartílago de impactos inesperados.'},
     {id:'latwalk',name:'Marcha Lateral con Banda',icon:'↔',bg:'rgba(245,197,66,.12)',sets:3,reps:'15 pasos × 2 lados',type:'reps',
-     steps:['Coloca la banda elástica por encima de las rodillas (no en los tobillos)','Posición de semi-sentadilla: solo 20-30° de flexión de rodilla','Pasos laterales: lleva un pie, luego el otro. No juntes los pies del todo','Las rodillas apuntan al frente en todo momento — no las dejes caer hacia dentro','Tensa la banda en todo el recorrido'],
-     sci:'Glúteo medio en carga funcional. Es el puente entre los ejercicios de suelo y la actividad deportiva real: golf, padel, running.'},
+     steps:['Banda elástica por encima de las rodillas','Semi-sentadilla suave: solo 20-30° de flexión','Pasos laterales lentos. No juntes los pies del todo','Rodillas apuntando al frente en todo momento'],
+     sci:'Glúteo medio en carga funcional. Puente entre los ejercicios de suelo y el deporte real.'},
     {id:'foamit',name:'Foam Roller Completo',icon:'🔵',bg:'rgba(245,197,66,.12)',sets:1,reps:'2 min por zona',type:'timed',duration:120,
-     steps:['CUÁDRICEPS: boca abajo, rodillo bajo el muslo (como el jueves)','BANDA IT: tumbada de lado, rodillo en la cara externa del muslo','GEMELOS: sentada, rodillo bajo la pantorrilla, cruza una pierna sobre la otra','En cada zona: rueda despacio y detente 10-15s en los puntos de tensión','Evita rodar directamente sobre la rodilla o la rótula'],
-     sci:'La banda IT tensa contribuye al descentramiento rotuliano. Trabajarla mejora el deslizamiento de la rótula en su surco durante el movimiento.'},
+     steps:['CUÁDRICEPS: boca abajo, rodillo bajo el muslo','BANDA IT: de lado, rodillo en cara externa del muslo','GEMELOS: sentada, rodillo bajo la pantorrilla','Detente 10-15s en los puntos de tensión'],
+     sci:'La banda IT tensa contribuye al descentramiento rotuliano. Trabajarla mejora el deslizamiento de la rótula.'},
     {id:'strchain',name:'Cadena Muscular Completa',icon:'🤸',bg:'rgba(61,208,204,.1)',sets:1,reps:'15 minutos',type:'timed',duration:900,
-     steps:['Cuádriceps: de pie, pie al glúteo (45s por pierna)','Isquiotibiales: tumbada, pierna al techo (45s por pierna)','Gemelo + sóleo: en pared (30s cada posición y pierna)','Cadera flexora: posición de caballero (45s por pierna)','Piriforme: tumbada, rodilla al pecho en diagonal (45s por pierna)'],
-     sci:'El sábado es recuperación activa. Prepara el tejido para la semana siguiente y consolida las adaptaciones de la semana.'},
+     steps:['Cuádriceps: de pie, pie al glúteo (45s × pierna)','Isquiotibiales: tumbada, pierna al techo (45s × pierna)','Gemelo + sóleo: en pared (30s × posición × pierna)','Cadera flexora: posición de caballero (45s × pierna)','Piriforme: rodilla al pecho en diagonal (45s × pierna)'],
+     sci:'El sábado es recuperación activa. Prepara el tejido para la semana siguiente.'},
   ]},
   {idx:6,name:'Domingo',short:'D',focus:'Descanso total',emoji:'😴',color:'#555668',isRest:true,restType:'full',exercises:[]},
 ];
 
-// ─────────────────────────────────────────
-// ESTADO
-// ─────────────────────────────────────────
+// ── ESTADO ────────────────────────────────
 let S={phase:1,startDate:null,sets:{},todayPain:{}};
 let timers={};
-
-function loadS(){try{const d=JSON.parse(localStorage.getItem('rf2-state')||'{}');S={...S,...d};if(!S.startDate){S.startDate=today();saveS();}}catch(e){}}
-function saveS(){localStorage.setItem('rf2-state',JSON.stringify(S));}
+function loadS(){try{const d=JSON.parse(localStorage.getItem('rf3-state')||'{}');S={...S,...d};if(!S.startDate){S.startDate=today();saveS();}}catch(e){}}
+function saveS(){localStorage.setItem('rf3-state',JSON.stringify(S));}
 function today(){return new Date().toISOString().split('T')[0];}
 function todayIdx(){const d=new Date().getDay();return d===0?6:d-1;}
 
@@ -659,9 +814,6 @@ function goTab(name,el){
   ({hoy:renderHoy,semana:renderSemana,progreso:renderProgreso,ciencia:renderCiencia})[name]();
 }
 
-// ─────────────────────────────────────────
-// HOY
-// ─────────────────────────────────────────
 function renderHoy(){
   const idx=todayIdx(),day=WEEK[idx],td=today();
   if(!S.sets[td])S.sets[td]={};
@@ -674,10 +826,8 @@ function renderHoy(){
     <div class="dh-pill" style="color:${day.color};border-color:${day.color};background:${day.color}1a">${day.focus}</div>
   </div>
   <div style="padding:0 18px 10px"><div style="font-size:12px;color:var(--muted)">📍 <span style="color:${phase.color};font-weight:700">Fase ${phase.num}: ${phase.name}</span> · Sem. ${phase.weeks}</div></div>`;
-
   if(day.restType==='full'){
-    h+=`<div class="rest-card"><div class="rest-emoji">😴</div><div class="rest-title">Descanso total</div>
-    <div class="rest-text">Hoy el cuerpo asimila el trabajo de la semana. El cartílago se recupera mejor cuando le damos tregua. Descansa sin culpa.</div></div>
+    h+=`<div class="rest-card"><div class="rest-emoji">😴</div><div class="rest-title">Descanso total</div><div class="rest-text">Hoy el cuerpo asimila el trabajo de la semana. El cartílago se recupera mejor cuando le damos tregua.</div></div>
     <div class="motiv"><div class="motiv-txt">El descanso es parte del entrenamiento</div><div class="motiv-sub">La Behobia te espera 💪</div></div>`;
   } else {
     const pain=S.todayPain[td];
@@ -690,7 +840,7 @@ function renderHoy(){
     <div class="exs" style="margin-top:10px">`;
     day.exercises.forEach(ex=>{h+=renderExCard(ex,td);});
     h+=`</div>`;
-    if(pct>=100){h+=`<div class="done-banner show"><div class="done-emoji">🎉</div><div class="done-title">¡Sesión completada!</div><div class="done-sub">Un día más hacia la Behobia. La rodilla lo va a notar.</div></div>`;}
+    if(pct>=100){h+=`<div class="done-banner show"><div class="done-emoji">🎉</div><div class="done-title">¡Sesión completada!</div><div class="done-sub">Un día más hacia la Behobia.</div></div>`;}
     else{h+=`<div class="motiv"><div class="motiv-txt">${motivText(pct)}</div><div class="motiv-sub">Rodilla → Golf → Behobia 🎯</div></div>`;}
   }
   document.getElementById('tab-hoy').innerHTML=h;
@@ -706,18 +856,11 @@ function renderExCard(ex,td){
   const svg=SVGS[ex.id]||'';
   const stepsHtml=(ex.steps||[]).map((s,i)=>`<div class="ec-step"><div class="ec-step-num">${i+1}</div><div>${s}</div></div>`).join('');
   let setsHtml='';
-  if(ex.type==='timed'&&dur){
-    setsHtml+=`<div class="timer-row">
-      <button class="tbtn" id="tbtn-${ex.id}" onclick="toggleTimer('${ex.id}',${dur})">▶ Iniciar ${durStr}</button>
-      <div class="tdisp" id="tdisp-${ex.id}">${durStr}</div>
-    </div>`;
-  }
+  if(ex.type==='timed'&&dur){setsHtml+=`<div class="timer-row"><button class="tbtn" id="tbtn-${ex.id}" onclick="toggleTimer('${ex.id}',${dur})">▶ Iniciar ${durStr}</button><div class="tdisp" id="tdisp-${ex.id}">${durStr}</div></div>`;}
   setsHtml+=`<div class="sets-row">${setKeys.map((k,i)=>`<button class="sb${S.sets[td]?.[k]?' done':''}" onclick="toggleSet('${k}','${td}','${ex.id}',${i})">${S.sets[td]?.[k]?'✓':`S${i+1}`}</button>`).join('')}</div>`;
   return `<div class="ec${allDone?' done-card':''}">
-    <div class="ec-top">
-      <div class="ec-icon" style="background:${ex.bg}">${ex.icon}</div>
-      <div class="ec-meta"><div class="ec-name">${ex.name}</div><div class="ec-spec">${ex.sets} × ${ex.reps}</div></div>
-    </div>
+    <div class="ec-top"><div class="ec-icon" style="background:${ex.bg}">${ex.icon}</div>
+    <div class="ec-meta"><div class="ec-name">${ex.name}</div><div class="ec-spec">${ex.sets} × ${ex.reps}</div></div></div>
     ${svg?`<div class="ec-svg-wrap">${svg}</div>`:''}
     <div class="ec-steps">${stepsHtml}</div>
     ${setsHtml}
@@ -733,100 +876,58 @@ function getDayPct(day,td){
 }
 function setPain(n,td){S.todayPain[td]=n;saveS();renderHoy();}
 function toggleSet(key,td,exId,setIdx){
-  if(!S.sets[td])S.sets[td]={};
-  S.sets[td][key]=!S.sets[td][key];saveS();
+  if(!S.sets[td])S.sets[td]={};S.sets[td][key]=!S.sets[td][key];saveS();
   const btn=document.querySelector(`[onclick="toggleSet('${key}','${td}','${exId}',${setIdx})"]`);
-  if(btn){
-    const v=S.sets[td][key];
-    btn.classList.toggle('done',v);btn.textContent=v?'✓':`S${setIdx+1}`;
-    const day=WEEK[todayIdx()];
-    const ec=btn.closest('.ec');
-    const ex=day.exercises.find(e=>e.id===exId);
-    if(ec&&ex){const sk=Array.from({length:ex.sets},(_,i)=>`${ex.id}_${i}`);ec.classList.toggle('done-card',sk.every(k=>S.sets[td]?.[k]));}
-    const pct=getDayPct(day,td);
-    const pf=document.getElementById('pf'),ppct=document.getElementById('ppct');
-    if(pf)pf.style.width=pct+'%';if(ppct)ppct.textContent=pct+'%';
-  }
+  if(btn){const v=S.sets[td][key];btn.classList.toggle('done',v);btn.textContent=v?'✓':`S${setIdx+1}`;
+  const day=WEEK[todayIdx()];const ec=btn.closest('.ec');const ex=day.exercises.find(e=>e.id===exId);
+  if(ec&&ex){const sk=Array.from({length:ex.sets},(_,i)=>`${ex.id}_${i}`);ec.classList.toggle('done-card',sk.every(k=>S.sets[td]?.[k]));}
+  const pct=getDayPct(day,td);const pf=document.getElementById('pf'),ppct=document.getElementById('ppct');
+  if(pf)pf.style.width=pct+'%';if(ppct)ppct.textContent=pct+'%';}
 }
 function motivText(pct){
-  if(pct===0)return 'La constancia es el único secreto';
-  if(pct<30)return '¡Buen comienzo! El VMO te lo agradece';
-  if(pct<60)return '¡Vas a mitad! Esto es lo que mueve la aguja';
-  if(pct<90)return 'Casi lista. El cuádriceps ya lo nota';
-  return '¡Último ejercicio! Dalo todo';
+  if(pct===0)return 'La constancia es el único secreto';if(pct<30)return '¡Buen comienzo! El VMO te lo agradece';
+  if(pct<60)return '¡Vas a mitad! Esto mueve la aguja';if(pct<90)return 'Casi lista. El cuádriceps ya lo nota';return '¡Último ejercicio!';
 }
-
-// ─────────────────────────────────────────
-// TIMER
-// ─────────────────────────────────────────
 function fmtTime(s){const m=Math.floor(s/60);return m>0?`${m}:${String(s%60).padStart(2,'0')}`:`${s}s`;}
 function toggleTimer(exId,dur){
   const btn=document.getElementById('tbtn-'+exId),disp=document.getElementById('tdisp-'+exId);
   if(timers[exId]?.running){clearInterval(timers[exId].iv);timers[exId].running=false;if(btn)btn.textContent='▶ Continuar';return;}
-  const rem=timers[exId]?.rem??dur;
-  timers[exId]={running:true,rem,iv:null,done:false};
-  if(btn)btn.textContent='⏸ Pausar';
-  if(disp)disp.textContent=fmtTime(rem);
-  timers[exId].iv=setInterval(()=>{
-    timers[exId].rem--;const r=timers[exId].rem;
-    const d=document.getElementById('tdisp-'+exId);if(d)d.textContent=fmtTime(Math.max(0,r));
-    if(r<=0){clearInterval(timers[exId].iv);timers[exId]={running:false,rem:0,done:true};
-    if(d)d.textContent='✓ Listo';const b=document.getElementById('tbtn-'+exId);
-    if(b)b.textContent='↺ Repetir';if(navigator.vibrate)navigator.vibrate([200,100,200]);}
-  },1000);
+  const rem=timers[exId]?.rem??dur;timers[exId]={running:true,rem,iv:null,done:false};
+  if(btn)btn.textContent='⏸ Pausar';if(disp)disp.textContent=fmtTime(rem);
+  timers[exId].iv=setInterval(()=>{timers[exId].rem--;const r=timers[exId].rem;
+  const d=document.getElementById('tdisp-'+exId);if(d)d.textContent=fmtTime(Math.max(0,r));
+  if(r<=0){clearInterval(timers[exId].iv);timers[exId]={running:false,rem:0,done:true};
+  if(d)d.textContent='✓ Listo';const b=document.getElementById('tbtn-'+exId);if(b)b.textContent='↺ Repetir';
+  if(navigator.vibrate)navigator.vibrate([200,100,200]);}},1000);
 }
 function restoreTimers(){
   Object.entries(timers).forEach(([exId,ts])=>{
-    const d=document.getElementById('tdisp-'+exId),b=document.getElementById('tbtn-'+exId);
-    if(!d)return;
-    if(ts.done){d.textContent='✓ Listo';if(b)b.textContent='↺ Repetir';}
-    else if(ts.running){d.textContent=fmtTime(ts.rem);if(b)b.textContent='⏸ Pausar';}
-    else if(ts.rem>0){d.textContent=fmtTime(ts.rem);if(b)b.textContent='▶ Continuar';}
-  });
+  const d=document.getElementById('tdisp-'+exId),b=document.getElementById('tbtn-'+exId);if(!d)return;
+  if(ts.done){d.textContent='✓ Listo';if(b)b.textContent='↺ Repetir';}
+  else if(ts.running){d.textContent=fmtTime(ts.rem);if(b)b.textContent='⏸ Pausar';}
+  else if(ts.rem>0){d.textContent=fmtTime(ts.rem);if(b)b.textContent='▶ Continuar';}});
 }
 
-// ─────────────────────────────────────────
-// SEMANA
-// ─────────────────────────────────────────
 function renderSemana(){
-  const tidx=todayIdx();
-  let h=`<div class="sec"><div class="sec-title">Plan semanal completo</div></div><div style="padding:0 18px">`;
-  WEEK.forEach((day,i)=>{
-    const isToday=i===tidx;
-    h+=`<div class="wdc${isToday?' today-day':''}">
-      <div class="wdh${isToday?' open':''}" onclick="toggleWD(this)">
-        <div class="wdl">
-          <div class="wdcirc" style="background:${day.color}22;color:${day.color}${isToday?`;border:2px solid ${day.color}`:''}">
-            ${day.short}
-          </div>
-          <div class="wdinfo">
-            <div class="dname">${day.name}${isToday?`<span class="today-badge">HOY</span>`:''}</div>
-            <div class="dfoc">${day.emoji} ${day.focus}</div>
-          </div>
-        </div>
-        <div class="chev">▼</div>
-      </div>
-      <div class="wdbody${isToday?' open':''}">
-        ${day.isRest&&day.restType==='full'
-          ?`<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0">😴 Descanso total — el cuerpo asimila la semana</div>`
-          :day.exercises.map(ex=>`<div class="wei"><div style="font-size:16px;width:22px;text-align:center">${ex.icon}</div><div class="wei-name">${ex.name}</div><div class="wei-spec">${ex.sets}×${ex.reps.replace(' repeticiones','rep').replace(' segundos','s').replace(' minutos','min')}</div></div>`).join('')
-        }
-      </div>
-    </div>`;
-  });
-  h+=`</div>`;
-  document.getElementById('tab-semana').innerHTML=h;
+  const tidx=todayIdx();let h=`<div class="sec"><div class="sec-title">Plan semanal completo</div></div><div style="padding:0 18px">`;
+  WEEK.forEach((day,i)=>{const isToday=i===tidx;
+  h+=`<div class="wdc${isToday?' today-day':''}">
+    <div class="wdh${isToday?' open':''}" onclick="toggleWD(this)">
+      <div class="wdl"><div class="wdcirc" style="background:${day.color}22;color:${day.color}${isToday?`;border:2px solid ${day.color}`:''}">
+      ${day.short}</div><div class="wdinfo"><div class="dname">${day.name}${isToday?`<span class="today-badge">HOY</span>`:''}</div>
+      <div class="dfoc">${day.emoji} ${day.focus}</div></div></div><div class="chev">▼</div></div>
+    <div class="wdbody${isToday?' open':''}">
+      ${day.isRest&&day.restType==='full'?`<div style="color:var(--muted);font-size:13px;text-align:center;padding:8px 0">😴 Descanso total</div>`
+      :day.exercises.map(ex=>`<div class="wei"><div style="font-size:16px;width:22px;text-align:center">${ex.icon}</div><div class="wei-name">${ex.name}</div><div class="wei-spec">${ex.sets}×${ex.reps.replace(' repeticiones','rep').replace(' segundos','s').replace(' minutos','min')}</div></div>`).join('')}
+    </div></div>`;});
+  h+=`</div>`;document.getElementById('tab-semana').innerHTML=h;
 }
 function toggleWD(h){h.classList.toggle('open');h.nextElementSibling.classList.toggle('open');}
 
-// ─────────────────────────────────────────
-// PROGRESO
-// ─────────────────────────────────────────
 function renderProgreso(){
   const start=S.startDate?new Date(S.startDate):new Date();
   const weeks=Math.floor((new Date()-start)/864e5/7)+1;
   const sessions=Object.values(S.sets).filter(d=>Object.values(d).some(v=>v===true)).length;
-  const phase=PHASES[S.phase-1];
   let h=`<div class="sec"><div class="sec-title">Tu progreso</div></div>
   <div class="stats-row">
     <div class="stat"><div class="stat-val" style="color:var(--accent)">${weeks}</div><div class="stat-lbl">Semana</div></div>
@@ -835,49 +936,39 @@ function renderProgreso(){
   </div>
   <div class="sec" style="margin-top:18px"><div class="sec-title">Fases del programa</div></div>
   <div class="phases-grid">`;
-  PHASES.forEach((ph,i)=>{
-    const n=i+1,isA=n===S.phase,isD=n<S.phase;
-    h+=`<div class="ph-card${isA?' ph-active':''}${isD?' ph-done':''}">
-      <div class="ph-num" style="color:${ph.color}">FASE ${ph.num}</div>
-      <div class="ph-weeks" style="color:${isA?ph.color:'var(--text)'}">${ph.weeks}</div>
-      <div class="ph-desc">${ph.name}</div>
-      ${isA?`<div class="ph-dot" style="color:${ph.color}">● Activa</div>`:''}
-      ${isD?`<div class="ph-dot" style="color:var(--muted)">✓ Lista</div>`:''}
-    </div>`;
-  });
+  PHASES.forEach((ph,i)=>{const n=i+1,isA=n===S.phase,isD=n<S.phase;
+  h+=`<div class="ph-card${isA?' ph-active':''}${isD?' ph-done':''}">
+    <div class="ph-num" style="color:${ph.color}">FASE ${ph.num}</div>
+    <div class="ph-weeks" style="color:${isA?ph.color:'var(--text)'}">${ph.weeks}</div>
+    <div class="ph-desc">${ph.name}</div>
+    ${isA?`<div class="ph-dot" style="color:${ph.color}">● Activa</div>`:''}
+    ${isD?`<div class="ph-dot" style="color:var(--muted)">✓ Lista</div>`:''}
+  </div>`;});
   h+=`</div>`;
-  if(S.phase<3){h+=`<div class="advance-wrap"><div class="advance-hint">Avanza cuando lleves 3 semanas sin dolor (≤1/5) durante los ejercicios</div><button class="advance-btn" onclick="advancePhase()">Avanzar a Fase ${S.phase+1} →</button></div>`;}
-  else{h+=`<div style="padding:16px;text-align:center"><div style="font-size:14px;color:var(--p3);font-weight:700">🏆 Fase ${S.phase} — Nivel máximo</div><div style="font-size:13px;color:var(--muted);margin-top:6px">Consulta con tu fisio antes de volver a correr</div></div>`;}
+  if(S.phase<3){h+=`<div class="advance-wrap"><div class="advance-hint">Avanza cuando lleves 3 semanas sin dolor (≤1/5)</div><button class="advance-btn" onclick="advancePhase()">Avanzar a Fase ${S.phase+1} →</button></div>`;}
   const painEntries=Object.entries(S.todayPain).filter(([,v])=>v!==undefined).sort().slice(-10);
-  if(painEntries.length>0){
-    const pc=['#3dd0cc','#3dd0cc','#6ee7b7','#f5c542','#fb923c','#e8715a'];
-    h+=`<div class="sec"><div class="sec-title">Historial de dolor</div></div>
-    <div style="padding:0 18px"><div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px">
-    ${painEntries.map(([date,pain])=>`<div class="ph-row">
-      <div class="ph-date">${new Date(date+'T12:00').toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'})}</div>
-      <div class="ph-bar-wrap"><div class="ph-bar" style="width:${pain*18+8}px;background:${pc[pain]||'#e8715a'}"></div>
-      <div class="ph-score" style="color:${pc[pain]||'#e8715a'}">${pain}/5</div></div>
-    </div>`).join('')}
-    </div></div>`;
-  }
+  if(painEntries.length>0){const pc=['#3dd0cc','#3dd0cc','#6ee7b7','#f5c542','#fb923c','#e8715a'];
+  h+=`<div class="sec"><div class="sec-title">Historial de dolor</div></div>
+  <div style="padding:0 18px"><div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px">
+  ${painEntries.map(([date,pain])=>`<div class="ph-row"><div class="ph-date">${new Date(date+'T12:00').toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'})}</div>
+  <div class="ph-bar-wrap"><div class="ph-bar" style="width:${pain*18+8}px;background:${pc[pain]||'#e8715a'}"></div>
+  <div class="ph-score" style="color:${pc[pain]||'#e8715a'}">${pain}/5</div></div></div>`).join('')}
+  </div></div>`;}
   h+=`<div style="padding:14px 18px"><div class="motiv"><div class="motiv-txt">🎯 Objetivo: Behobia 2026</div><div class="motiv-sub">La condropatía grado II mejora con trabajo consistente.</div></div></div>`;
   document.getElementById('tab-progreso').innerHTML=h;
 }
 function advancePhase(){if(S.phase<3){S.phase++;saveS();renderProgreso();updatePhaseBadge();}}
 
-// ─────────────────────────────────────────
-// CIENCIA
-// ─────────────────────────────────────────
 function renderCiencia(){
   const cards=[
-    {icon:'🦵',title:'¿Qué es la condropatía grado II?',body:`El cartílago detrás de tu rótula tiene daño <strong>moderado</strong>: no hay agujero ni rotura, pero la superficie no es perfectamente lisa. Al moverse, la rótula genera fricción.<br><br>El dolor viene de la inflamación, no del cartílago en sí (no tiene nervios propios). <strong>Grado II puede mejorar mucho</strong> clínicamente con trabajo específico. La clave es reducir la fricción mejorando la mecánica de la rótula.`},
-    {icon:'⚡',title:'Por qué el VMO es la clave',body:`El <strong>Vasto Medial Oblicuo (VMO)</strong> es la porción interna del cuádriceps. Su función específica es centrar la rótula en su surco.<br><br>Si está débil (el dolor lo inhibe activamente), la rótula se desplaza hacia fuera y roza el cartílago. Fortalecer el VMO = centrar la rótula = menos fricción = menos dolor. Un círculo virtuoso.`},
-    {icon:'🏗',title:'Los 3 ángulos que necesitas saber',body:`• <strong>0–30°:</strong> Presión patelo-femoral mínima. La zona segura. Aquí trabajamos al inicio.<br>• <strong>30–60°:</strong> Presión moderada. Con cuidado en fases 1-2.<br>• <strong>60–90°+:</strong> La presión se multiplica ×4. Se evita al principio.<br><br>Por eso el wall sit va a 30-45° y la mini sentadilla no pasa de 30° hasta que el dolor baje.`},
-    {icon:'🍑',title:'Por qué trabajamos la cadera',body:`La rodilla es esclava de lo que hacen cadera y tobillo. El <strong>glúteo medio débil</strong> crea valgo de rodilla (rodilla hacia dentro), que desequilibra la rótula y multiplica el desgaste.<br><br>Añadir trabajo de cadera al programa reduce el dolor rotuliano un <strong>40% más</strong> que trabajar solo el cuádriceps.`},
-    {icon:'📈',title:'Señales de que vas mejorando',body:`✅ El dolor al bajar escaleras disminuye<br>✅ Más tiempo en wall sit sin molestias<br>✅ Menos rigidez al levantarte por la mañana<br>✅ La rodilla cruje menos<br>✅ Más distancia caminando sin molestias<br><br><strong>Cuándo parar:</strong> si el dolor supera 3/5 durante la ejecución.`},
-    {icon:'⛳',title:'El golf y la rodilla ahora',body:`El swing implica rotación con la rodilla de apoyo en semiflexión. Con condropatía el problema principal es el apoyo prolongado y el terreno irregular.<br><br><strong>Puedes seguir jugando</strong> si el dolor es ≤2/5. Usa carrito. Evita lies en cuesta abajo. El juego en sí raramente agrava la condropatía.`},
-    {icon:'🏃',title:'La Behobia como objetivo',body:`La Behobia (20km) es <strong>alcanzable</strong> con condropatía grado II si:<br>1. Reduces el dolor a 0-1 con este programa (8–12 semanas)<br>2. Introduces carrera gradual en fase 3: 1min carrera / 3min marcha → progresión<br>3. Fortaleces el cuádriceps hasta aguantar la rampa de Hernani (200m en 4km)<br><br>El cuádriceps fuerte es tu seguro de vida en las cuestas.`},
-    {icon:'⚠',title:'Lo que hay que evitar de momento',warn:true,body:`❌ Sentadillas profundas (>60°)<br>❌ Subir y bajar escaleras corriendo<br>❌ Correr cuesta abajo<br>❌ Pedalear con mucha resistencia<br>❌ Arrodillarse mucho tiempo<br>❌ Running si duele más de 3/5<br><br>Esto no es para siempre. Con el programa, en 8–12 semanas vas reintroduciendo todo.`},
+    {icon:'🦵',title:'¿Qué es la condropatía grado II?',body:`El cartílago detrás de tu rótula tiene daño <strong>moderado</strong>: no hay rotura, pero la superficie no es lisa y genera fricción.<br><br>El dolor viene de la inflamación, no del cartílago en sí. <strong>Grado II puede mejorar mucho</strong> con trabajo específico. La clave es reducir la fricción mejorando la mecánica de la rótula.`},
+    {icon:'⚡',title:'Por qué el VMO es la clave',body:`El <strong>Vasto Medial Oblicuo (VMO)</strong> es la porción interna del cuádriceps. Centra la rótula en su surco.<br><br>Si está débil, la rótula se desplaza y roza el cartílago. Fortalecer el VMO = centrar la rótula = menos fricción = menos dolor.`},
+    {icon:'🏗',title:'Los 3 ángulos que necesitas saber',body:`• <strong>0–30°:</strong> Presión mínima. La zona segura al inicio.<br>• <strong>30–60°:</strong> Presión moderada. Con cuidado.<br>• <strong>60–90°+:</strong> La presión se multiplica ×4. Evitar.<br><br>Por eso el wall sit va a 30-45° y la mini sentadilla empieza en 30°.`},
+    {icon:'🍑',title:'Por qué trabajamos la cadera',body:`El <strong>glúteo medio débil</strong> crea valgo de rodilla (hacia dentro), que desequilibra la rótula.<br><br>Añadir trabajo de cadera reduce el dolor rotuliano un <strong>40% más</strong> que trabajar solo el cuádriceps.`},
+    {icon:'📈',title:'Señales de que vas mejorando',body:`✅ Menos dolor al bajar escaleras<br>✅ Más tiempo en wall sit sin molestias<br>✅ Menos rigidez matutina<br>✅ La rodilla cruje menos<br>✅ Más distancia caminando<br><br><strong>Para un ejercicio</strong> si el dolor supera 3/5.`},
+    {icon:'⛳',title:'El golf y la rodilla ahora',body:`<strong>Puedes seguir jugando</strong> si el dolor es ≤2/5. Usa carrito. Evita lies en cuesta abajo que fuerzan la rodilla. El swing raramente agrava la condropatía.`},
+    {icon:'🏃',title:'La Behobia como objetivo',body:`Alcanzable con condropatía grado II si:<br>1. Reduces el dolor a 0-1 (8–12 semanas de programa)<br>2. Introduces carrera gradual en fase 3<br>3. El cuádriceps aguanta la rampa de Hernani (200m en 4km)<br><br>Ese cuádriceps fuerte es tu seguro de vida en las cuestas.`},
+    {icon:'⚠',title:'Lo que hay que evitar de momento',warn:true,body:`❌ Sentadillas profundas (>60°)<br>❌ Correr cuesta abajo<br>❌ Pedalear con mucha resistencia<br>❌ Arrodillarse mucho tiempo<br>❌ Running si duele más de 3/5<br><br>No es para siempre. En 8–12 semanas vas reintroduciendo todo.`},
   ];
   let h=`<div class="sec"><div class="sec-title">Por qué funciona este programa</div></div><div style="padding:0 18px">`;
   cards.forEach(c=>{h+=`<div class="sc-card${c.warn?' warn-card':''}"><div class="sc-title">${c.icon} ${c.title}</div><div class="sc-body">${c.body}</div></div>`;});
@@ -887,9 +978,7 @@ function renderCiencia(){
 
 function updatePhaseBadge(){
   const ph=PHASES[S.phase-1],b=document.getElementById('phaseBadge');
-  if(!b)return;
-  b.textContent=`Fase ${ph.num} · ${ph.name}`;
-  b.style.background=ph.color+'25';b.style.color=ph.color;
+  if(!b)return;b.textContent=`Fase ${ph.num} · ${ph.name}`;b.style.background=ph.color+'25';b.style.color=ph.color;
 }
 
 loadS();renderHoy();
