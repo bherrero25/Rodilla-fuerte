@@ -65,6 +65,8 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
 .sb{flex:1;min-width:42px;max-width:72px;height:35px;border-radius:10px;border:1.5px solid var(--border);background:var(--lifted);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
 .sb.done{background:var(--accent);border-color:var(--accent);color:#fff}
 .sci-pill{display:flex;gap:8px;padding:8px 10px;background:var(--tdim);border:1px solid rgba(61,208,204,.2);border-radius:9px;font-size:12px;color:var(--teal);line-height:1.45}
+.vid-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:9px;background:rgba(255,50,50,.08);border:1px solid rgba(255,50,50,.22);color:#ff5555;font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;margin-bottom:11px;transition:background .2s}
+.vid-btn:active{background:rgba(255,50,50,.18)}
 .timer-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .tbtn{flex:1;height:42px;border-radius:12px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);font-size:13px;font-weight:700;cursor:pointer;transition:background .2s,color .2s}
 .tbtn:active{background:var(--accent);color:#fff}
@@ -707,6 +709,33 @@ strchain:`<svg viewBox="0 0 220 72" fill="none">
 </svg>`
 };
 
+// ── VÍDEOS YOUTUBE ────────────────────────
+const VIDEOS={
+  qset:'https://www.youtube.com/results?search_query=isometria+cuadriceps+ejercicio+rodilla',
+  slr:'https://www.youtube.com/results?search_query=elevacion+pierna+recta+cuadriceps',
+  wallsit:'https://www.youtube.com/results?search_query=wall+sit+ejercicio+rodilla',
+  strquad:'https://www.youtube.com/results?search_query=estiramiento+cuadriceps+de+pie',
+  clam:'https://www.youtube.com/results?search_query=clamshell+gluteo+medio+ejercicio',
+  bridge:'https://www.youtube.com/results?search_query=puente+gluteo+ejercicio',
+  hipabd:'https://www.youtube.com/results?search_query=abduccion+cadera+tumbada+ejercicio',
+  strham:'https://www.youtube.com/results?search_query=estiramiento+isquiotibiales+tumbada',
+  bike:'https://www.youtube.com/results?search_query=bicicleta+estatica+rehabilitacion+rodilla',
+  knemob:'https://www.youtube.com/results?search_query=movilidad+rodilla+ejercicios+fisioterapia',
+  strfull:'https://www.youtube.com/results?search_query=estiramientos+pierna+completos',
+  tke:'https://www.youtube.com/results?search_query=terminal+knee+extension+banda+elastica',
+  stepup:'https://www.youtube.com/results?search_query=step+up+escalon+ejercicio+rodilla',
+  minisq:'https://www.youtube.com/results?search_query=mini+sentadilla+30+grados+rodilla',
+  foamq:'https://www.youtube.com/results?search_query=foam+roller+cuadriceps+rodillo+espuma',
+  singbr:'https://www.youtube.com/results?search_query=puente+gluteo+una+pierna+unipodal',
+  deadbug:'https://www.youtube.com/results?search_query=dead+bug+ejercicio+core+suelo',
+  plank:'https://www.youtube.com/results?search_query=plancha+frontal+codos+ejercicio',
+  strcalf:'https://www.youtube.com/results?search_query=estiramiento+gemelos+soleo+pared',
+  balance:'https://www.youtube.com/results?search_query=equilibrio+monopodal+propiocepcion+ejercicio',
+  latwalk:'https://www.youtube.com/results?search_query=marcha+lateral+banda+elastica+gluteo',
+  foamit:'https://www.youtube.com/results?search_query=foam+roller+banda+iliotibial+cintilla',
+  strchain:'https://www.youtube.com/results?search_query=cadena+muscular+estiramiento+pierna+completo',
+};
+
 // ── PROGRAMA ──────────────────────────────
 const PHASES=[
   {num:1,name:'Control motor',weeks:'1–3',color:'#3dd0cc'},
@@ -862,6 +891,7 @@ function renderExCard(ex,td){
     <div class="ec-top"><div class="ec-icon" style="background:${ex.bg}">${ex.icon}</div>
     <div class="ec-meta"><div class="ec-name">${ex.name}</div><div class="ec-spec">${ex.sets} × ${ex.reps}</div></div></div>
     ${svg?`<div class="ec-svg-wrap">${svg}</div>`:''}
+    ${VIDEOS[ex.id]?`<a class="vid-btn" href="${VIDEOS[ex.id]}" target="_blank" rel="noopener">▶ Ver vídeo del ejercicio</a>`:''}
     <div class="ec-steps">${stepsHtml}</div>
     ${setsHtml}
     <div class="sci-pill"><span>🔬</span><span>${ex.sci}</span></div>
