@@ -154,6 +154,27 @@ html,body{background:var(--bg);color:var(--text);font-family:-apple-system,Blink
 .meal-head{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:var(--muted);margin:14px 0 8px;text-transform:uppercase;letter-spacing:.5px}
 .logged{display:flex;align-items:center;gap:10px;padding:10px 13px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:6px}
 .logged-del{color:var(--dim);font-size:18px;cursor:pointer;padding:0 4px}
+.meal-tab{flex:1;padding:9px 4px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s}
+.meal-tab.active{background:var(--adim);border-color:var(--accent);color:var(--accent)}
+.meal-block{margin:0 18px 8px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 13px}
+.meal-block-head{display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:800;margin-bottom:8px;letter-spacing:-.2px}
+.meal-block-kcal{font-size:13px;color:var(--accent);font-weight:800}
+.meal-empty{text-align:center;color:var(--muted);font-size:13px;padding:8px;border:1px dashed var(--border);border-radius:10px;cursor:pointer}
+.meal-empty:active{border-color:var(--accent);color:var(--accent)}
+.report-card{margin:0 18px 14px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px}
+.report-title{font-size:14px;font-weight:800;margin-bottom:14px;letter-spacing:-.3px}
+.macro-bar-wrap{margin-bottom:14px}
+.macro-bar{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--lifted)}
+.macro-bar>div{height:100%;transition:width .4s ease}
+.rg-item{display:grid;grid-template-columns:14px 1fr auto auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)}
+.rg-dot{width:10px;height:10px;border-radius:50%}
+.rg-label{font-size:13px;font-weight:600}
+.rg-val{font-size:14px;font-weight:800;text-align:right}
+.rg-pct{font-size:13px;font-weight:700;color:var(--muted);min-width:34px;text-align:right}
+.rg-rec{grid-column:2/5;font-size:10px;color:var(--muted);margin-top:-4px}
+.report-foot{margin-top:6px}
+.rf-item{display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:13px;color:var(--muted)}
+.rf-item b{color:var(--text);font-weight:800}
 /* ── CUERPO ── */
 .body-form{margin:0 18px 14px;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px}
 .bf-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
@@ -1173,66 +1194,135 @@ function renderCiencia(){
 // ── BASE DE DATOS ALIMENTOS (por 100g salvo indicado) ──
 // [nombre, kcal, proteína, grasa, carbos, porción-sugerida-g, unidad]
 const FOODS=[
-  // Lácteos y huevos
+  // ── LÁCTEOS Y HUEVOS ──
+  ['Leche entera',63,3.1,3.6,4.7,250,'vaso'],
   ['Leche semidesnatada',46,3.1,1.6,4.8,250,'vaso'],
+  ['Leche desnatada',35,3.4,0.2,4.9,250,'vaso'],
+  ['Leche sin lactosa (Hacendado)',47,3.3,1.6,4.7,250,'vaso'],
+  ['Bebida de avena',45,0.8,1.5,6.7,250,'vaso'],
+  ['Bebida de soja',39,3.3,1.8,2.5,250,'vaso'],
   ['Yogur natural',61,3.5,3.3,4.7,125,'unidad'],
-  ['Yogur desnatado',45,4.5,0.2,6,125,'unidad'],
-  ['Yogur griego',97,9,5,4,125,'unidad'],
+  ['Yogur natural desnatado',45,4.5,0.2,6,125,'unidad'],
+  ['Yogur griego (Hacendado)',115,4,9,4,150,'unidad'],
+  ['Yogur griego 0% (Hacendado)',57,9,0.2,4.5,150,'unidad'],
+  ['Yogur proteínas (Hacendado)',60,10,1,4,150,'unidad'],
+  ['Skyr (Hacendado)',63,11,0.2,4,150,'unidad'],
+  ['Kéfir',65,3.8,3.5,4.5,200,'vaso'],
   ['Huevo',155,13,11,1.1,60,'unidad'],
   ['Clara de huevo',52,11,0.2,0.7,33,'unidad'],
-  ['Queso fresco batido',72,8,4,3.5,100,'g'],
-  ['Queso manchego',392,32,28,0.5,30,'porción'],
+  ['Queso fresco batido 0% (Hacendado)',47,8,0.2,4,100,'g'],
+  ['Queso fresco de Burgos',174,12,13,2,80,'porción'],
+  ['Queso manchego curado',392,32,28,0.5,30,'porción'],
+  ['Queso lonchas',300,22,23,1.5,20,'loncha'],
+  ['Queso lonchas light',210,25,11,2,20,'loncha'],
+  ['Mozzarella',280,18,22,2.2,60,'g'],
   ['Requesón',98,11,4,3,100,'g'],
-  // Carnes
+  ['Mantequilla',717,0.9,81,0.1,10,'g'],
+  // ── CARNES ──
   ['Pechuga de pollo',110,23,2,0,150,'filete'],
   ['Muslo de pollo',177,18,11,0,150,'g'],
   ['Pavo pechuga',104,22,1.5,0,150,'filete'],
   ['Ternera magra',158,22,7,0,150,'g'],
+  ['Filete de ternera',180,21,10,0,150,'g'],
   ['Lomo de cerdo',143,21,6,0,150,'g'],
+  ['Solomillo de cerdo',143,21,6,0,150,'g'],
+  ['Cinta de lomo',130,20,5,0,100,'g'],
+  ['Conejo',136,21,5,0,150,'g'],
+  ['Cordero',243,17,19,0,150,'g'],
+  ['Carne picada mixta',215,18,16,0,150,'g'],
+  ['Carne picada pavo',150,20,8,0,150,'g'],
+  ['Hamburguesa de pollo (Hacendado)',170,18,10,2,120,'unidad'],
+  ['Pavo lonchas (Hacendado)',100,18,2.5,1,30,'loncha'],
+  ['Jamón cocido (Hacendado)',107,18,4,1,30,'loncha'],
   ['Jamón serrano',241,31,13,0.5,30,'loncha'],
-  ['Jamón cocido',107,18,4,1,30,'loncha'],
-  ['Solomillo',158,21,8,0,150,'g'],
-  // Pescados
+  ['Jamón ibérico',375,43,22,0.3,30,'loncha'],
+  ['Chorizo',455,24,38,2,30,'g'],
+  ['Salchichón',420,26,35,1,30,'g'],
+  ['Bacon',541,12,53,0.5,30,'g'],
+  ['Salchichas frankfurt',270,12,24,2,50,'unidad'],
+  // ── PESCADOS Y MARISCO ──
   ['Merluza',72,17,0.5,0,150,'g'],
   ['Salmón',208,20,13,0,150,'g'],
-  ['Atún natural lata',116,26,1,0,80,'lata'],
-  ['Atún en aceite',200,24,11,0,80,'lata'],
+  ['Salmón ahumado',117,18,5,0.5,50,'g'],
+  ['Atún natural lata (Hacendado)',116,26,1,0,80,'lata'],
+  ['Atún en aceite lata',200,24,11,0,80,'lata'],
   ['Boquerones',131,20,5,0,150,'g'],
-  ['Gambas',85,18,1,0,100,'g'],
-  ['Bacalao',82,18,0.7,0,150,'g'],
   ['Sardinas',208,25,11,0,100,'g'],
-  // Legumbres
+  ['Sardinas en lata',208,24,12,0,85,'lata'],
+  ['Caballa',205,19,14,0,150,'g'],
+  ['Lubina',97,18,2.5,0,150,'g'],
+  ['Dorada',96,18,2.5,0,150,'g'],
+  ['Bacalao',82,18,0.7,0,150,'g'],
+  ['Gambas',85,18,1,0,100,'g'],
+  ['Mejillones',86,12,2.2,3.7,150,'g'],
+  ['Pulpo',82,15,1,2.2,150,'g'],
+  ['Calamares',92,16,1.4,3,150,'g'],
+  ['Palitos de cangrejo (surimi)',95,8,1,14,100,'g'],
+  // ── LEGUMBRES ──
   ['Lentejas cocidas',116,9,0.4,20,200,'plato'],
   ['Garbanzos cocidos',164,9,2.6,27,200,'plato'],
-  ['Alubias cocidas',127,9,0.5,23,200,'plato'],
+  ['Alubias blancas cocidas',127,9,0.5,23,200,'plato'],
+  ['Alubias rojas cocidas',127,9,0.5,23,200,'plato'],
   ['Guisantes',81,5,0.4,14,150,'g'],
-  // Cereales y pan
+  ['Hummus',166,8,10,14,50,'g'],
+  ['Soja texturizada',345,50,1.5,30,30,'g'],
+  ['Tofu',76,8,4.8,1.9,100,'g'],
+  ['Edamame',122,11,5,9,100,'g'],
+  // ── CEREALES, PAN Y PASTA ──
   ['Pan blanco',265,9,3,49,40,'rebanada'],
   ['Pan integral',247,10,3,41,40,'rebanada'],
+  ['Pan de molde integral (Hacendado)',230,9,3.5,38,28,'rebanada'],
+  ['Pan de molde blanco',265,8,4,47,28,'rebanada'],
+  ['Pan de centeno',259,9,1.7,48,40,'rebanada'],
+  ['Tostada integral',75,3,1,13,20,'unidad'],
+  ['Biscote integral',360,12,5,62,10,'unidad'],
   ['Arroz blanco cocido',130,2.7,0.3,28,150,'plato'],
   ['Arroz integral cocido',112,2.6,0.9,23,150,'plato'],
   ['Pasta cocida',158,6,1,31,150,'plato'],
   ['Pasta integral cocida',124,5,0.8,25,150,'plato'],
-  ['Avena',389,17,7,66,40,'g'],
+  ['Macarrones cocidos',158,6,1,31,150,'plato'],
+  ['Espaguetis cocidos',158,6,1,31,150,'plato'],
+  ['Avena copos',389,17,7,66,40,'g'],
   ['Quinoa cocida',120,4.4,1.9,21,150,'g'],
-  ['Tostada integral',75,3,1,13,20,'unidad'],
-  // Verduras
+  ['Cuscús cocido',112,3.8,0.2,23,150,'g'],
+  ['Cereales fitness',375,8,5,75,30,'g'],
+  ['Muesli',367,10,6,65,40,'g'],
+  ['Harina de trigo',364,10,1,76,30,'g'],
+  ['Patata cocida',87,1.9,0.1,20,150,'g'],
+  ['Patata asada',93,2,0.1,21,150,'g'],
+  ['Patatas fritas',312,3.4,15,41,150,'ración'],
+  ['Boniato',86,1.6,0.1,20,150,'g'],
+  // ── VERDURAS ──
   ['Tomate',18,0.9,0.2,3.9,150,'unidad'],
+  ['Tomate triturado',29,1.3,0.2,5,100,'g'],
   ['Lechuga',15,1.4,0.2,2.9,80,'g'],
   ['Espinacas',23,2.9,0.4,3.6,150,'g'],
+  ['Acelgas',19,1.8,0.2,3,200,'g'],
   ['Brócoli',34,2.8,0.4,7,200,'g'],
+  ['Coliflor',25,1.9,0.3,5,200,'g'],
   ['Calabacín',17,1.2,0.3,3.1,200,'g'],
-  ['Pimiento',31,1,0.3,6,150,'g'],
+  ['Berenjena',25,1,0.2,6,200,'g'],
+  ['Pimiento rojo',31,1,0.3,6,150,'g'],
+  ['Pimiento verde',20,0.9,0.2,4.6,150,'g'],
   ['Zanahoria',41,0.9,0.2,10,100,'g'],
   ['Champiñones',22,3.1,0.3,3.3,150,'g'],
+  ['Setas',22,3.1,0.3,3.3,150,'g'],
   ['Judías verdes',31,1.8,0.2,7,200,'g'],
-  ['Berenjena',25,1,0.2,6,200,'g'],
   ['Cebolla',40,1.1,0.1,9,80,'g'],
-  ['Patata cocida',87,1.9,0.1,20,150,'g'],
-  // Frutas
+  ['Ajo',149,6.4,0.5,33,5,'diente'],
+  ['Pepino',15,0.7,0.1,3.6,100,'g'],
+  ['Calabaza',26,1,0.1,6.5,200,'g'],
+  ['Espárragos',20,2.2,0.1,3.9,150,'g'],
+  ['Alcachofa',47,3.3,0.2,11,150,'g'],
+  ['Puerro',61,1.5,0.3,14,150,'g'],
+  ['Gazpacho (Hacendado)',49,1,3,4.5,250,'vaso'],
+  ['Maíz dulce lata',96,3.4,1.5,19,80,'g'],
+  ['Aguacate',160,2,15,9,100,'medio'],
+  // ── FRUTAS ──
   ['Manzana',52,0.3,0.2,14,150,'unidad'],
   ['Plátano',89,1.1,0.3,23,120,'unidad'],
   ['Naranja',47,0.9,0.1,12,180,'unidad'],
+  ['Mandarina',53,0.8,0.3,13,80,'unidad'],
   ['Fresas',32,0.7,0.3,7.7,150,'g'],
   ['Sandía',30,0.6,0.2,8,200,'g'],
   ['Melón',34,0.8,0.2,8,200,'g'],
@@ -1240,28 +1330,92 @@ const FOODS=[
   ['Pera',57,0.4,0.1,15,150,'unidad'],
   ['Kiwi',61,1.1,0.5,15,75,'unidad'],
   ['Arándanos',57,0.7,0.3,14,100,'g'],
-  ['Aguacate',160,2,15,9,100,'medio'],
-  // Frutos secos y grasas
+  ['Frambuesas',52,1.2,0.7,12,100,'g'],
+  ['Melocotón',39,0.9,0.3,10,150,'unidad'],
+  ['Cerezas',63,1,0.2,16,100,'g'],
+  ['Piña',50,0.5,0.1,13,150,'g'],
+  ['Mango',60,0.8,0.4,15,150,'g'],
+  ['Ciruela',46,0.7,0.3,11,80,'unidad'],
+  ['Granada',83,1.7,1.2,19,150,'unidad'],
+  ['Dátiles',282,2.5,0.4,75,24,'g'],
+  ['Pasas',299,3,0.5,79,30,'g'],
+  // ── FRUTOS SECOS Y SEMILLAS ──
   ['Almendras',579,21,50,22,25,'puñado'],
   ['Nueces',654,15,65,14,25,'puñado'],
-  ['Aceite de oliva',884,0,100,0,10,'cucharada'],
-  ['Mantequilla',717,0.9,81,0.1,10,'g'],
-  // Otros
-  ['Chocolate negro 85%',598,10,46,30,20,'onza'],
+  ['Avellanas',628,15,61,17,25,'puñado'],
+  ['Anacardos',553,18,44,30,25,'puñado'],
+  ['Pistachos',562,20,45,28,25,'puñado'],
+  ['Cacahuetes',567,26,49,16,25,'puñado'],
+  ['Crema de cacahuete',588,25,50,20,20,'cucharada'],
+  ['Semillas de chía',486,17,31,42,15,'cucharada'],
+  ['Semillas de lino',534,18,42,29,15,'cucharada'],
+  // ── GRASAS Y ACEITES ──
+  ['Aceite de oliva virgen extra',884,0,100,0,10,'cucharada'],
+  ['Aceite de girasol',884,0,100,0,10,'cucharada'],
+  ['Aceitunas',145,1,15,4,30,'g'],
+  // ── DESAYUNO / DULCES ──
   ['Miel',304,0.3,0,82,15,'cucharada'],
-  ['Hummus',166,8,10,14,50,'g'],
-  ['Tofu',76,8,4.8,1.9,100,'g'],
+  ['Mermelada',250,0.5,0.1,62,20,'cucharada'],
+  ['Mermelada sin azúcar',120,0.5,0.1,28,20,'cucharada'],
+  ['Chocolate negro 85%',598,10,46,30,20,'onza'],
+  ['Chocolate con leche',535,7.5,30,58,20,'onza'],
+  ['Galletas María',436,7,10,77,16,'unidad'],
+  ['Galletas avena',450,8,16,68,15,'unidad'],
+  ['Tortitas de maíz',387,8,3,80,9,'unidad'],
+  ['Tortitas de arroz',387,8,3,81,8,'unidad'],
+  ['Croissant',406,8,21,46,60,'unidad'],
+  ['Magdalena',420,6,20,55,40,'unidad'],
+  ['Bizcocho',360,6,12,58,50,'porción'],
+  ['Cacao en polvo (Cola Cao)',373,5,3.5,78,15,'cucharada'],
+  ['Azúcar',400,0,0,100,8,'cucharada'],
+  // ── PLATOS Y PREPARADOS (Mercadona) ──
+  ['Tortilla de patata (Hacendado)',195,6,13,14,200,'porción'],
+  ['Pizza margarita',250,11,9,32,150,'porción'],
+  ['Empanadillas',280,7,16,27,50,'unidad'],
+  ['Croquetas (Hacendado)',230,7,12,24,100,'ración'],
+  ['Lasaña',135,7,6,13,250,'plato'],
+  ['Ensaladilla rusa',180,3,15,9,150,'ración'],
+  ['Sushi (8 piezas)',150,5,2,28,150,'ración'],
+  ['Gazpacho casero',50,1,3,5,250,'vaso'],
+  ['Salmorejo',120,3,8,9,200,'vaso'],
+  ['Caldo de pollo',15,1,0.5,1.5,250,'vaso'],
+  ['Sopa de verduras',40,2,1,6,250,'plato'],
+  // ── SALSAS Y CONDIMENTOS ──
+  ['Mayonesa',680,1,75,1.5,15,'cucharada'],
+  ['Mayonesa light',330,1,33,5,15,'cucharada'],
+  ['Kétchup',112,1.2,0.1,26,15,'cucharada'],
+  ['Mostaza',66,4,4,5,10,'cucharada'],
+  ['Salsa de soja',53,8,0,5,10,'cucharada'],
+  ['Tomate frito',86,1.5,4,11,50,'g'],
+  ['Sofrito',90,1.5,6,8,50,'g'],
+  // ── BEBIDAS ──
   ['Café solo',2,0.1,0,0,50,'taza'],
+  ['Café con leche',45,2.5,1.8,4,150,'taza'],
+  ['Té / infusión',1,0,0,0,200,'taza'],
+  ['Zumo de naranja',45,0.7,0.2,10,200,'vaso'],
+  ['Refresco cola',42,0,0,10.6,330,'lata'],
+  ['Refresco cola zero',0.3,0,0,0,330,'lata'],
   ['Cerveza',43,0.5,0,3.6,330,'caña'],
+  ['Cerveza sin alcohol',26,0.4,0,5.6,330,'caña'],
   ['Vino tinto',85,0.1,0,2.6,150,'copa'],
+  ['Vino blanco',82,0.1,0,2.6,150,'copa'],
+  // ── PROTEÍNA / SUPLEMENTOS ──
+  ['Proteína whey (cazo)',400,80,7,8,30,'cazo'],
+  ['Barrita proteica',350,30,12,30,50,'unidad'],
+  ['Atún + ensalada (tupper)',150,15,7,8,250,'ración'],
 ];
 
 let foodQuery='';
+let activeMeal='Desayuno';
+const MEALS=['Desayuno','Comida','Cena','Snacks'];
+const MEAL_ICONS={Desayuno:'☕',Comida:'🍽',Cena:'🌙',Snacks:'🍎'};
 
 function renderComida(){
   const td=today();
   if(!S.food[td])S.food[td]={items:[]};
   const items=S.food[td].items;
+  // dar meal por defecto a items antiguos
+  items.forEach(it=>{if(!it.meal)it.meal='Comida';});
   const totals=items.reduce((a,it)=>{a.kcal+=it.kcal;a.p+=it.p;a.g+=it.g;a.c+=it.c;return a;},{kcal:0,p:0,g:0,c:0});
   const goal=S.kcalGoal||1400;
   const rem=goal-Math.round(totals.kcal);
@@ -1287,20 +1441,18 @@ function renderComida(){
     </div>
   </div>`;
 
-  // Macros
-  h+=`<div class="macro-row">
-    <div class="macro"><div class="macro-val" style="color:#3dd0cc">${Math.round(totals.p)}g</div><div class="macro-lbl">PROTEÍNA</div></div>
-    <div class="macro"><div class="macro-val" style="color:#f4a261">${Math.round(totals.g)}g</div><div class="macro-lbl">GRASA</div></div>
-    <div class="macro"><div class="macro-val" style="color:#a78bfa">${Math.round(totals.c)}g</div><div class="macro-lbl">CARBOS</div></div>
-  </div>`;
-
   // Buscador
-  h+=`<div class="search-box"><input type="text" id="foodSearch" placeholder="🔍 Buscar alimento..." value="${foodQuery}" oninput="onFoodSearch(this.value)"></div>`;
+  h+=`<div class="search-box"><input type="text" id="foodSearch" placeholder="🔍 Buscar alimento (${FOODS.length} disponibles)..." value="${foodQuery}" oninput="onFoodSearch(this.value)"></div>`;
 
   // Resultados de búsqueda
   if(foodQuery.length>0){
+    // Selector de a qué comida añadir
+    h+=`<div style="padding:0 18px 10px"><div style="font-size:11px;color:var(--muted);margin-bottom:7px;font-weight:600">AÑADIR A:</div>
+      <div style="display:flex;gap:6px">
+      ${MEALS.map(m=>`<button class="meal-tab${activeMeal===m?' active':''}" onclick="setMeal('${m}')">${MEAL_ICONS[m]} ${m}</button>`).join('')}
+      </div></div>`;
     const q=foodQuery.toLowerCase();
-    const matches=FOODS.filter(f=>f[0].toLowerCase().includes(q)).slice(0,12);
+    const matches=FOODS.filter(f=>f[0].toLowerCase().includes(q)).slice(0,15);
     h+=`<div class="food-res">`;
     if(matches.length===0)h+=`<div style="color:var(--muted);font-size:13px;text-align:center;padding:14px">Sin resultados. Prueba otra palabra.</div>`;
     matches.forEach(f=>{
@@ -1313,18 +1465,80 @@ function renderComida(){
     });
     h+=`</div>`;
   } else {
-    // Lista de lo comido hoy
-    if(items.length===0){
-      h+=`<div style="padding:24px 18px;text-align:center;color:var(--muted);font-size:14px">Aún no has añadido nada hoy.<br>Busca un alimento arriba para empezar 🍎</div>`;
-    } else {
-      h+=`<div class="meal-sec"><div class="meal-head"><span>Lo que llevas hoy</span><span>${items.length} alimentos</span></div>`;
-      items.forEach((it,i)=>{
-        h+=`<div class="logged">
-          <div class="food-info"><div class="food-name">${it.name}</div><div class="food-meta">${it.qty}g · ${Math.round(it.kcal)} kcal · P:${Math.round(it.p)} G:${Math.round(it.g)} C:${Math.round(it.c)}</div></div>
-          <div class="logged-del" onclick="delFood(${i})">✕</div>
+    // ── INFORME DE MACROS (tipo FatSecret) ──
+    if(items.length>0){
+      const pKcal=totals.p*4, gKcal=totals.g*9, cKcal=totals.c*4;
+      const tot=pKcal+gKcal+cKcal||1;
+      const pPct=Math.round(pKcal/tot*100), gPct=Math.round(gKcal/tot*100), cPct=Math.round(cKcal/tot*100);
+      // recomendaciones (rehab + ejercicio): P 25-30%, G 25-30%, C 40-50%
+      h+=`<div class="report-card">
+        <div class="report-title">📊 Informe nutricional de hoy</div>
+
+        <div class="macro-bar-wrap">
+          <div class="macro-bar">
+            <div style="width:${pPct}%;background:#3dd0cc"></div>
+            <div style="width:${gPct}%;background:#f4a261"></div>
+            <div style="width:${cPct}%;background:#a78bfa"></div>
+          </div>
+        </div>
+
+        <div class="report-grid">
+          <div class="rg-item">
+            <div class="rg-dot" style="background:#3dd0cc"></div>
+            <div class="rg-label">Proteínas</div>
+            <div class="rg-val">${Math.round(totals.p)}g</div>
+            <div class="rg-pct">${pPct}%</div>
+            <div class="rg-rec">rec. 25-30%</div>
+          </div>
+          <div class="rg-item">
+            <div class="rg-dot" style="background:#f4a261"></div>
+            <div class="rg-label">Grasas</div>
+            <div class="rg-val">${Math.round(totals.g)}g</div>
+            <div class="rg-pct">${gPct}%</div>
+            <div class="rg-rec">rec. 25-30%</div>
+          </div>
+          <div class="rg-item">
+            <div class="rg-dot" style="background:#a78bfa"></div>
+            <div class="rg-label">Carbohidratos</div>
+            <div class="rg-val">${Math.round(totals.c)}g</div>
+            <div class="rg-pct">${cPct}%</div>
+            <div class="rg-rec">rec. 40-50%</div>
+          </div>
+        </div>
+
+        <div class="report-foot">
+          <div class="rf-item"><span>Calorías totales</span><b>${Math.round(totals.kcal)} kcal</b></div>
+          <div class="rf-item"><span>Objetivo diario</span><b>${goal} kcal</b></div>
+          <div class="rf-item"><span>Proteína / kg peso*</span><b>${S.body&&S.body.length?((totals.p)/([...S.body].sort((a,b)=>b.date.localeCompare(a.date))[0].peso)).toFixed(1):'—'} g/kg</b></div>
+        </div>
+        ${S.body&&S.body.length?`<div style="font-size:10px;color:var(--muted);margin-top:6px">*según tu último peso registrado. Objetivo en rehab: 1.6-2g/kg para conservar músculo.</div>`:''}
+      </div>`;
+    }
+
+    // ── COMIDAS SEPARADAS ──
+    MEALS.forEach(meal=>{
+      const mealItems=items.map((it,gi)=>({...it,gi})).filter(it=>it.meal===meal);
+      const mKcal=mealItems.reduce((s,it)=>s+it.kcal,0);
+      h+=`<div class="meal-block">
+        <div class="meal-block-head">
+          <span>${MEAL_ICONS[meal]} ${meal}</span>
+          <span class="meal-block-kcal">${Math.round(mKcal)} kcal</span>
         </div>`;
-      });
+      if(mealItems.length===0){
+        h+=`<div class="meal-empty" onclick="setMeal('${meal}');focusSearch()">+ Añadir a ${meal.toLowerCase()}</div>`;
+      } else {
+        mealItems.forEach(it=>{
+          h+=`<div class="logged">
+            <div class="food-info"><div class="food-name">${it.name}</div><div class="food-meta">${it.qty}g · ${Math.round(it.kcal)} kcal · P:${Math.round(it.p)} G:${Math.round(it.g)} C:${Math.round(it.c)}</div></div>
+            <div class="logged-del" onclick="delFood(${it.gi})">✕</div>
+          </div>`;
+        });
+      }
       h+=`</div>`;
+    });
+
+    if(items.length===0){
+      h+=`<div style="padding:8px 18px 0;text-align:center;color:var(--muted);font-size:13px">Busca un alimento arriba para empezar 🍎</div>`;
     }
   }
 
@@ -1332,7 +1546,8 @@ function renderComida(){
   document.getElementById('tab-comida').innerHTML=h;
 }
 
-function onFoodSearch(v){foodQuery=v;renderComida();const inp=document.getElementById('foodSearch');if(inp){inp.focus();inp.setSelectionRange(v.length,v.length);}}
+function setMeal(m){activeMeal=m;renderComida();const inp=document.getElementById('foodSearch');if(inp&&foodQuery){inp.focus();}}
+function focusSearch(){const inp=document.getElementById('foodSearch');if(inp)inp.focus();}
 
 let qtyData=null;
 
@@ -1391,7 +1606,7 @@ function confirmQty(){
   const td=today();
   if(!S.food[td])S.food[td]={items:[]};
   S.food[td].items.push({
-    name:qtyData.name,qty:Math.round(g),
+    name:qtyData.name,qty:Math.round(g),meal:activeMeal,
     kcal:qtyData.kcal*g/100,p:qtyData.p*g/100,g:qtyData.g*g/100,c:qtyData.c*g/100
   });
   saveS();closeQty();foodQuery='';renderComida();
